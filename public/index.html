@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proxima API - Social Media Downloader</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -14,23 +13,9 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        :root {
-            --primary: #7b61ff;
-            --secondary: #00d4ff;
-            --success: #4cffa6;
-            --danger: #ff4c4c;
-            --warning: #ffb84c;
-            --dark: #0f0f1a;
-            --dark-secondary: #1a1a2e;
-            --light: #e1e1ff;
-            --gray: #a0a0cc;
-            --card-bg: rgba(40, 40, 60, 0.9);
-            --section-bg: rgba(30, 30, 50, 0.8);
-        }
-
         body {
-            background-color: var(--dark);
-            color: var(--light);
+            background-color: #0f0f1a;
+            color: #e1e1ff;
             line-height: 1.6;
             min-height: 100vh;
             background-image: url('https://images3.alphacoders.com/669/thumb-1920-669240.jpg');
@@ -39,13 +24,8 @@
             background-position: center;
         }
 
-        .overlay {
-            background: rgba(15, 15, 26, 0.95);
-            min-height: 100vh;
-        }
-
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 2rem;
         }
@@ -55,19 +35,14 @@
             align-items: center;
             gap: 2rem;
             margin-bottom: 2rem;
-            padding: 2rem;
-            background: rgba(30, 30, 50, 0.8);
-            border-radius: 20px;
-            border: 2px solid var(--primary);
         }
 
         .logo-image {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 20px;
             object-fit: cover;
-            border: 3px solid var(--primary);
-            box-shadow: 0 0 30px rgba(123, 97, 255, 0.5);
+            border: 3px solid #7b61ff;
         }
 
         .header-text {
@@ -75,1016 +50,408 @@
         }
 
         .logo {
-            font-size: 4rem;
+            font-size: 3.5rem;
             font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, #7b61ff, #00d4ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
         }
 
         .tagline {
-            font-size: 1.3rem;
-            color: var(--gray);
-            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            color: #a0a0cc;
+            margin-bottom: 2rem;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #7b61ff, transparent);
+            margin: 2rem 0;
         }
 
         .button {
             display: inline-block;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, #7b61ff, #00d4ff);
             color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 10px;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
             text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
             border: none;
             cursor: pointer;
-            font-size: 1.1rem;
-            box-shadow: 0 5px 20px rgba(123, 97, 255, 0.3);
         }
 
         .button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(123, 97, 255, 0.5);
-        }
-
-        .button.secondary {
-            background: rgba(40, 40, 60, 0.9);
-            border: 2px solid var(--primary);
-        }
-
-        .button.secondary:hover {
-            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(123, 97, 255, 0.3);
         }
 
         .section {
-            background: rgba(30, 30, 50, 0.8);
-            border-radius: 15px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(42, 42, 64, 0.8);
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            color: var(--primary);
-            text-align: center;
-        }
-
-        /* COMMAND PROMPT STYLE */
-        .command-prompt {
-            background: rgba(20, 20, 35, 0.95);
-            border-radius: 10px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border-left: 5px solid var(--primary);
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
-        }
-
-        .command-line {
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .prompt {
-            color: var(--success);
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .api-call {
-            color: var(--light);
-            word-break: break-all;
-            padding: 0.5rem;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            margin-top: 0.5rem;
-            font-family: 'Courier New', monospace;
-        }
-
-        .copy-btn {
-            background: rgba(123, 97, 255, 0.2);
-            color: var(--primary);
-            border: 1px solid var(--primary);
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-left: 10px;
-            transition: all 0.2s;
-        }
-
-        .copy-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .copy-btn.copied {
-            background: var(--success);
-            color: var(--dark);
-            border-color: var(--success);
-        }
-
-        /* API TESTER */
-        .api-tester {
-            background: rgba(40, 40, 60, 0.9);
+            background: rgba(30, 30, 50, 0.5);
             border-radius: 12px;
             padding: 2rem;
             margin-bottom: 2rem;
+            border: 1px solid #2a2a40;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #7b61ff;
+        }
+
+        .api-tester {
+            background: rgba(40, 40, 60, 0.8);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #a0a0cc;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(20, 20, 35, 0.8);
+            border: 1px solid #2a2a40;
+            border-radius: 6px;
+            color: #e1e1ff;
+            font-size: 1rem;
         }
 
         .endpoint-selector {
             display: flex;
             gap: 1rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
+            margin-bottom: 1rem;
         }
 
         .endpoint-btn {
-            padding: 0.8rem 2rem;
-            background: rgba(40, 40, 60, 0.9);
-            border: 2px solid rgba(42, 42, 64, 0.8);
-            border-radius: 8px;
-            color: var(--gray);
+            padding: 0.5rem 1.5rem;
+            background: rgba(40, 40, 60, 0.8);
+            border: 1px solid #2a2a40;
+            border-radius: 6px;
+            color: #a0a0cc;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .endpoint-btn:hover {
-            transform: translateY(-3px);
-            border-color: var(--secondary);
         }
 
         .endpoint-btn.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: #7b61ff;
             color: white;
-            border-color: transparent;
-            box-shadow: 0 5px 15px rgba(123, 97, 255, 0.3);
+            border-color: #7b61ff;
         }
 
-        .input-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.8rem;
-            color: var(--gray);
-            font-size: 1.1rem;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 1.2rem;
-            background: rgba(20, 20, 35, 0.9);
-            border: 2px solid rgba(42, 42, 64, 0.8);
-            border-radius: 10px;
-            color: var(--light);
-            font-size: 1.1rem;
-            transition: all 0.3s;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(123, 97, 255, 0.3);
-        }
-
-        /* RESPONSE BOX */
-        .response-box {
+        /* COMMAND PROMPT STYLE */
+        .command-prompt {
             background: rgba(20, 20, 35, 0.95);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-top: 1.5rem;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
             font-family: 'Courier New', monospace;
-            border: 2px solid rgba(42, 42, 64, 0.8);
+            border: 1px solid #2a2a40;
             min-height: 200px;
             white-space: pre-wrap;
             overflow-x: auto;
-            font-size: 1.1rem;
         }
 
-        .response-line {
-            margin-bottom: 0.8rem;
+        .prompt-line {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
         }
 
-        .status-true {
-            color: var(--success);
+        .prompt {
+            color: #4cffa6;
             font-weight: bold;
         }
 
-        .status-false {
-            color: var(--danger);
-            font-weight: bold;
-        }
-
-        .creator {
-            color: var(--warning);
-        }
-
-        .result {
-            color: var(--primary);
-            font-weight: bold;
+        .command {
+            color: #e1e1ff;
         }
 
         .loading {
-            color: var(--secondary);
-            font-style: italic;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            color: #00d4ff;
         }
 
-        .loading::after {
-            content: '';
-            width: 20px;
-            height: 20px;
-            border: 3px solid var(--secondary);
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        .response-line {
+            margin-bottom: 0.3rem;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .status-true {
+            color: #4cffa6;
         }
 
-        /* DOWNLOADER GRID */
-        .downloader-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+        .status-false {
+            color: #ff4c4c;
         }
 
-        .downloader-card {
-            background: rgba(40, 40, 60, 0.9);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-            cursor: pointer;
+        .creator {
+            color: #ffb84c;
         }
 
-        .downloader-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 15px 35px rgba(123, 97, 255, 0.2);
+        .result {
+            color: #7b61ff;
         }
 
-        .downloader-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .downloader-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--light);
-        }
-
-        .downloader-desc {
-            color: var(--gray);
-            font-size: 1rem;
-        }
-
-        /* DOWNLOAD LINKS */
-        .download-links {
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background: rgba(30, 30, 50, 0.8);
-            border-radius: 10px;
-            border-left: 4px solid var(--success);
-        }
-
-        .download-grid {
+        .menu-items {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1rem;
-            margin-top: 1rem;
         }
 
-        .download-card {
-            background: rgba(40, 40, 60, 0.9);
+        .menu-item {
+            background: rgba(40, 40, 60, 0.8);
             border-radius: 8px;
             padding: 1.5rem;
-            border: 1px solid rgba(42, 42, 64, 0.8);
+            transition: transform 0.3s;
         }
 
-        /* FOOTER */
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #7b61ff;
+        }
+
+        .menu-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
         footer {
             text-align: center;
-            margin-top: 4rem;
-            padding: 2rem;
-            background: rgba(30, 30, 50, 0.8);
-            border-radius: 15px;
-            border-top: 2px solid var(--primary);
+            margin-top: 3rem;
+            color: #666699;
+            font-size: 0.9rem;
         }
 
         .version {
-            color: var(--gray);
+            color: #a0a0cc;
             margin-top: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .api-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 0.5rem 1.5rem;
-            background: rgba(76, 255, 166, 0.1);
-            color: var(--success);
-            border-radius: 20px;
-            font-weight: 600;
-            margin-top: 1rem;
-        }
-
-        /* UTILITY */
-        .mt-1 { margin-top: 1rem; }
-        .mt-2 { margin-top: 2rem; }
-        .mb-1 { margin-bottom: 1rem; }
-        .mb-2 { margin-bottom: 2rem; }
-        .text-center { text-align: center; }
-        .flex { display: flex; }
-        .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
-        .gap-2 { gap: 0.5rem; }
-        .w-full { width: 100%; }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .header-section {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .logo {
-                font-size: 3rem;
-            }
-            
-            .downloader-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .endpoint-selector {
-                justify-content: center;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="overlay">
-        <div class="container">
-            <!-- HEADER -->
-            <div class="header-section">
-                <img src="https://images3.alphacoders.com/669/thumb-1920-669240.jpg" alt="Proxima Logo" class="logo-image">
-                <div class="header-text">
-                    <div class="logo">PROXIMA</div>
-                    <div class="tagline">Social Media Downloader API - Execute Commands & Get Results</div>
-                    <button class="button" onclick="scrollToTester()">
-                        <i class="fas fa-play"></i> EXECUTE API
-                    </button>
-                </div>
+    <div class="container">
+        <div class="header-section">
+            <img src="https://images3.alphacoders.com/669/thumb-1920-669240.jpg" alt="Proxima Logo" class="logo-image">
+            <div class="header-text">
+                <div class="logo">PROXIMA</div>
+                <div class="tagline">A powerful API service for social media downloads. Execute commands and get results instantly.</div>
+                <button class="button" onclick="scrollToTester()">EXECUTE API</button>
             </div>
-
-            <!-- DOWNLOADER SECTION -->
-            <div class="section">
-                <h2 class="section-title">Social Media Downloaders</h2>
-                <div class="downloader-grid">
-                    <div class="downloader-card" data-endpoint="tiktok" onclick="selectPlatform('tiktok')">
-                        <div class="downloader-icon">🎵</div>
-                        <div class="downloader-title">TikTok</div>
-                        <div class="downloader-desc">Download without watermark</div>
-                    </div>
-                    <div class="downloader-card" data-endpoint="youtube" onclick="selectPlatform('youtube')">
-                        <div class="downloader-icon">📺</div>
-                        <div class="downloader-title">YouTube</div>
-                        <div class="downloader-desc">Multiple quality options</div>
-                    </div>
-                    <div class="downloader-card" data-endpoint="instagram" onclick="selectPlatform('instagram')">
-                        <div class="downloader-icon">📷</div>
-                        <div class="downloader-title">Instagram</div>
-                        <div class="downloader-desc">Posts, stories, reels</div>
-                    </div>
-                    <div class="downloader-card" data-endpoint="facebook" onclick="selectPlatform('facebook')">
-                        <div class="downloader-icon">👥</div>
-                        <div class="downloader-title">Facebook</div>
-                        <div class="downloader-desc">Videos & reels</div>
-                    </div>
-                    <div class="downloader-card" data-endpoint="twitter" onclick="selectPlatform('twitter')">
-                        <div class="downloader-icon">🐦</div>
-                        <div class="downloader-title">Twitter/X</div>
-                        <div class="downloader-desc">Videos & GIFs</div>
-                    </div>
-                    <div class="downloader-card" data-endpoint="pinterest" onclick="selectPlatform('pinterest')">
-                        <div class="downloader-icon">📌</div>
-                        <div class="downloader-title">Pinterest</div>
-                        <div class="downloader-desc">Images & videos</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- COMMAND PROMPT SECTION -->
-            <div class="section">
-                <h2 class="section-title">API Command Prompt</h2>
-                
-                <div class="command-prompt">
-                    <div class="command-line">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="prompt">root@ienz</span>
-                                <span>> /api/tiktok?url=https://www.tiktok.com/@khaliiisya/video/7587701740212997397?is_from_webapp=1&sender_device=pc</span>
-                            </div>
-                            <button class="copy-btn" onclick="copyCommand()">
-                                <i class="fas fa-copy"></i> Copy
-                            </button>
-                        </div>
-                        <div class="api-call" id="api-command-display">
-                            <!-- API command will appear here -->
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="api-tester">
-                    <div class="endpoint-selector" id="endpoint-buttons">
-                        <!-- Buttons will be generated by JavaScript -->
-                    </div>
-                    
-                    <div class="input-group">
-                        <label for="video-url">Enter Video URL</label>
-                        <input type="text" id="video-url" placeholder="Paste video URL here...">
-                    </div>
-                    
-                    <div class="flex gap-2">
-                        <button class="button w-full" id="execute-btn" onclick="executeApi()">
-                            <i class="fas fa-play"></i> EXECUTE
-                        </button>
-                        <button class="button secondary" onclick="clearResults()">
-                            <i class="fas fa-broom"></i> CLEAR
-                        </button>
-                    </div>
-                    
-                    <div class="response-box" id="response-box">
-🚀 Welcome to Proxima API
-Paste any social media URL above and click EXECUTE
-
-📌 Example URLs:
-• TikTok: https://www.tiktok.com/@tiktok/video/7106675944969432362
-• YouTube: https://www.youtube.com/watch?v=dQw4w9WgXcQ
-• Instagram: https://www.instagram.com/p/Cz7hNzTPzYx/
-                    </div>
-                    
-                    <div id="download-links" class="download-links" style="display: none;">
-                        <!-- Download links will appear here -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- QUICK EXAMPLES -->
-            <div class="section">
-                <h2 class="section-title">Quick Examples</h2>
-                <div class="command-prompt">
-                    <div class="command-line">
-                        <span class="prompt">root@ienz</span>
-                        <span>> Click any example below to execute</span>
-                    </div>
-                    
-                    <div class="mt-2">
-                        <div class="api-call mb-1" style="cursor: pointer;" onclick="loadExample('tiktok', 'https://www.tiktok.com/@tiktok/video/7106675944969432362')">
-                            /api/tiktok?url=https://www.tiktok.com/@tiktok/video/7106675944969432362
-                        </div>
-                        <div class="api-call mb-1" style="cursor: pointer;" onclick="loadExample('youtube', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ')">
-                            /api/youtube?url=https://www.youtube.com/watch?v=dQw4w9WgXcQ
-                        </div>
-                        <div class="api-call mb-1" style="cursor: pointer;" onclick="loadExample('instagram', 'https://www.instagram.com/p/Cz7hNzTPzYx/')">
-                            /api/instagram?url=https://www.instagram.com/p/Cz7hNzTPzYx/
-                        </div>
-                        <div class="api-call mb-1" style="cursor: pointer;" onclick="loadExample('twitter', 'https://twitter.com/Twitter/status/20')">
-                            /api/twitter?url=https://twitter.com/Twitter/status/20
-                        </div>
-                        <div class="api-call" style="cursor: pointer;" onclick="loadExample('pinterest', 'https://www.pinterest.com/pin/595699155001658720/')">
-                            /api/pinterest?url=https://www.pinterest.com/pin/595699155001658720/
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- API DOCS -->
-            <div class="section">
-                <h2 class="section-title">API Documentation</h2>
-                <div class="command-prompt">
-                    <div class="command-line">
-                        <span class="prompt">root@ienz</span>
-                        <span>> Available API Endpoints:</span>
-                    </div>
-                    
-                    <div class="mt-2">
-                        <div class="api-call mb-1">
-                            GET /api/tiktok?url={video_url}
-                            <button class="copy-btn" onclick="copyText('GET /api/tiktok?url={video_url}')">Copy</button>
-                        </div>
-                        <div class="api-call mb-1">
-                            GET /api/youtube?url={video_url}
-                            <button class="copy-btn" onclick="copyText('GET /api/youtube?url={video_url}')">Copy</button>
-                        </div>
-                        <div class="api-call mb-1">
-                            GET /api/instagram?url={post_url}
-                            <button class="copy-btn" onclick="copyText('GET /api/instagram?url={post_url}')">Copy</button>
-                        </div>
-                        <div class="api-call mb-1">
-                            GET /api/facebook?url={video_url}
-                            <button class="copy-btn" onclick="copyText('GET /api/facebook?url={video_url}')">Copy</button>
-                        </div>
-                        <div class="api-call mb-1">
-                            GET /api/twitter?url={tweet_url}
-                            <button class="copy-btn" onclick="copyText('GET /api/twitter?url={tweet_url}')">Copy</button>
-                        </div>
-                        <div class="api-call">
-                            GET /api/pinterest?url={pin_url}
-                            <button class="copy-btn" onclick="copyText('GET /api/pinterest?url={pin_url}')">Copy</button>
-                        </div>
-                    </div>
-                    
-                    <div class="command-line mt-2">
-                        <span class="prompt">root@ienz</span>
-                        <span>> Response Format:</span>
-                        <div class="api-call mt-1">
-{
-    "status": true,
-    "creator": "iEnz",
-    "result": "Success message",
-    "data": {
-        "title": "Video title",
-        "author": "Author name",
-        "video_url": "Direct download URL"
-    }
-}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FOOTER -->
-            <footer>
-                <div class="text-center">
-                    <div style="font-size: 2rem; font-weight: bold; color: var(--primary); margin-bottom: 1rem;">
-                        PROXIMA API
-                    </div>
-                    <div class="version">Version 2.0 • Creator: iEnz</div>
-                    <div class="version">Format: Status: True | Creator: iEnz | Result: [Your Data]</div>
-                    
-                    <div class="mt-2">
-                        <span class="api-status" id="api-status">
-                            <i class="fas fa-circle"></i> Checking API Status...
-                        </span>
-                    </div>
-                    
-                    <div class="mt-2">
-                        <button class="button secondary" onclick="checkApiStatus()">
-                            <i class="fas fa-sync-alt"></i> Check Status
-                        </button>
-                    </div>
-                </div>
-            </footer>
         </div>
+        
+        <div class="divider"></div>
+        
+        <div class="section">
+            <div class="section-title">API TESTER</div>
+            
+            <div class="api-tester">
+                <div class="endpoint-selector">
+                    <button class="endpoint-btn active" data-endpoint="tiktok">TikTok</button>
+                    <button class="endpoint-btn" data-endpoint="youtube">YouTube</button>
+                    <button class="endpoint-btn" data-endpoint="instagram">Instagram</button>
+                    <button class="endpoint-btn" data-endpoint="facebook">Facebook</button>
+                    <button class="endpoint-btn" data-endpoint="twitter">Twitter</button>
+                    <button class="endpoint-btn" data-endpoint="pinterest">Pinterest</button>
+                </div>
+                
+                <div class="input-group">
+                    <label for="video-url">Video URL</label>
+                    <input type="text" id="video-url" placeholder="Paste video URL here...">
+                </div>
+                
+                <button class="button" id="execute-btn">EXECUTE</button>
+                
+                <div class="command-prompt" id="command-prompt">
+root@ienz > Ready to execute API commands
+Enter a URL and click EXECUTE
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">API ENDPOINTS</div>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <div class="menu-icon">🎵</div>
+                    <div class="menu-title">TikTok</div>
+                    <div>GET /api/tiktok?url={video_url}</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">📺</div>
+                    <div class="menu-title">YouTube</div>
+                    <div>GET /api/youtube?url={video_url}</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">📷</div>
+                    <div class="menu-title">Instagram</div>
+                    <div>GET /api/instagram?url={post_url}</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">👥</div>
+                    <div class="menu-title">Facebook</div>
+                    <div>GET /api/facebook?url={video_url}</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div>PROXIMA API SERVICE</div>
+            <div class="version">V1.0 • Creator: iEnz</div>
+            <div class="version">Status: <span id="api-status">Checking...</span></div>
+        </footer>
     </div>
 
     <script>
-        // API Endpoints Configuration
-        const baseUrl = window.location.origin.includes('netlify') 
-            ? window.location.origin 
-            : 'https://api-proxima.netlify.app';
+        const baseUrl = 'https://api-proxima.netlify.app';
+        let currentEndpoint = 'tiktok';
         
         const endpoints = {
             tiktok: {
-                name: "TikTok",
-                icon: "🎵",
-                color: "#ff0050",
-                placeholder: "https://www.tiktok.com/@username/video/123456789",
-                example: "https://www.tiktok.com/@khaliiisya/video/7587701740212997397?is_from_webapp=1&sender_device=pc"
+                placeholder: 'https://www.tiktok.com/@username/video/123456789',
+                example: 'https://www.tiktok.com/@khaliiisya/video/7587701740212997397?is_from_webapp=1&sender_device=pc'
             },
             youtube: {
-                name: "YouTube",
-                icon: "📺",
-                color: "#ff0000",
-                placeholder: "https://www.youtube.com/watch?v=xxxxxxxxxxx",
-                example: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                placeholder: 'https://www.youtube.com/watch?v=xxxxxxxxxxx',
+                example: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
             },
             instagram: {
-                name: "Instagram",
-                icon: "📷",
-                color: "#E4405F",
-                placeholder: "https://www.instagram.com/p/xxxxxxxxxxx/",
-                example: "https://www.instagram.com/p/Cz7hNzTPzYx/"
+                placeholder: 'https://www.instagram.com/p/xxxxxxxxxxx/',
+                example: 'https://www.instagram.com/p/Cz7hNzTPzYx/'
             },
             facebook: {
-                name: "Facebook",
-                icon: "👥",
-                color: "#1877F2",
-                placeholder: "https://www.facebook.com/watch/?v=123456789",
-                example: "https://www.facebook.com/facebook/videos/10153231379946729/"
+                placeholder: 'https://www.facebook.com/watch/?v=123456789',
+                example: 'https://www.facebook.com/facebook/videos/10153231379946729/'
             },
             twitter: {
-                name: "Twitter/X",
-                icon: "🐦",
-                color: "#1DA1F2",
-                placeholder: "https://twitter.com/user/status/123456789",
-                example: "https://twitter.com/Twitter/status/20"
+                placeholder: 'https://twitter.com/user/status/123456789',
+                example: 'https://twitter.com/Twitter/status/20'
             },
             pinterest: {
-                name: "Pinterest",
-                icon: "📌",
-                color: "#E60023",
-                placeholder: "https://www.pinterest.com/pin/123456789/",
-                example: "https://www.pinterest.com/pin/595699155001658720/"
+                placeholder: 'https://www.pinterest.com/pin/123456789/',
+                example: 'https://www.pinterest.com/pin/595699155001658720/'
             }
         };
 
-        let currentEndpoint = 'tiktok';
-
-        // Initialize on page load
-        window.addEventListener('DOMContentLoaded', function() {
-            initializeEndpointButtons();
-            checkApiStatus();
-            setupEventListeners();
-            
-            // Set initial example
-            document.getElementById('video-url').value = endpoints.tiktok.example;
-            updateCommandDisplay();
-        });
-
-        // Initialize endpoint buttons
-        function initializeEndpointButtons() {
-            const container = document.getElementById('endpoint-buttons');
-            container.innerHTML = '';
-            
-            Object.entries(endpoints).forEach(([key, endpoint]) => {
-                const button = document.createElement('button');
-                button.className = `endpoint-btn ${key === currentEndpoint ? 'active' : ''}`;
-                button.dataset.endpoint = key;
-                button.innerHTML = `
-                    ${endpoint.icon} ${endpoint.name}
-                `;
-                button.style.borderLeft = `4px solid ${endpoint.color}`;
-                container.appendChild(button);
-            });
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Endpoint buttons
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('.endpoint-btn')) {
-                    const button = e.target.closest('.endpoint-btn');
-                    selectEndpoint(button.dataset.endpoint);
-                }
-            });
-
-            // Enter key in input
-            document.getElementById('video-url').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    executeApi();
-                }
-            });
-        }
-
-        // Select platform
-        function selectPlatform(platform) {
-            selectEndpoint(platform);
+        function scrollToTester() {
+            document.querySelector('.api-tester').scrollIntoView({ behavior: 'smooth' });
             document.getElementById('video-url').focus();
         }
 
-        // Select endpoint
-        function selectEndpoint(endpoint) {
-            currentEndpoint = endpoint;
-            
-            // Update endpoint buttons
-            document.querySelectorAll('.endpoint-btn').forEach(btn => {
-                btn.classList.remove('active');
+        document.querySelectorAll('.endpoint-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.endpoint-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentEndpoint = btn.dataset.endpoint;
+                document.getElementById('video-url').placeholder = endpoints[currentEndpoint].placeholder;
+                document.getElementById('video-url').value = endpoints[currentEndpoint].example;
             });
-            document.querySelector(`.endpoint-btn[data-endpoint="${endpoint}"]`).classList.add('active');
-            
-            // Update input placeholder and example
-            const endpointConfig = endpoints[endpoint];
-            document.getElementById('video-url').placeholder = endpointConfig.placeholder;
-            document.getElementById('video-url').value = endpointConfig.example;
-            
-            // Update command display
-            updateCommandDisplay();
-            
-            // Focus input
-            setTimeout(() => {
-                document.getElementById('video-url').focus();
-                document.getElementById('video-url').select();
-            }, 100);
-        }
+        });
 
-        // Update command display
-        function updateCommandDisplay() {
+        document.getElementById('execute-btn').addEventListener('click', async () => {
             const urlInput = document.getElementById('video-url').value.trim();
-            const apiCall = `/api/${currentEndpoint}?url=${encodeURIComponent(urlInput)}`;
-            document.getElementById('api-command-display').textContent = apiCall;
-        }
-
-        // Execute API
-        async function executeApi() {
-            const urlInput = document.getElementById('video-url').value.trim();
-            const responseBox = document.getElementById('response-box');
-            const downloadLinks = document.getElementById('download-links');
+            const prompt = document.getElementById('command-prompt');
             
             if (!urlInput) {
-                showNotification('Please enter a video URL', 'warning');
+                prompt.innerHTML = `
+<span class="prompt">root@ienz</span> > <span class="command">Please enter a valid URL</span>
+                `;
                 return;
             }
 
-            // Validate URL
-            try {
-                new URL(urlInput);
-            } catch (e) {
-                showNotification('Invalid URL format', 'error');
-                return;
-            }
-
-            // Update command display
-            updateCommandDisplay();
-            
-            // Show loading
-            responseBox.innerHTML = '<div class="loading">Executing API request...</div>';
-            downloadLinks.style.display = 'none';
-            downloadLinks.innerHTML = '';
+            // Show command
+            const apiUrl = `${baseUrl}/api/${currentEndpoint}?url=${encodeURIComponent(urlInput)}`;
+            prompt.innerHTML = `
+<span class="prompt">root@ienz</span> > <span class="command">${apiUrl}</span>
+<span class="prompt">root@ienz</span> > <span class="loading">Loading...</span>
+            `;
 
             try {
-                const apiUrl = `${baseUrl}/api/${currentEndpoint}?url=${encodeURIComponent(urlInput)}`;
-                
                 const response = await axios.get(apiUrl, {
-                    timeout: 30000,
-                    headers: {
-                        'User-Agent': 'Mozilla/5.0 Proxima-API/2.0'
-                    }
+                    timeout: 30000
                 });
                 
-                displayResult(response.data);
+                const result = response.data;
+                let responseHTML = `<span class="prompt">root@ienz</span> > <span class="command">${apiUrl}</span>\n`;
                 
-            } catch (error) {
-                console.error('API Error:', error);
-                
-                let errorMessage = 'Network error. Please try again.';
-                if (error.response) {
-                    errorMessage = `API Error ${error.response.status}: ${error.response.data?.message || 'Unknown error'}`;
-                } else if (error.request) {
-                    errorMessage = 'No response from server. Check your connection.';
+                if (result.status === true) {
+                    responseHTML += `<span class="status-true">Status: True</span>\n`;
+                    responseHTML += `<span class="creator">Creator: iEnz</span>\n`;
+                    responseHTML += `<span class="result">Result: ${result.result || 'Success'}</span>\n`;
+                    
+                    if (result.data) {
+                        responseHTML += `\n`;
+                        responseHTML += `Title: ${result.data.title || 'N/A'}\n`;
+                        responseHTML += `Author: ${result.data.author || 'N/A'}\n`;
+                        
+                        if (result.data.video_url) {
+                            responseHTML += `Video URL: ${result.data.video_url}\n`;
+                        }
+                    }
+                } else {
+                    responseHTML += `<span class="status-false">Status: False</span>\n`;
+                    responseHTML += `<span class="creator">Creator: iEnz</span>\n`;
+                    responseHTML += `Error: ${result.error || result.message || 'Unknown error'}\n`;
                 }
                 
-                responseBox.innerHTML = `
-                    <div class="response-line"><span class="status-false">❌ Status: False</span></div>
-                    <div class="response-line"><span class="creator">👤 Creator: iEnz</span></div>
-                    <div class="response-line">⚠️ Error: ${errorMessage}</div>
+                prompt.innerHTML = responseHTML;
+            } catch (error) {
+                let errorMessage = 'Network error';
+                if (error.response) {
+                    errorMessage = `API Error ${error.response.status}`;
+                }
+                
+                prompt.innerHTML = `
+<span class="prompt">root@ienz</span> > <span class="command">${apiUrl}</span>
+<span class="status-false">Status: False</span>
+<span class="creator">Creator: iEnz</span>
+Error: ${errorMessage}
                 `;
             }
-            
-            // Scroll to results
-            responseBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
+        });
 
-        // Display result
-        function displayResult(data) {
-            const responseBox = document.getElementById('response-box');
-            const downloadLinks = document.getElementById('download-links');
-            
-            let html = '';
-            
-            if (data.status === true) {
-                html += `<div class="response-line"><span class="status-true">✅ Status: True</span></div>`;
-                html += `<div class="response-line"><span class="creator">👤 Creator: iEnz</span></div>`;
-                
-                if (data.result) {
-                    html += `<div class="response-line"><span class="result">📦 Result: ${data.result}</span></div>`;
-                }
-                
-                if (data.data) {
-                    const dataObj = data.data;
-                    html += `<div class="response-line" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">`;
-                    html += `<div style="color: var(--primary); font-weight: bold; margin-bottom: 15px;">📊 Video Information:</div>`;
-                    
-                    // Display basic info
-                    if (dataObj.title) html += `<div class="response-line">📝 Title: ${dataObj.title}</div>`;
-                    if (dataObj.author) html += `<div class="response-line">👤 Author: ${dataObj.author}</div>`;
-                    if (dataObj.duration) html += `<div class="response-line">⏱️ Duration: ${dataObj.duration}</div>`;
-                    if (dataObj.views) html += `<div class="response-line">👁️ Views: ${dataObj.views}</div>`;
-                    if (dataObj.likes) html += `<div class="response-line">👍 Likes: ${dataObj.likes}</div>`;
-                    
-                    html += `</div>`;
-                    
-                    // Display download links if available
-                    if (dataObj.video_url || dataObj.url || (dataObj.download_links && dataObj.download_links.length > 0)) {
-                        downloadLinks.style.display = 'block';
-                        
-                        let downloadHTML = `<div style="color: var(--success); font-weight: bold; margin-bottom: 15px;">📥 Download Links:</div>`;
-                        downloadHTML += `<div class="download-grid">`;
-                        
-                        if (dataObj.download_links && Array.isArray(dataObj.download_links)) {
-                            dataObj.download_links.forEach((link, index) => {
-                                downloadHTML += `
-                                    <div class="download-card">
-                                        <div style="font-weight: bold; margin-bottom: 10px;">${link.quality || 'Download'} ${link.type ? `(${link.type})` : ''}</div>
-                                        <button class="button secondary" onclick="window.open('${link.download_url || link.url}', '_blank')" style="width: 100%;">
-                                            <i class="fas fa-download"></i> Download
-                                        </button>
-                                    </div>
-                                `;
-                            });
-                        } else {
-                            const videoUrl = dataObj.video_url || dataObj.url;
-                            downloadHTML += `
-                                <div class="download-card">
-                                    <div style="font-weight: bold; margin-bottom: 10px;">Direct Download</div>
-                                    <button class="button secondary" onclick="window.open('${videoUrl}', '_blank')" style="width: 100%;">
-                                        <i class="fas fa-download"></i> Download Video
-                                    </button>
-                                </div>
-                            `;
-                        }
-                        
-                        downloadHTML += `</div>`;
-                        downloadLinks.innerHTML = downloadHTML;
-                    }
-                }
-                
-            } else {
-                html += `<div class="response-line"><span class="status-false">❌ Status: False</span></div>`;
-                html += `<div class="response-line"><span class="creator">👤 Creator: iEnz</span></div>`;
-                html += `<div class="response-line">⚠️ Error: ${data.error || data.message || 'Unknown error'}</div>`;
-                
-                // Show mock data if available
-                if (data.mock_data) {
-                    html += `<div class="response-line" style="margin-top: 20px; color: var(--warning);">
-                        <div>📋 Showing demo data:</div>
-                        <div>Title: ${data.mock_data.title || 'Demo Video'}</div>
-                        <div>Author: ${data.mock_data.author || 'Demo User'}</div>
-                    </div>`;
-                }
+        document.getElementById('video-url').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('execute-btn').click();
             }
-            
-            responseBox.innerHTML = html;
-        }
+        });
 
-        // Load example
-        function loadExample(endpoint, url) {
-            selectEndpoint(endpoint);
-            document.getElementById('video-url').value = url;
-            updateCommandDisplay();
-            executeApi();
-        }
-
-        // Clear results
-        function clearResults() {
-            document.getElementById('response-box').innerHTML = `
-🚀 Welcome to Proxima API
-Paste any social media URL above and click EXECUTE
-
-📌 Example URLs:
-• TikTok: https://www.tiktok.com/@tiktok/video/7106675944969432362
-• YouTube: https://www.youtube.com/watch?v=dQw4w9WgXcQ
-• Instagram: https://www.instagram.com/p/Cz7hNzTPzYx/
-            `;
-            document.getElementById('download-links').style.display = 'none';
-            document.getElementById('download-links').innerHTML = '';
-            showNotification('Results cleared', 'info');
-        }
-
-        // Copy command
-        function copyCommand() {
-            const command = document.getElementById('api-command-display').textContent;
-            copyText(command);
-            
-            const copyBtn = document.querySelector('.copy-btn');
-            const originalText = copyBtn.innerHTML;
-            copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-            copyBtn.classList.add('copied');
-            
-            setTimeout(() => {
-                copyBtn.innerHTML = originalText;
-                copyBtn.classList.remove('copied');
-            }, 2000);
-        }
-
-        // Copy text to clipboard
-        function copyText(text) {
-            navigator.clipboard.writeText(text)
-                .then(() => {
-                    showNotification('Copied to clipboard!', 'success');
-                })
-                .catch(err => {
-                    console.error('Failed to copy: ', err);
-                    showNotification('Failed to copy', 'error');
-                });
-        }
+        // Set initial example
+        document.getElementById('video-url').value = endpoints.tiktok.example;
 
         // Check API status
         async function checkApiStatus() {
             const statusElement = document.getElementById('api-status');
             
             try {
-                const response = await axios.get(`${baseUrl}/api/tiktok`, {
+                await axios.get(`${baseUrl}/api/tiktok`, {
                     params: { url: 'test' },
                     timeout: 5000
-                }).catch(() => ({ data: { status: false } }));
-                
-                if (response.data && response.data.status !== undefined) {
-                    statusElement.innerHTML = '<i class="fas fa-circle" style="color: var(--success);"></i> API ONLINE';
-                    statusElement.style.color = 'var(--success)';
-                } else {
-                    statusElement.innerHTML = '<i class="fas fa-circle" style="color: var(--warning);"></i> API OFFLINE (Using Demo)';
-                    statusElement.style.color = 'var(--warning)';
-                }
+                });
+                statusElement.textContent = 'Online';
+                statusElement.style.color = '#4cffa6';
             } catch (error) {
-                statusElement.innerHTML = '<i class="fas fa-circle" style="color: var(--danger);"></i> API OFFLINE';
-                statusElement.style.color = 'var(--danger)';
+                statusElement.textContent = 'Offline';
+                statusElement.style.color = '#ff4c4c';
             }
         }
 
-        // Scroll to tester
-        function scrollToTester() {
-            document.querySelector('.api-tester').scrollIntoView({ behavior: 'smooth' });
-            setTimeout(() => {
-                document.getElementById('video-url').focus();
-                document.getElementById('video-url').select();
-            }, 500);
-        }
-
-        // Show notification
-        function showNotification(message, type = 'info') {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 15px 25px;
-                background: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--warning)'};
-                color: var(--dark);
-                border-radius: 10px;
-                font-weight: 600;
-                z-index: 10000;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-                animation: slideIn 0.3s ease;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            `;
-            
-            notification.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
-                ${message}
-            `;
-            
-            document.body.appendChild(notification);
-            
-            // Remove after 3 seconds
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
-            
-            // Add CSS for animations
-            if (!document.querySelector('#notification-styles')) {
-                const style = document.createElement('style');
-                style.id = 'notification-styles';
-                style.textContent = `
-                    @keyframes slideIn {
-                        from { transform: translateX(100%); opacity: 0; }
-                        to { transform: translateX(0); opacity: 1; }
-                    }
-                    @keyframes slideOut {
-                        from { transform: translateX(0); opacity: 1; }
-                        to { transform: translateX(100%); opacity: 0; }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-        }
-
-        // Update command display when input changes
-        document.getElementById('video-url').addEventListener('input', updateCommandDisplay);
+        checkApiStatus();
     </script>
 </body>
 </html>
