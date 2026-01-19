@@ -3,56 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proxima API</title>
+    <title>Proxima API - Ultimate Social Media Toolkit</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        :root {
+            --primary: #7b61ff;
+            --secondary: #00d4ff;
+            --success: #4cffa6;
+            --danger: #ff4c4c;
+            --warning: #ffb84c;
+            --dark: #0f0f1a;
+            --dark-secondary: #1a1a2e;
+            --light: #e1e1ff;
+            --gray: #a0a0cc;
+            --card-bg: rgba(40, 40, 60, 0.9);
+            --section-bg: rgba(30, 30, 50, 0.8);
         }
 
         body {
-            background-color: #0f0f1a;
-            color: #e1e1ff;
+            background-color: var(--dark);
+            color: var(--light);
             line-height: 1.6;
             min-height: 100vh;
             background-image: url('https://images3.alphacoders.com/669/thumb-1920-669240.jpg');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
+            overflow-x: hidden;
         }
 
         .overlay {
             background: rgba(15, 15, 26, 0.95);
             min-height: 100vh;
+            backdrop-filter: blur(5px);
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1.5rem;
         }
 
+        /* HEADER STYLES */
         .header-section {
             display: flex;
             align-items: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            padding: 2rem;
-            background: rgba(30, 30, 50, 0.8);
-            border-radius: 20px;
-            border: 2px solid #7b61ff;
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+            padding: 2.5rem;
+            background: rgba(30, 30, 50, 0.9);
+            border-radius: 25px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 15px 35px rgba(123, 97, 255, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
 
         .logo-image {
-            width: 120px;
-            height: 120px;
-            border-radius: 20px;
+            width: 140px;
+            height: 140px;
+            border-radius: 25px;
             object-fit: cover;
-            border: 3px solid #7b61ff;
-            box-shadow: 0 0 30px rgba(123, 97, 255, 0.5);
+            border: 4px solid var(--primary);
+            box-shadow: 0 0 40px rgba(123, 97, 255, 0.5);
+            transition: transform 0.5s;
+        }
+
+        .logo-image:hover {
+            transform: rotate(5deg) scale(1.05);
         }
 
         .header-text {
@@ -60,498 +96,876 @@
         }
 
         .logo {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #7b61ff, #00d4ff);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
             letter-spacing: 3px;
-            text-shadow: 0 0 20px rgba(123, 97, 255, 0.5);
+            text-shadow: 0 0 30px rgba(123, 97, 255, 0.4);
         }
 
         .tagline {
-            font-size: 1.3rem;
-            color: #a0a0cc;
-            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
         }
 
         .button {
-            display: inline-block;
-            background: linear-gradient(135deg, #7b61ff, #00d4ff);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 10px;
+            padding: 1.2rem 2.8rem;
+            border-radius: 12px;
             text-decoration: none;
             font-weight: 700;
             transition: all 0.3s;
             border: none;
             cursor: pointer;
-            font-size: 1.1rem;
-            box-shadow: 0 5px 20px rgba(123, 97, 255, 0.3);
+            font-size: 1.2rem;
+            box-shadow: 0 8px 25px rgba(123, 97, 255, 0.3);
         }
 
         .button:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(123, 97, 255, 0.5);
+            gap: 15px;
         }
 
-        .section {
-            background: rgba(30, 30, 50, 0.8);
+        .button.secondary {
+            background: rgba(40, 40, 60, 0.9);
+            border: 2px solid var(--primary);
+        }
+
+        .button.secondary:hover {
+            background: var(--primary);
+        }
+
+        /* CATEGORY NAVIGATION */
+        .category-navigation {
+            display: flex;
+            background: var(--section-bg);
+            border-radius: 20px;
+            padding: 0.5rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(123, 97, 255, 0.2);
+            overflow-x: auto;
+        }
+
+        .category-tab {
+            flex: 1;
+            min-width: 180px;
+            padding: 1.5rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--gray);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
             border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            white-space: nowrap;
+        }
+
+        .category-tab:hover {
+            background: rgba(123, 97, 255, 0.1);
+            color: var(--light);
+        }
+
+        .category-tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 5px 20px rgba(123, 97, 255, 0.3);
+        }
+
+        .category-icon {
+            font-size: 1.4rem;
+        }
+
+        /* CATEGORY CONTENT */
+        .category-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .category-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SECTION STYLES */
+        .section {
+            background: var(--section-bg);
+            border-radius: 20px;
             padding: 2.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid #2a2a40;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(42, 42, 64, 0.8);
             backdrop-filter: blur(10px);
         }
 
         .section-title {
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin-bottom: 2rem;
-            color: #7b61ff;
-            text-align: center;
-            text-shadow: 0 0 15px rgba(123, 97, 255, 0.5);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-shadow: 0 0 20px rgba(123, 97, 255, 0.3);
         }
 
-        .api-tester {
-            background: rgba(40, 40, 60, 0.9);
-            border-radius: 12px;
+        .section-title i {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* DOWNLOADER SECTION */
+        .downloader-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .downloader-card {
+            background: var(--card-bg);
+            border-radius: 18px;
             padding: 2rem;
-            margin-bottom: 2rem;
-            border: 2px solid #2a2a40;
+            transition: all 0.4s;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
         }
 
-        .input-group {
+        .downloader-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .downloader-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(123, 97, 255, 0.2);
+        }
+
+        .downloader-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .downloader-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            height: 80px;
+            width: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            background: rgba(123, 97, 255, 0.1);
+        }
+
+        .downloader-title {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+
+        .downloader-desc {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .downloader-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
             margin-bottom: 1.5rem;
         }
 
-        label {
-            display: block;
-            margin-bottom: 0.8rem;
-            color: #a0a0cc;
-            font-size: 1.1rem;
+        .feature-tag {
+            background: rgba(76, 255, 166, 0.1);
+            color: var(--success);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
-        input[type="text"] {
-            width: 100%;
-            padding: 1.2rem;
-            background: rgba(20, 20, 35, 0.9);
-            border: 2px solid #2a2a40;
-            border-radius: 10px;
-            color: #e1e1ff;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #7b61ff;
-            box-shadow: 0 0 15px rgba(123, 97, 255, 0.3);
+        /* API TESTER */
+        .api-tester {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 2px solid rgba(42, 42, 64, 0.8);
         }
 
         .endpoint-selector {
             display: flex;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
         }
 
         .endpoint-btn {
-            padding: 0.8rem 2rem;
+            padding: 1rem 2rem;
             background: rgba(40, 40, 60, 0.9);
-            border: 2px solid #2a2a40;
-            border-radius: 8px;
-            color: #a0a0cc;
+            border: 2px solid rgba(42, 42, 64, 0.8);
+            border-radius: 12px;
+            color: var(--gray);
             cursor: pointer;
             transition: all 0.3s;
             font-size: 1rem;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .endpoint-btn:hover {
             transform: translateY(-3px);
-            border-color: #00d4ff;
+            border-color: var(--secondary);
         }
 
         .endpoint-btn.active {
-            background: linear-gradient(135deg, #7b61ff, #00d4ff);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border-color: transparent;
-            box-shadow: 0 5px 15px rgba(123, 97, 255, 0.3);
+            box-shadow: 0 8px 20px rgba(123, 97, 255, 0.3);
+        }
+
+        .input-group {
+            margin-bottom: 2rem;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 1rem;
+            color: var(--gray);
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 1.5rem;
+            background: rgba(20, 20, 35, 0.95);
+            border: 2px solid rgba(42, 42, 64, 0.8);
+            border-radius: 15px;
+            color: var(--light);
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+
+        .url-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(123, 97, 255, 0.2);
         }
 
         .response-box {
             background: rgba(20, 20, 35, 0.95);
-            border-radius: 12px;
+            border-radius: 15px;
             padding: 2rem;
-            margin-top: 1.5rem;
-            font-family: 'Courier New', monospace;
-            border: 2px solid #2a2a40;
-            min-height: 250px;
+            margin-top: 2rem;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            border: 2px solid rgba(42, 42, 64, 0.8);
+            min-height: 300px;
             white-space: pre-wrap;
             overflow-x: auto;
-            font-size: 1.1rem;
-        }
-
-        .download-links {
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background: rgba(30, 30, 50, 0.8);
-            border-radius: 10px;
-            border-left: 4px solid #4cffa6;
-        }
-
-        .download-item {
-            padding: 1rem;
-            margin-bottom: 0.8rem;
-            background: rgba(40, 40, 60, 0.9);
-            border-radius: 8px;
-            border: 1px solid #2a2a40;
-        }
-
-        .download-item:hover {
-            border-color: #00d4ff;
-            transform: translateX(5px);
-            transition: all 0.3s;
-        }
-
-        .download-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #4cffa6, #00d4ff);
-            color: #0f0f1a;
-            padding: 0.6rem 1.5rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 700;
-            margin-top: 0.5rem;
-            border: none;
-            cursor: pointer;
-        }
-
-        .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(76, 255, 166, 0.3);
+            font-size: 1rem;
+            line-height: 1.8;
         }
 
         .status-true {
-            color: #4cffa6;
+            color: var(--success);
             font-weight: bold;
         }
 
         .status-false {
-            color: #ff4c4c;
+            color: var(--danger);
             font-weight: bold;
         }
 
         .creator {
-            color: #ffb84c;
+            color: var(--warning);
         }
 
         .result {
-            color: #7b61ff;
+            color: var(--primary);
             font-weight: bold;
         }
 
         .loading {
-            color: #00d4ff;
+            color: var(--secondary);
             font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 15px;
             font-size: 1.2rem;
         }
 
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+        .loading::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--secondary);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
-        .service-card {
-            background: rgba(40, 40, 60, 0.9);
-            border-radius: 15px;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* DOWNLOAD LINKS */
+        .download-links {
+            margin-top: 2rem;
             padding: 2rem;
-            text-align: center;
+            background: rgba(30, 30, 50, 0.9);
+            border-radius: 15px;
+            border-left: 5px solid var(--success);
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .download-card {
+            background: rgba(40, 40, 60, 0.9);
+            border-radius: 12px;
+            padding: 1.5rem;
             border: 2px solid transparent;
             transition: all 0.3s;
-            cursor: pointer;
         }
 
-        .service-card:hover {
-            transform: translateY(-10px);
-            border-color: #7b61ff;
-            box-shadow: 0 15px 35px rgba(123, 97, 255, 0.2);
+        .download-card:hover {
+            border-color: var(--secondary);
+            transform: translateY(-5px);
         }
 
-        .service-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #7b61ff, #00d4ff);
+        /* SEARCH & TOOLS SECTIONS */
+        .coming-soon {
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .coming-soon-icon {
+            font-size: 6rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .service-title {
-            font-size: 1.5rem;
+        .coming-soon-title {
+            font-size: 2.5rem;
             margin-bottom: 1rem;
-            color: #e1e1ff;
+            color: var(--light);
         }
 
-        .service-desc {
-            color: #a0a0cc;
-            font-size: 1rem;
+        .coming-soon-desc {
+            color: var(--gray);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
         }
 
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-8px);
+        }
+
+        /* FOOTER */
         footer {
             text-align: center;
             margin-top: 4rem;
-            padding: 2rem;
-            background: rgba(30, 30, 50, 0.8);
-            border-radius: 15px;
-            border-top: 2px solid #7b61ff;
+            padding: 3rem;
+            background: rgba(30, 30, 50, 0.9);
+            border-radius: 20px;
+            border-top: 3px solid var(--primary);
+        }
+
+        .footer-logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
         }
 
         .version {
-            color: #a0a0cc;
+            color: var(--gray);
             margin-top: 1rem;
             font-size: 1.1rem;
         }
 
-        .api-list {
+        .api-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.5rem 1.5rem;
+            background: rgba(76, 255, 166, 0.1);
+            color: var(--success);
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* STATS */
+        .stats-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
         }
 
-        .api-item {
-            background: rgba(40, 40, 60, 0.9);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border-left: 4px solid #00d4ff;
-        }
-
-        .api-method {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background: #00d4ff;
-            color: #0f0f1a;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-right: 1rem;
-        }
-
-        .api-url {
-            font-family: monospace;
-            color: #a0a0cc;
-            font-size: 1.1rem;
-            word-break: break-all;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: rgba(40, 40, 60, 0.8);
-            border-radius: 12px;
-        }
-
-        .stat-item {
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 2rem;
             text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
         }
 
         .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #7b61ff, #00d4ff);
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
         }
 
         .stat-label {
-            color: #a0a0cc;
-            margin-top: 0.5rem;
+            color: var(--gray);
+            font-size: 1.1rem;
         }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header-section {
+                flex-direction: column;
+                text-align: center;
+                padding: 2rem;
+            }
+            
+            .logo {
+                font-size: 3.5rem;
+            }
+            
+            .category-navigation {
+                flex-direction: column;
+            }
+            
+            .downloader-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .endpoint-selector {
+                justify-content: center;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary), var(--secondary));
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--secondary), var(--primary));
+        }
+
+        /* UTILITY */
+        .text-center { text-align: center; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .mb-3 { margin-bottom: 3rem; }
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+        .mt-3 { margin-top: 3rem; }
     </style>
 </head>
 <body>
     <div class="overlay">
         <div class="container">
+            <!-- HEADER -->
             <div class="header-section">
                 <img src="https://images3.alphacoders.com/669/thumb-1920-669240.jpg" alt="Proxima Logo" class="logo-image">
                 <div class="header-text">
                     <div class="logo">PROXIMA</div>
-                    <div class="tagline">Advanced API Service for Social Media Downloader & Content Extraction</div>
-                    <button class="button" onclick="scrollToTester()">🚀 TEST API NOW</button>
-                </div>
-            </div>
-            
-            <div class="section">
-                <div class="section-title">📊 API STATISTICS</div>
-                <div class="stats">
-                    <div class="stat-item">
-                        <div class="stat-number">6</div>
-                        <div class="stat-label">APIs Available</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">99.9%</div>
-                        <div class="stat-label">Uptime</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">⚡</div>
-                        <div class="stat-label">Fast Response</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">🎯 AVAILABLE DOWNLOADERS</div>
-                <div class="services-grid">
-                    <div class="service-card" data-endpoint="tiktok">
-                        <div class="service-icon">🎵</div>
-                        <div class="service-title">TikTok Downloader</div>
-                        <div class="service-desc">Download TikTok videos without watermark</div>
-                    </div>
-                    <div class="service-card" data-endpoint="youtube">
-                        <div class="service-icon">📺</div>
-                        <div class="service-title">YouTube Downloader</div>
-                        <div class="service-desc">Download YouTube videos in multiple qualities</div>
-                    </div>
-                    <div class="service-card" data-endpoint="instagram">
-                        <div class="service-icon">📷</div>
-                        <div class="service-title">Instagram Downloader</div>
-                        <div class="service-desc">Download Instagram posts, stories, reels</div>
-                    </div>
-                    <div class="service-card" data-endpoint="facebook">
-                        <div class="service-icon">👥</div>
-                        <div class="service-title">Facebook Downloader</div>
-                        <div class="service-desc">Download Facebook videos & reels</div>
-                    </div>
-                    <div class="service-card" data-endpoint="twitter">
-                        <div class="service-icon">🐦</div>
-                        <div class="service-title">Twitter Downloader</div>
-                        <div class="service-desc">Download Twitter/X videos</div>
-                    </div>
-                    <div class="service-card" data-endpoint="pinterest">
-                        <div class="service-icon">📌</div>
-                        <div class="service-title">Pinterest Downloader</div>
-                        <div class="service-desc">Download Pinterest pins & videos</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title" id="api-tester">🔧 API TESTER</div>
-                
-                <div class="api-tester">
-                    <div class="endpoint-selector">
-                        <button class="endpoint-btn active" data-endpoint="tiktok">TikTok</button>
-                        <button class="endpoint-btn" data-endpoint="youtube">YouTube</button>
-                        <button class="endpoint-btn" data-endpoint="instagram">Instagram</button>
-                        <button class="endpoint-btn" data-endpoint="facebook">Facebook</button>
-                        <button class="endpoint-btn" data-endpoint="twitter">Twitter</button>
-                        <button class="endpoint-btn" data-endpoint="pinterest">Pinterest</button>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label for="video-url">📎 Enter Video URL</label>
-                        <input type="text" id="video-url" placeholder="Paste video URL here...">
-                    </div>
-                    
-                    <button class="button" id="fetch-btn" style="width: 100%; font-size: 1.2rem; padding: 1.2rem;">
-                        🚀 FETCH VIDEO DATA
+                    <div class="tagline">Your Ultimate Social Media Toolkit. Download videos, images, and audio from all major platforms with our powerful API.</div>
+                    <button class="button" onclick="scrollToTester()">
+                        <i class="fas fa-rocket"></i> START DOWNLOADING
                     </button>
-                    
-                    <div class="response-box" id="response-box">
-🎯 Welcome to Proxima API Tester!
-Enter a valid video URL and click "FETCH VIDEO DATA"
+                </div>
+            </div>
 
-📌 Example URLs:
+            <!-- STATS -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Platforms Supported</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">API Uptime</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">⚡</div>
+                    <div class="stat-label">Fast Response</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">🔓</div>
+                    <div class="stat-label">Free & Unlimited</div>
+                </div>
+            </div>
+
+            <!-- CATEGORY NAVIGATION -->
+            <div class="category-navigation">
+                <button class="category-tab active" data-category="downloader">
+                    <i class="fas fa-download category-icon"></i>
+                    <span>Downloader</span>
+                </button>
+                <button class="category-tab" data-category="search">
+                    <i class="fas fa-search category-icon"></i>
+                    <span>Search</span>
+                </button>
+                <button class="category-tab" data-category="tools">
+                    <i class="fas fa-tools category-icon"></i>
+                    <span>Tools</span>
+                </button>
+            </div>
+
+            <!-- DOWNLOADER CATEGORY -->
+            <div class="category-content active" id="downloader-category">
+                <!-- Platform Grid -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-download"></i> Social Media Downloaders
+                    </h2>
+                    <div class="downloader-grid">
+                        <!-- TikTok -->
+                        <div class="downloader-card" data-endpoint="tiktok">
+                            <div class="downloader-icon" style="color: #ff0050;">
+                                <i class="fab fa-tiktok fa-2x"></i>
+                            </div>
+                            <h3 class="downloader-title">TikTok Downloader</h3>
+                            <p class="downloader-desc">Download TikTok videos without watermark. Supports HD quality, audio extraction, and bulk downloads.</p>
+                            <div class="downloader-features">
+                                <span class="feature-tag">No Watermark</span>
+                                <span class="feature-tag">HD Quality</span>
+                                <span class="feature-tag">Audio Only</span>
+                            </div>
+                            <button class="button secondary" onclick="selectPlatform('tiktok')">
+                                <i class="fas fa-play"></i> Try Now
+                            </button>
+                        </div>
+
+                        <!-- YouTube -->
+                        <div class="downloader-card" data-endpoint="youtube">
+                            <div class="downloader-icon" style="color: #ff0000;">
+                                <i class="fab fa-youtube fa-2x"></i>
+                            </div>
+                            <h3 class="downloader-title">YouTube Downloader</h3>
+                            <p class="downloader-desc">Download YouTube videos in multiple formats and qualities. MP4, MP3, 4K, 1080p, and more.</p>
+                            <div class="downloader-features">
+                                <span class="feature-tag">MP4/MP3</span>
+                                <span class="feature-tag">4K Support</span>
+                                <span class="feature-tag">Playlists</span>
+                            </div>
+                            <button class="button secondary" onclick="selectPlatform('youtube')">
+                                <i class="fas fa-play"></i> Try Now
+                            </button>
+                        </div>
+
+                        <!-- Instagram -->
+                        <div class="downloader-card" data-endpoint="instagram">
+                            <div class="downloader-icon" style="color: #E4405F;">
+                                <i class="fab fa-instagram fa-2x"></i>
+                            </div>
+                            <h3 class="downloader-title">Instagram Downloader</h3>
+                            <p class="downloader-desc">Download Instagram posts, stories, reels, IGTV videos. High-quality images and videos.</p>
+                            <div class="downloader-features">
+                                <span class="feature-tag">Posts</span>
+                                <span class="feature-tag">Stories</span>
+                                <span class="feature-tag">Reels</span>
+                            </div>
+                            <button class="button secondary" onclick="selectPlatform('instagram')">
+                                <i class="fas fa-play"></i> Try Now
+                            </button>
+                        </div>
+
+                        <!-- Facebook -->
+                        <div class="downloader-card" data-endpoint="facebook">
+                            <div class="downloader-icon" style="color: #1877F2;">
+                                <i class="fab fa-facebook fa-2x"></i>
+                            </div>
+                            <h3 class="downloader-title">Facebook Downloader</h3>
+                            <p class="downloader-desc">Download Facebook videos, reels, and posts. Works with public and private videos.</p>
+                            <div class="downloader-features">
+                                <span class="feature-tag">Videos</span>
+                                <span class="feature-tag">Reels</span>
+                                <span class="feature-tag">HD Quality</span>
+                            </div>
+                            <button class="button secondary" onclick="selectPlatform('facebook')">
+                                <i class="fas fa-play"></i> Try Now
+                            </button>
+                        </div>
+
+                        <!-- Twitter -->
+                        <div class="downloader-card" data-endpoint="twitter">
+                            <div class="downloader-icon" style="color: #1DA1F2;">
+                                <i class="fab fa-twitter fa-2x"></i>
+                            </div>
+                            <h3 class="downloader-title">Twitter/X Downloader</h3>
+                            <p class="downloader-desc">Download videos, GIFs, and images from Twitter/X. Supports tweets, spaces, and moments.</p>
+                            <div class="downloader-features">
+                                <span class="feature-tag">Videos</span>
+                                <span class="feature-tag">GIFs</span>
+                                <span class="feature-tag">Threads</span>
+                            </div>
+                            <button class="button secondary" onclick="selectPlatform('twitter')">
+                                <i class="fas fa-play"></i> Try Now
+                            </button>
+                        </div>
+
+                        <!-- Pinterest -->
+                        <div class="downloader-card" data-endpoint="pinterest">
+                            <div class="downloader-icon" style="color: #E60023;">
+                                <i class="fab fa-pinterest fa-2x"></i>
+                            </div>
+                            <h3 class="downloader-title">Pinterest Downloader</h3>
+                            <p class="downloader-desc">Download Pinterest pins, images, and videos. High-resolution downloads with metadata.</p>
+                            <div class="downloader-features">
+                                <span class="feature-tag">Images</span>
+                                <span class="feature-tag">Videos</span>
+                                <span class="feature-tag">Boards</span>
+                            </div>
+                            <button class="button secondary" onclick="selectPlatform('pinterest')">
+                                <i class="fas fa-play"></i> Try Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Examples -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-bolt"></i> Quick Examples
+                    </h2>
+                    <div class="api-tester">
+                        <div class="endpoint-selector" id="endpoint-buttons">
+                            <!-- Buttons akan di-generate oleh JavaScript -->
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">
+                                <i class="fas fa-link"></i> Enter Video URL
+                            </label>
+                            <input type="text" id="video-url" class="url-input" placeholder="Paste video URL here...">
+                        </div>
+                        
+                        <div class="mb-2">
+                            <button class="button" id="fetch-btn" style="width: 100%;">
+                                <i class="fas fa-download"></i> FETCH & DOWNLOAD
+                            </button>
+                        </div>
+                        
+                        <div class="response-box" id="response-box">
+🚀 Welcome to Proxima Downloader!
+Paste any social media URL above and click "FETCH & DOWNLOAD"
+
+📌 Quick Test URLs:
 • TikTok: https://www.tiktok.com/@tiktok/video/7106675944969432362
 • YouTube: https://www.youtube.com/watch?v=dQw4w9WgXcQ
 • Instagram: https://www.instagram.com/p/Cz7hNzTPzYx/
+• Twitter: https://twitter.com/Twitter/status/20
+• Pinterest: https://www.pinterest.com/pin/595699155001658720/
+                        </div>
+                        
+                        <div id="download-links" class="download-links" style="display: none;">
+                            <!-- Download links will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEARCH CATEGORY (Coming Soon) -->
+            <div class="category-content" id="search-category">
+                <div class="coming-soon">
+                    <div class="coming-soon-icon">
+                        <i class="fas fa-search fa-5x"></i>
+                    </div>
+                    <h2 class="coming-soon-title">Search Feature Coming Soon!</h2>
+                    <p class="coming-soon-desc">
+                        We're building an advanced search engine that lets you find content across all social media platforms. 
+                        Search by keywords, hashtags, users, or trending topics.
+                    </p>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-hashtag fa-3x mb-2" style="color: var(--primary);"></i>
+                            <h3>Hashtag Search</h3>
+                            <p>Search content by hashtags across multiple platforms</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <i class="fas fa-chart-line fa-3x mb-2" style="color: var(--secondary);"></i>
+                            <h3>Trending Topics</h3>
+                            <p>Discover what's trending on social media</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <i class="fas fa-filter fa-3x mb-2" style="color: var(--success);"></i>
+                            <h3>Advanced Filters</h3>
+                            <p>Filter by date, platform, content type, and more</p>
+                        </div>
                     </div>
                     
-                    <div id="download-links" class="download-links" style="display: none;">
-                        <!-- Download links will appear here -->
+                    <div class="mt-3">
+                        <button class="button" onclick="showNotification('Search feature coming in v3.0!')">
+                            <i class="fas fa-bell"></i> Notify Me When Ready
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <div class="section">
-                <div class="section-title">🔗 API ENDPOINTS</div>
-                <div class="api-list">
-                    <div class="api-item">
-                        <div><span class="api-method">GET</span> <span class="api-url">/api/tiktok?url={url}</span></div>
-                        <p>Download TikTok videos without watermark. Returns video URL, metadata, and download links.</p>
+            <!-- TOOLS CATEGORY (Coming Soon) -->
+            <div class="category-content" id="tools-category">
+                <div class="coming-soon">
+                    <div class="coming-soon-icon">
+                        <i class="fas fa-tools fa-5x"></i>
                     </div>
-                    <div class="api-item">
-                        <div><span class="api-method">GET</span> <span class="api-url">/api/youtube?url={url}</span></div>
-                        <p>YouTube video downloader with multiple quality options. Supports videos, shorts, and music.</p>
+                    <h2 class="coming-soon-title">Tools Feature Coming Soon!</h2>
+                    <p class="coming-soon-desc">
+                        Get ready for our powerful toolkit that includes video conversion, editing, compression, 
+                        and analysis tools. Everything you need for content creation.
+                    </p>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-file-video fa-3x mb-2" style="color: var(--primary);"></i>
+                            <h3>Video Converter</h3>
+                            <p>Convert videos between formats (MP4, AVI, MOV, etc.)</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <i class="fas fa-compress-alt fa-3x mb-2" style="color: var(--secondary);"></i>
+                            <h3>Video Compressor</h3>
+                            <p>Compress videos without losing quality</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <i class="fas fa-edit fa-3x mb-2" style="color: var(--success);"></i>
+                            <h3>Video Editor</h3>
+                            <p>Basic editing tools: trim, crop, merge videos</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <i class="fas fa-wave-square fa-3x mb-2" style="color: var(--warning);"></i>
+                            <h3>Audio Extractor</h3>
+                            <p>Extract audio from videos as MP3</p>
+                        </div>
                     </div>
-                    <div class="api-item">
-                        <div><span class="api-method">GET</span> <span class="api-url">/api/instagram?url={url}</span></div>
-                        <p>Instagram posts, stories, reels downloader. High-quality media extraction.</p>
-                    </div>
-                    <div class="api-item">
-                        <div><span class="api-method">GET</span> <span class="api-url">/api/facebook?url={url}</span></div>
-                        <p>Facebook video & reel downloader. Works with public videos and reels.</p>
-                    </div>
-                    <div class="api-item">
-                        <div><span class="api-method">GET</span> <span class="api-url">/api/twitter?url={url}</span></div>
-                        <p>Twitter/X video downloader. Extract videos from tweets.</p>
-                    </div>
-                    <div class="api-item">
-                        <div><span class="api-method">GET</span> <span class="api-url">/api/pinterest?url={url}</span></div>
-                        <p>Pinterest pins & videos downloader. Get high-quality images and videos.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">📖 HOW TO USE</div>
-                <div class="api-tester">
-                    <h3 style="color: #7b61ff; margin-bottom: 1rem;">📚 API Documentation</h3>
-                    <div style="margin-bottom: 1rem;">
-                        <h4>🔑 Basic Usage:</h4>
-                        <code style="color: #a0a0cc; display: block; margin: 0.5rem 0;">
-                            GET /api/tiktok?url=https://www.tiktok.com/@user/video/123456789
-                        </code>
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <h4>📦 Response Format:</h4>
-                        <pre style="color: #4cffa6; background: rgba(20,20,35,0.9); padding: 1rem; border-radius: 8px;">
-{
-    "status": true,
-    "creator": "iEnz",
-    "result": "Success message",
-    "data": {
-        "title": "Video Title",
-        "author": "Author Name",
-        "video_url": "Direct download link",
-        ...
-    }
-}</pre>
-                    </div>
-                    <div>
-                        <h4>⚠️ Error Response:</h4>
-                        <pre style="color: #ff4c4c; background: rgba(20,20,35,0.9); padding: 1rem; border-radius: 8px;">
-{
-    "status": false,
-    "creator": "iEnz",
-    "error": "Error message",
-    "mock_data": {...}
-}</pre>
+                    
+                    <div class="mt-3">
+                        <button class="button" onclick="showNotification('Tools feature coming in v3.0!')">
+                            <i class="fas fa-bell"></i> Notify Me When Ready
+                        </button>
                     </div>
                 </div>
             </div>
 
+            <!-- FOOTER -->
             <footer>
-                <div style="font-size: 1.5rem; margin-bottom: 1rem; color: #7b61ff;">PROXIMA API SERVICE</div>
-                <div class="version">V2.0 • Creator: iEnz • Status: <span style="color: #4cffa6;" id="api-status">🟢 CHECKING...</span></div>
-                <div class="version">Format: Status: True | Creator: iEnz | Result: [Your Data]</div>
-                <div class="version" style="margin-top: 1rem;">
-                    <button class="button" onclick="checkAllAPIs()" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">
-                        🔄 CHECK API STATUS
+                <div class="footer-logo">PROXIMA API</div>
+                <div class="version">Version 2.0 • Creator: iEnz • Made with <i class="fas fa-heart" style="color: #ff4c4c;"></i></div>
+                <div class="version">Response Format: Status: True | Creator: iEnz | Result: [Your Data]</div>
+                
+                <div class="mt-2">
+                    <span class="api-status" id="api-status">
+                        <i class="fas fa-circle"></i> Checking API Status...
+                    </span>
+                </div>
+                
+                <div class="mt-2">
+                    <button class="button secondary" onclick="checkAllAPIs()">
+                        <i class="fas fa-sync-alt"></i> Check API Status
                     </button>
                 </div>
             </footer>
@@ -559,83 +973,194 @@ Enter a valid video URL and click "FETCH VIDEO DATA"
     </div>
 
     <script>
-        let currentEndpoint = 'tiktok';
-        
+        // API Endpoints Configuration
         const endpoints = {
             tiktok: {
-                placeholder: 'https://www.tiktok.com/@username/video/123456789',
-                example: 'https://www.tiktok.com/@tiktok/video/7106675944969432362',
-                apiUrl: '/api/tiktok?url='  // Relative path untuk Netlify Functions
+                name: "TikTok",
+                icon: "fab fa-tiktok",
+                color: "#ff0050",
+                placeholder: "https://www.tiktok.com/@username/video/123456789",
+                example: "https://www.tiktok.com/@tiktok/video/7106675944969432362",
+                apiUrl: "/api/tiktok?url="
             },
             youtube: {
-                placeholder: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                example: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                apiUrl: '/api/youtube?url='
+                name: "YouTube",
+                icon: "fab fa-youtube",
+                color: "#ff0000",
+                placeholder: "https://www.youtube.com/watch?v=xxxxxxxxxxx",
+                example: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                apiUrl: "/api/youtube?url="
             },
             instagram: {
-                placeholder: 'https://www.instagram.com/p/Cxample123/',
-                example: 'https://www.instagram.com/p/Cz7hNzTPzYx/',
-                apiUrl: '/api/instagram?url='
+                name: "Instagram",
+                icon: "fab fa-instagram",
+                color: "#E4405F",
+                placeholder: "https://www.instagram.com/p/xxxxxxxxxxx/",
+                example: "https://www.instagram.com/p/Cz7hNzTPzYx/",
+                apiUrl: "/api/instagram?url="
             },
             facebook: {
-                placeholder: 'https://www.facebook.com/watch/?v=123456789',
-                example: 'https://www.facebook.com/facebook/videos/10153231379946729/',
-                apiUrl: '/api/facebook?url='
+                name: "Facebook",
+                icon: "fab fa-facebook",
+                color: "#1877F2",
+                placeholder: "https://www.facebook.com/watch/?v=123456789",
+                example: "https://www.facebook.com/facebook/videos/10153231379946729/",
+                apiUrl: "/api/facebook?url="
             },
             twitter: {
-                placeholder: 'https://twitter.com/user/status/123456789',
-                example: 'https://twitter.com/Twitter/status/20',
-                apiUrl: '/api/twitter?url='
+                name: "Twitter/X",
+                icon: "fab fa-twitter",
+                color: "#1DA1F2",
+                placeholder: "https://twitter.com/user/status/123456789",
+                example: "https://twitter.com/Twitter/status/20",
+                apiUrl: "/api/twitter?url="
             },
             pinterest: {
-                placeholder: 'https://www.pinterest.com/pin/123456789/',
-                example: 'https://www.pinterest.com/pin/595699155001658720/',
-                apiUrl: '/api/pinterest?url='
+                name: "Pinterest",
+                icon: "fab fa-pinterest",
+                color: "#E60023",
+                placeholder: "https://www.pinterest.com/pin/123456789/",
+                example: "https://www.pinterest.com/pin/595699155001658720/",
+                apiUrl: "/api/pinterest?url="
             }
         };
 
-        // Auto-check API status on load
-        window.addEventListener('load', function() {
+        let currentEndpoint = 'tiktok';
+        let currentCategory = 'downloader';
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            initializeEndpointButtons();
             checkAPIStatus();
+            setupEventListeners();
             document.getElementById('video-url').value = endpoints.tiktok.example;
         });
 
-        function scrollToTester() {
-            document.getElementById('api-tester').scrollIntoView({ behavior: 'smooth' });
+        // Initialize endpoint buttons
+        function initializeEndpointButtons() {
+            const container = document.getElementById('endpoint-buttons');
+            container.innerHTML = '';
+            
+            Object.entries(endpoints).forEach(([key, endpoint]) => {
+                const button = document.createElement('button');
+                button.className = `endpoint-btn ${key === currentEndpoint ? 'active' : ''}`;
+                button.dataset.endpoint = key;
+                button.innerHTML = `
+                    <i class="${endpoint.icon}"></i>
+                    <span>${endpoint.name}</span>
+                `;
+                button.style.borderLeft = `4px solid ${endpoint.color}`;
+                container.appendChild(button);
+            });
         }
 
-        // Event listeners for endpoint buttons
-        document.querySelectorAll('.endpoint-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.endpoint-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentEndpoint = btn.dataset.endpoint;
-                document.getElementById('video-url').placeholder = endpoints[currentEndpoint].placeholder;
-                document.getElementById('video-url').value = endpoints[currentEndpoint].example;
+        // Setup event listeners
+        function setupEventListeners() {
+            // Category tabs
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    switchCategory(category);
+                });
             });
-        });
 
-        // Event listeners for service cards
-        document.querySelectorAll('.service-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const endpoint = card.dataset.endpoint;
-                document.querySelectorAll('.endpoint-btn').forEach(b => b.classList.remove('active'));
-                document.querySelector(`.endpoint-btn[data-endpoint="${endpoint}"]`).classList.add('active');
-                currentEndpoint = endpoint;
-                document.getElementById('video-url').placeholder = endpoints[currentEndpoint].placeholder;
-                document.getElementById('video-url').value = endpoints[currentEndpoint].example;
-                scrollToTester();
+            // Endpoint buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.endpoint-btn')) {
+                    const button = e.target.closest('.endpoint-btn');
+                    selectEndpoint(button.dataset.endpoint);
+                }
             });
-        });
 
-        // Main fetch function
-        document.getElementById('fetch-btn').addEventListener('click', async () => {
+            // Downloader cards
+            document.querySelectorAll('.downloader-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const endpoint = this.dataset.endpoint;
+                    selectEndpoint(endpoint);
+                });
+            });
+
+            // Fetch button
+            document.getElementById('fetch-btn').addEventListener('click', fetchData);
+
+            // Enter key in input
+            document.getElementById('video-url').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    fetchData();
+                }
+            });
+        }
+
+        // Switch category
+        function switchCategory(category) {
+            currentCategory = category;
+            
+            // Update active tab
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.category-tab[data-category="${category}"]`).classList.add('active');
+            
+            // Show selected category
+            document.querySelectorAll('.category-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${category}-category`).classList.add('active');
+            
+            // Scroll to category if not downloader
+            if (category !== 'downloader') {
+                document.getElementById(`${category}-category`).scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Select platform
+        function selectPlatform(platform) {
+            selectEndpoint(platform);
+            document.getElementById('downloader-category').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Select endpoint
+        function selectEndpoint(endpoint) {
+            currentEndpoint = endpoint;
+            
+            // Update endpoint buttons
+            document.querySelectorAll('.endpoint-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.endpoint-btn[data-endpoint="${endpoint}"]`).classList.add('active');
+            
+            // Update input placeholder and example
+            const endpointConfig = endpoints[endpoint];
+            document.getElementById('video-url').placeholder = endpointConfig.placeholder;
+            document.getElementById('video-url').value = endpointConfig.example;
+            
+            // Switch to downloader category
+            if (currentCategory !== 'downloader') {
+                switchCategory('downloader');
+            }
+            
+            // Scroll to tester
+            setTimeout(() => {
+                document.getElementById('video-url').focus();
+            }, 300);
+        }
+
+        // Scroll to tester
+        function scrollToTester() {
+            document.getElementById('downloader-category').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                document.getElementById('video-url').focus();
+            }, 500);
+        }
+
+        // Fetch data from API
+        async function fetchData() {
             const urlInput = document.getElementById('video-url').value.trim();
             const responseBox = document.getElementById('response-box');
             const downloadLinks = document.getElementById('download-links');
             
             if (!urlInput) {
-                responseBox.innerHTML = '<span class="status-false">❌ Please enter a valid URL</span>';
+                showNotification('Please enter a video URL', 'warning');
                 return;
             }
 
@@ -643,236 +1168,242 @@ Enter a valid video URL and click "FETCH VIDEO DATA"
             try {
                 new URL(urlInput);
             } catch (e) {
-                responseBox.innerHTML = '<span class="status-false">❌ Invalid URL format</span>';
+                showNotification('Invalid URL format', 'error');
                 return;
             }
 
-            responseBox.innerHTML = '<span class="loading">⏳ Fetching video data... Please wait</span>';
+            // Show loading
+            responseBox.innerHTML = '<div class="loading">Fetching video data...</div>';
             downloadLinks.style.display = 'none';
             downloadLinks.innerHTML = '';
 
             try {
                 const apiUrl = `${endpoints[currentEndpoint].apiUrl}${encodeURIComponent(urlInput)}`;
-                console.log('Fetching from:', apiUrl);
                 
                 const response = await axios.get(apiUrl, {
                     timeout: 30000,
                     headers: {
-                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Proxima-API/2.0'
+                        'User-Agent': 'Mozilla/5.0 Proxima-API/2.0'
                     }
                 });
                 
-                const result = response.data;
-                let responseHTML = '';
-                
-                if (result.status === true) {
-                    responseHTML += `<div class="response-line"><span class="status-true">✅ Status: True</span></div>`;
-                    responseHTML += `<div class="response-line"><span class="creator">👤 Creator: iEnz</span></div>`;
-                    
-                    if (result.result) {
-                        responseHTML += `<div class="response-line"><span class="result">📦 Result: ${result.result}</span></div>`;
-                    }
-                    
-                    if (result.data) {
-                        const data = result.data;
-                        responseHTML += `<div class="response-line">🎯 <strong>Video Information:</strong></div>`;
-                        responseHTML += `<div class="response-line">📝 Title: ${data.title || 'N/A'}</div>`;
-                        responseHTML += `<div class="response-line">👤 Author: ${data.author || data.author_name || 'N/A'}</div>`;
-                        
-                        if (data.duration) {
-                            responseHTML += `<div class="response-line">⏱️ Duration: ${data.duration}</div>`;
-                        }
-                        
-                        if (data.views) {
-                            responseHTML += `<div class="response-line">👁️ Views: ${data.views}</div>`;
-                        }
-                        
-                        if (data.likes) {
-                            responseHTML += `<div class="response-line">👍 Likes: ${data.likes}</div>`;
-                        }
-                        
-                        if (data.video_url || data.url) {
-                            const videoUrl = data.video_url || data.url;
-                            responseHTML += `<div class="response-line">🔗 Media URL: ${videoUrl.substring(0, 100)}...</div>`;
-                            
-                            // Show download links
-                            downloadLinks.style.display = 'block';
-                            let downloadHTML = `<h3 style="color: #4cffa6; margin-bottom: 1rem;">📥 Download Links:</h3>`;
-                            
-                            // Video download
-                            downloadHTML += `<div class="download-item">
-                                <strong>🎬 Download Video</strong><br>
-                                <small>Direct video download link</small><br>
-                                <button class="download-btn" onclick="window.open('${videoUrl}', '_blank')">
-                                    ⬇️ Download Now
-                                </button>
-                            </div>`;
-                            
-                            // Thumbnail download if available
-                            if (data.thumbnail) {
-                                downloadHTML += `<div class="download-item">
-                                    <strong>🖼️ Download Thumbnail</strong><br>
-                                    <small>Video thumbnail image</small><br>
-                                    <button class="download-btn" onclick="window.open('${data.thumbnail}', '_blank')">
-                                        📷 Download Thumbnail
-                                    </button>
-                                </div>`;
-                            }
-                            
-                            // Additional formats for YouTube
-                            if (data.formats && Array.isArray(data.formats) && data.formats.length > 0) {
-                                downloadHTML += `<div class="download-item">
-                                    <strong>📊 Available Formats</strong><br>
-                                    <small>Multiple quality options</small>`;
-                                
-                                data.formats.slice(0, 3).forEach(format => {
-                                    if (format.url && format.quality) {
-                                        downloadHTML += `<div style="margin-top: 0.5rem;">
-                                            <button class="download-btn" onclick="window.open('${format.url}', '_blank')" 
-                                                    style="padding: 0.3rem 0.8rem; font-size: 0.9rem; margin-right: 0.5rem;">
-                                                ${format.quality}
-                                            </button>
-                                        </div>`;
-                                    }
-                                });
-                                
-                                downloadHTML += `</div>`;
-                            }
-                            
-                            downloadLinks.innerHTML = downloadHTML;
-                        }
-                        
-                        // Additional metadata
-                        if (data.description) {
-                            responseHTML += `<div class="response-line">📋 Description: ${data.description.substring(0, 100)}...</div>`;
-                        }
-                        
-                        if (data.created_at) {
-                            const date = new Date(data.created_at * 1000 || data.created_at);
-                            responseHTML += `<div class="response-line">📅 Created: ${date.toLocaleDateString()}</div>`;
-                        }
-                        
-                    } else {
-                        responseHTML += `<div class="response-line"><span class="result">✅ API request successful</span></div>`;
-                        responseHTML += `<div class="response-line">🔧 Raw Response: ${JSON.stringify(result, null, 2)}</div>`;
-                    }
-                } else {
-                    responseHTML += `<div class="response-line"><span class="status-false">❌ Status: False</span></div>`;
-                    responseHTML += `<div class="response-line"><span class="creator">👤 Creator: iEnz</span></div>`;
-                    responseHTML += `<div class="response-line">⚠️ Error: ${result.error || result.message || 'Failed to fetch video data'}</div>`;
-                    
-                    // Show mock data if available
-                    if (result.mock_data) {
-                        responseHTML += `<div class="response-line" style="margin-top: 1rem; color: #ffb84c;">📋 Showing mock data for demonstration:</div>`;
-                        responseHTML += `<div class="response-line">📝 Title: ${result.mock_data.data.title}</div>`;
-                        responseHTML += `<div class="response-line">👤 Author: ${result.mock_data.data.author}</div>`;
-                        
-                        downloadLinks.style.display = 'block';
-                        downloadLinks.innerHTML = `
-                            <h3 style="color: #ffb84c; margin-bottom: 1rem;">🎭 Demo Download Links (Mock Data):</h3>
-                            <div class="download-item">
-                                <strong>🎬 Demo Video Download</strong><br>
-                                <small>This is example data for testing</small><br>
-                                <button class="download-btn" onclick="alert('This is demo mode. In production, this would download the actual video.')">
-                                    ⬇️ Try Demo Download
-                                </button>
-                            </div>
-                        `;
-                    }
-                }
-                
-                responseBox.innerHTML = responseHTML;
+                displayResult(response.data);
                 
             } catch (error) {
-                let errorMessage = '🌐 Network error. Please try again.';
-                let errorDetails = '';
+                console.error('API Error:', error);
                 
+                let errorMessage = 'Network error. Please try again.';
                 if (error.response) {
-                    errorMessage = `⚠️ API Error ${error.response.status}`;
-                    errorDetails = error.response.data?.message || error.response.statusText;
+                    errorMessage = `API Error ${error.response.status}: ${error.response.data?.message || 'Unknown error'}`;
                 } else if (error.request) {
-                    errorMessage = '🔌 No response from server. Check your connection.';
-                } else if (error.code === 'ECONNABORTED') {
-                    errorMessage = '⏰ Request timeout. Server might be busy.';
-                } else {
-                    errorMessage = `❌ Error: ${error.message}`;
+                    errorMessage = 'No response from server. Check your connection.';
                 }
                 
                 responseBox.innerHTML = `
-                    <div class="response-line"><span class="status-false">❌ Status: False</span></div>
-                    <div class="response-line"><span class="creator">👤 Creator: iEnz</span></div>
-                    <div class="response-line">${errorMessage}</div>
-                    ${errorDetails ? `<div class="response-line">Details: ${errorDetails}</div>` : ''}
-                    <div class="response-line" style="margin-top: 1rem; color: #ffb84c;">
-                        💡 Tips:<br>
-                        1. Check if the video URL is valid and public<br>
-                        2. Make sure you're connected to the internet<br>
-                        3. Try a different video URL<br>
-                        4. API might be under maintenance
+                    <div class="status-false">❌ Status: False</div>
+                    <div class="creator">👤 Creator: iEnz</div>
+                    <div>⚠️ Error: ${errorMessage}</div>
+                    <div class="mt-2" style="color: var(--warning);">
+                        💡 Try these solutions:
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Check if the video URL is correct</li>
+                            <li>Make sure the video is public</li>
+                            <li>Try a different video</li>
+                            <li>Check your internet connection</li>
+                        </ul>
                     </div>
                 `;
+            }
+        }
+
+        // Display result
+        function displayResult(data) {
+            const responseBox = document.getElementById('response-box');
+            const downloadLinks = document.getElementById('download-links');
+            
+            let html = '';
+            
+            if (data.status === true) {
+                html += `<div class="status-true">✅ Status: True</div>`;
+                html += `<div class="creator">👤 Creator: iEnz</div>`;
                 
-                console.error('API Error:', error);
+                if (data.result) {
+                    html += `<div class="result">📦 Result: ${data.result}</div>`;
+                }
+                
+                if (data.data) {
+                    const dataObj = data.data;
+                    html += `<div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">`;
+                    html += `<div style="color: var(--primary); font-weight: bold; margin-bottom: 15px;">📊 Video Information:</div>`;
+                    
+                    // Display basic info
+                    if (dataObj.title) html += `<div>📝 Title: ${dataObj.title}</div>`;
+                    if (dataObj.author) html += `<div>👤 Author: ${dataObj.author}</div>`;
+                    if (dataObj.duration) html += `<div>⏱️ Duration: ${dataObj.duration}</div>`;
+                    if (dataObj.views) html += `<div>👁️ Views: ${dataObj.views}</div>`;
+                    if (dataObj.likes) html += `<div>👍 Likes: ${dataObj.likes}</div>`;
+                    if (dataObj.description) html += `<div>📋 Description: ${dataObj.description.substring(0, 150)}...</div>`;
+                    
+                    html += `</div>`;
+                    
+                    // Display download links if available
+                    if (dataObj.video_url || dataObj.url || (dataObj.download_links && dataObj.download_links.length > 0)) {
+                        downloadLinks.style.display = 'block';
+                        
+                        let downloadHTML = `<div style="color: var(--success); font-weight: bold; margin-bottom: 15px;">📥 Download Links:</div>`;
+                        downloadHTML += `<div class="download-grid">`;
+                        
+                        if (dataObj.download_links && Array.isArray(dataObj.download_links)) {
+                            dataObj.download_links.forEach((link, index) => {
+                                downloadHTML += `
+                                    <div class="download-card">
+                                        <div style="font-weight: bold; margin-bottom: 10px;">${link.quality || 'Download'} ${link.type ? `(${link.type})` : ''}</div>
+                                        <button class="button secondary" onclick="window.open('${link.download_url || link.url}', '_blank')" style="width: 100%;">
+                                            <i class="fas fa-download"></i> Download ${link.quality || ''}
+                                        </button>
+                                    </div>
+                                `;
+                            });
+                        } else {
+                            const videoUrl = dataObj.video_url || dataObj.url;
+                            downloadHTML += `
+                                <div class="download-card">
+                                    <div style="font-weight: bold; margin-bottom: 10px;">Direct Download</div>
+                                    <button class="button secondary" onclick="window.open('${videoUrl}', '_blank')" style="width: 100%;">
+                                        <i class="fas fa-download"></i> Download Video
+                                    </button>
+                                </div>
+                            `;
+                        }
+                        
+                        downloadHTML += `</div>`;
+                        downloadLinks.innerHTML = downloadHTML;
+                    }
+                }
+                
+            } else {
+                html += `<div class="status-false">❌ Status: False</div>`;
+                html += `<div class="creator">👤 Creator: iEnz</div>`;
+                html += `<div>⚠️ Error: ${data.error || data.message || 'Unknown error'}</div>`;
+                
+                // Show mock data if available
+                if (data.mock_data) {
+                    html += `<div style="margin-top: 20px; color: var(--warning);">
+                        <div>📋 Showing demo data:</div>
+                        <div>Title: ${data.mock_data.title || 'Demo Video'}</div>
+                        <div>Author: ${data.mock_data.author || 'Demo User'}</div>
+                    </div>`;
+                }
             }
-        });
+            
+            responseBox.innerHTML = html;
+        }
 
-        // Enter key to submit
-        document.getElementById('video-url').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                document.getElementById('fetch-btn').click();
-            }
-        });
-
-        // API Status Checker
+        // Check API status
         async function checkAPIStatus() {
             const statusElement = document.getElementById('api-status');
             
             try {
-                // Test TikTok API
                 const response = await axios.get('/api/tiktok', {
-                    timeout: 5000,
-                    params: { url: 'https://www.tiktok.com/@tiktok/video/7106675944969432362' }
-                }).catch(() => null);
+                    params: { url: 'test' },
+                    timeout: 5000
+                }).catch(() => ({ data: { status: false } }));
                 
-                if (response && response.data) {
-                    statusElement.innerHTML = '🟢 ONLINE';
-                    statusElement.style.color = '#4cffa6';
+                if (response.data && response.data.status !== undefined) {
+                    statusElement.innerHTML = `<i class="fas fa-circle" style="color: var(--success);"></i> API ONLINE`;
+                    statusElement.style.color = 'var(--success)';
                 } else {
-                    statusElement.innerHTML = '🟡 OFFLINE (Using Mock)';
-                    statusElement.style.color = '#ffb84c';
+                    statusElement.innerHTML = `<i class="fas fa-circle" style="color: var(--warning);"></i> API OFFLINE (Using Demo)`;
+                    statusElement.style.color = 'var(--warning)';
                 }
             } catch (error) {
-                statusElement.innerHTML = '🔴 OFFLINE';
-                statusElement.style.color = '#ff4c4c';
+                statusElement.innerHTML = `<i class="fas fa-circle" style="color: var(--danger);"></i> API OFFLINE`;
+                statusElement.style.color = 'var(--danger)';
             }
         }
 
+        // Check all APIs
         async function checkAllAPIs() {
             const statusElement = document.getElementById('api-status');
-            statusElement.innerHTML = '🔄 TESTING...';
-            statusElement.style.color = '#00d4ff';
+            statusElement.innerHTML = `<i class="fas fa-sync-alt fa-spin"></i> Testing APIs...`;
             
             let onlineCount = 0;
             const totalAPIs = Object.keys(endpoints).length;
             
-            for (const [name, endpoint] of Object.entries(endpoints)) {
+            for (const [key, endpoint] of Object.entries(endpoints)) {
                 try {
-                    await axios.get(endpoint.apiUrl.replace('?url=', ''), { timeout: 3000 });
+                    await axios.head(endpoint.apiUrl.replace('?url=', ''), { timeout: 2000 });
                     onlineCount++;
                 } catch (e) {
-                    // API mungkin offline
+                    // API might be offline
                 }
             }
             
             if (onlineCount === totalAPIs) {
-                statusElement.innerHTML = `🟢 ALL ${totalAPIs} APIS ONLINE`;
-                statusElement.style.color = '#4cffa6';
+                statusElement.innerHTML = `<i class="fas fa-circle" style="color: var(--success);"></i> ALL ${totalAPIs} APIS ONLINE`;
+                statusElement.style.color = 'var(--success)';
             } else if (onlineCount > 0) {
-                statusElement.innerHTML = `🟡 ${onlineCount}/${totalAPIs} APIS ONLINE`;
-                statusElement.style.color = '#ffb84c';
+                statusElement.innerHTML = `<i class="fas fa-circle" style="color: var(--warning);"></i> ${onlineCount}/${totalAPIs} APIS ONLINE`;
+                statusElement.style.color = 'var(--warning)';
             } else {
-                statusElement.innerHTML = `🔴 ALL APIS OFFLINE (Using Mock Data)`;
-                statusElement.style.color = '#ff4c4c';
+                statusElement.innerHTML = `<i class="fas fa-circle" style="color: var(--danger);"></i> ALL APIS OFFLINE (Using Demo)`;
+                statusElement.style.color = 'var(--danger)';
+            }
+            
+            showNotification(`API Status: ${onlineCount}/${totalAPIs} online`, onlineCount === totalAPIs ? 'success' : 'warning');
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                background: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--warning)'};
+                color: var(--dark);
+                border-radius: 10px;
+                font-weight: 600;
+                z-index: 10000;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                animation: slideIn 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            `;
+            
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+            
+            // Add CSS for animations
+            if (!document.querySelector('#notification-styles')) {
+                const style = document.createElement('style');
+                style.id = 'notification-styles';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
             }
         }
     </script>
