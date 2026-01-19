@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proxima API - Ultimate Social Media Toolkit</title>
+    <title>Proxima API - Social Media Downloader</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         :root {
@@ -26,9 +26,6 @@
             --gray: #a0a0cc;
             --card-bg: rgba(40, 40, 60, 0.9);
             --section-bg: rgba(30, 30, 50, 0.8);
-            --terminal-bg: #0a0a12;
-            --terminal-text: #00ff00;
-            --terminal-prompt: #ff6b6b;
         }
 
         body {
@@ -40,58 +37,37 @@
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
-            overflow-x: hidden;
         }
 
         .overlay {
             background: rgba(15, 15, 26, 0.95);
             min-height: 100vh;
-            backdrop-filter: blur(5px);
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 1.5rem;
+            padding: 2rem;
         }
 
-        /* HEADER STYLES */
         .header-section {
             display: flex;
             align-items: center;
-            gap: 2.5rem;
-            margin-bottom: 2.5rem;
-            padding: 2.5rem;
-            background: rgba(30, 30, 50, 0.9);
-            border-radius: 25px;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: rgba(30, 30, 50, 0.8);
+            border-radius: 20px;
             border: 2px solid var(--primary);
-            box-shadow: 0 15px 35px rgba(123, 97, 255, 0.15);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
 
         .logo-image {
-            width: 140px;
-            height: 140px;
-            border-radius: 25px;
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
             object-fit: cover;
-            border: 4px solid var(--primary);
-            box-shadow: 0 0 40px rgba(123, 97, 255, 0.5);
-            transition: transform 0.5s;
-        }
-
-        .logo-image:hover {
-            transform: rotate(5deg) scale(1.05);
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 30px rgba(123, 97, 255, 0.5);
         }
 
         .header-text {
@@ -99,44 +75,39 @@
         }
 
         .logo {
-            font-size: 4.5rem;
+            font-size: 4rem;
             font-weight: 900;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
             letter-spacing: 3px;
-            text-shadow: 0 0 30px rgba(123, 97, 255, 0.4);
         }
 
         .tagline {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: var(--gray);
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
+            margin-bottom: 1rem;
         }
 
         .button {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+            display: inline-block;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 1.2rem 2.8rem;
-            border-radius: 12px;
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
             text-decoration: none;
             font-weight: 700;
             transition: all 0.3s;
             border: none;
             cursor: pointer;
-            font-size: 1.2rem;
-            box-shadow: 0 8px 25px rgba(123, 97, 255, 0.3);
+            font-size: 1.1rem;
+            box-shadow: 0 5px 20px rgba(123, 97, 255, 0.3);
         }
 
         .button:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(123, 97, 255, 0.5);
-            gap: 15px;
         }
 
         .button.secondary {
@@ -148,204 +119,66 @@
             background: var(--primary);
         }
 
-        .button.terminal {
-            background: var(--terminal-bg);
-            border: 2px solid var(--terminal-text);
-            color: var(--terminal-text);
-            font-family: 'Courier New', monospace;
-        }
-
-        .button.terminal:hover {
-            background: rgba(0, 255, 0, 0.1);
-        }
-
-        /* CATEGORY NAVIGATION */
-        .category-navigation {
-            display: flex;
-            background: var(--section-bg);
-            border-radius: 20px;
-            padding: 0.5rem;
-            margin-bottom: 2.5rem;
-            border: 1px solid rgba(123, 97, 255, 0.2);
-            overflow-x: auto;
-        }
-
-        .category-tab {
-            flex: 1;
-            min-width: 180px;
-            padding: 1.5rem 1rem;
-            background: transparent;
-            border: none;
-            color: var(--gray);
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            white-space: nowrap;
-        }
-
-        .category-tab:hover {
-            background: rgba(123, 97, 255, 0.1);
-            color: var(--light);
-        }
-
-        .category-tab.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 5px 20px rgba(123, 97, 255, 0.3);
-        }
-
-        .category-icon {
-            font-size: 1.4rem;
-        }
-
-        /* CATEGORY CONTENT */
-        .category-content {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .category-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* SECTION STYLES */
         .section {
-            background: var(--section-bg);
-            border-radius: 20px;
+            background: rgba(30, 30, 50, 0.8);
+            border-radius: 15px;
             padding: 2.5rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             border: 1px solid rgba(42, 42, 64, 0.8);
-            backdrop-filter: blur(10px);
         }
 
         .section-title {
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin-bottom: 2rem;
             color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-shadow: 0 0 20px rgba(123, 97, 255, 0.3);
+            text-align: center;
         }
 
-        .section-title i {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* TERMINAL STYLE API TESTER */
-        .terminal-container {
-            background: var(--terminal-bg);
-            border-radius: 15px;
-            padding: 0;
-            overflow: hidden;
-            border: 2px solid rgba(0, 255, 0, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        /* COMMAND PROMPT STYLE */
+        .command-prompt {
+            background: rgba(20, 20, 35, 0.95);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary);
             font-family: 'Courier New', monospace;
-        }
-
-        .terminal-header {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(0, 255, 0, 0.2);
-        }
-
-        .terminal-title {
-            color: var(--terminal-text);
-            font-weight: bold;
             font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        .terminal-controls {
-            display: flex;
-            gap: 10px;
+        .command-line {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .terminal-btn {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-        }
-
-        .terminal-btn.close { background: #ff5f56; }
-        .terminal-btn.minimize { background: #ffbd2e; }
-        .terminal-btn.maximize { background: #27ca3f; }
-
-        .terminal-body {
-            padding: 25px;
-            min-height: 350px;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .terminal-line {
-            margin-bottom: 12px;
-            line-height: 1.8;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
-
-        .terminal-prompt {
-            color: var(--terminal-prompt);
+        .prompt {
+            color: var(--success);
             font-weight: bold;
             margin-right: 10px;
         }
 
-        .terminal-command {
-            color: var(--terminal-text);
-            background: transparent;
-            border: none;
+        .api-call {
+            color: var(--light);
+            word-break: break-all;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            margin-top: 0.5rem;
             font-family: 'Courier New', monospace;
-            font-size: 1rem;
-            width: calc(100% - 150px);
-            outline: none;
-            caret-color: var(--terminal-text);
-        }
-
-        .terminal-url {
-            color: #4dabf7;
-            text-decoration: none;
-            background: rgba(77, 171, 247, 0.1);
-            padding: 2px 8px;
-            border-radius: 4px;
-            border: 1px solid rgba(77, 171, 247, 0.3);
-        }
-
-        .terminal-url:hover {
-            background: rgba(77, 171, 247, 0.2);
         }
 
         .copy-btn {
             background: rgba(123, 97, 255, 0.2);
             color: var(--primary);
             border: 1px solid var(--primary);
-            padding: 4px 12px;
-            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 0.9rem;
             margin-left: 10px;
             transition: all 0.2s;
-            font-family: 'Courier New', monospace;
         }
 
         .copy-btn:hover {
@@ -359,155 +192,89 @@
             border-color: var(--success);
         }
 
-        .api-endpoint-display {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            border-left: 3px solid var(--primary);
-            font-family: 'Courier New', monospace;
-        }
-
-        .api-url {
-            color: var(--terminal-text);
-            word-break: break-all;
-            padding: 8px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 4px;
-            margin: 10px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* DOWNLOADER SECTION */
-        .downloader-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .downloader-card {
-            background: var(--card-bg);
-            border-radius: 18px;
+        /* API TESTER */
+        .api-tester {
+            background: rgba(40, 40, 60, 0.9);
+            border-radius: 12px;
             padding: 2rem;
-            transition: all 0.4s;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .downloader-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transition: transform 0.4s;
-        }
-
-        .downloader-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(123, 97, 255, 0.2);
-        }
-
-        .downloader-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .downloader-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            height: 80px;
-            width: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 20px;
-            background: rgba(123, 97, 255, 0.1);
-        }
-
-        .downloader-title {
-            font-size: 1.6rem;
-            margin-bottom: 1rem;
-            color: var(--light);
-        }
-
-        .downloader-desc {
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-
-        .downloader-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-tag {
-            background: rgba(76, 255, 166, 0.1);
-            color: var(--success);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        /* INPUT GROUP */
-        .input-group {
             margin-bottom: 2rem;
         }
 
-        .input-label {
-            display: block;
-            margin-bottom: 1rem;
-            color: var(--gray);
-            font-size: 1.1rem;
-            font-weight: 600;
+        .endpoint-selector {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
 
-        .url-input {
-            width: 100%;
-            padding: 1.5rem;
-            background: rgba(20, 20, 35, 0.95);
+        .endpoint-btn {
+            padding: 0.8rem 2rem;
+            background: rgba(40, 40, 60, 0.9);
             border: 2px solid rgba(42, 42, 64, 0.8);
-            border-radius: 15px;
+            border-radius: 8px;
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .endpoint-btn:hover {
+            transform: translateY(-3px);
+            border-color: var(--secondary);
+        }
+
+        .endpoint-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 5px 15px rgba(123, 97, 255, 0.3);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 1.2rem;
+            background: rgba(20, 20, 35, 0.9);
+            border: 2px solid rgba(42, 42, 64, 0.8);
+            border-radius: 10px;
             color: var(--light);
             font-size: 1.1rem;
             transition: all 0.3s;
-            font-family: 'Courier New', monospace;
         }
 
-        .url-input:focus {
+        input[type="text"]:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(123, 97, 255, 0.2);
+            box-shadow: 0 0 15px rgba(123, 97, 255, 0.3);
         }
 
         /* RESPONSE BOX */
         .response-box {
             background: rgba(20, 20, 35, 0.95);
-            border-radius: 15px;
+            border-radius: 12px;
             padding: 2rem;
-            margin-top: 2rem;
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            margin-top: 1.5rem;
+            font-family: 'Courier New', monospace;
             border: 2px solid rgba(42, 42, 64, 0.8);
-            min-height: 300px;
+            min-height: 200px;
             white-space: pre-wrap;
             overflow-x: auto;
-            font-size: 1rem;
-            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .response-line {
+            margin-bottom: 0.8rem;
         }
 
         .status-true {
@@ -535,7 +302,6 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            font-size: 1.2rem;
         }
 
         .loading::after {
@@ -552,107 +318,80 @@
             to { transform: rotate(360deg); }
         }
 
-        /* ENDPOINT SELECTOR */
-        .endpoint-selector {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
+        /* DOWNLOADER GRID */
+        .downloader-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
-        .endpoint-btn {
-            padding: 1rem 2rem;
+        .downloader-card {
             background: rgba(40, 40, 60, 0.9);
-            border: 2px solid rgba(42, 42, 64, 0.8);
-            border-radius: 12px;
-            color: var(--gray);
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .endpoint-btn:hover {
-            transform: translateY(-3px);
-            border-color: var(--secondary);
-        }
-
-        .endpoint-btn.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 8px 20px rgba(123, 97, 255, 0.3);
-        }
-
-        /* SEARCH & TOOLS SECTIONS */
-        .coming-soon {
+            border-radius: 15px;
+            padding: 2rem;
             text-align: center;
-            padding: 5rem 2rem;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            cursor: pointer;
         }
 
-        .coming-soon-icon {
-            font-size: 6rem;
-            margin-bottom: 2rem;
+        .downloader-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 35px rgba(123, 97, 255, 0.2);
+        }
+
+        .downloader-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .coming-soon-title {
-            font-size: 2.5rem;
+        .downloader-title {
+            font-size: 1.5rem;
             margin-bottom: 1rem;
             color: var(--light);
         }
 
-        .coming-soon-desc {
+        .downloader-desc {
             color: var(--gray);
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            line-height: 1.8;
+            font-size: 1rem;
         }
 
-        .features-grid {
+        /* DOWNLOAD LINKS */
+        .download-links {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(30, 30, 50, 0.8);
+            border-radius: 10px;
+            border-left: 4px solid var(--success);
+        }
+
+        .download-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
-        .feature-card {
-            background: var(--card-bg);
-            border-radius: 18px;
-            padding: 2.5rem;
-            text-align: center;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-8px);
+        .download-card {
+            background: rgba(40, 40, 60, 0.9);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid rgba(42, 42, 64, 0.8);
         }
 
         /* FOOTER */
         footer {
             text-align: center;
             margin-top: 4rem;
-            padding: 3rem;
-            background: rgba(30, 30, 50, 0.9);
-            border-radius: 20px;
-            border-top: 3px solid var(--primary);
-        }
-
-        .footer-logo {
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
+            padding: 2rem;
+            background: rgba(30, 30, 50, 0.8);
+            border-radius: 15px;
+            border-top: 2px solid var(--primary);
         }
 
         .version {
@@ -673,41 +412,17 @@
             margin-top: 1rem;
         }
 
-        /* STATS */
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .stat-card {
-            background: var(--card-bg);
-            border-radius: 18px;
-            padding: 2rem;
-            text-align: center;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-        }
-
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--gray);
-            font-size: 1.1rem;
-        }
+        /* UTILITY */
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .text-center { text-align: center; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-2 { gap: 0.5rem; }
+        .w-full { width: 100%; }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
@@ -718,80 +433,20 @@
             .header-section {
                 flex-direction: column;
                 text-align: center;
-                padding: 2rem;
             }
             
             .logo {
-                font-size: 3.5rem;
-            }
-            
-            .category-navigation {
-                flex-direction: column;
+                font-size: 3rem;
             }
             
             .downloader-grid {
                 grid-template-columns: 1fr;
             }
             
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .endpoint-selector {
                 justify-content: center;
             }
-            
-            .section {
-                padding: 1.5rem;
-            }
         }
-
-        /* SCROLLBAR */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--dark-secondary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(var(--primary), var(--secondary));
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(var(--secondary), var(--primary));
-        }
-
-        /* TERMINAL SCROLLBAR */
-        .terminal-body::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .terminal-body::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .terminal-body::-webkit-scrollbar-thumb {
-            background: var(--terminal-text);
-            border-radius: 4px;
-        }
-
-        /* UTILITY */
-        .text-center { text-align: center; }
-        .mb-1 { margin-bottom: 1rem; }
-        .mb-2 { margin-bottom: 2rem; }
-        .mb-3 { margin-bottom: 3rem; }
-        .mt-1 { margin-top: 1rem; }
-        .mt-2 { margin-top: 2rem; }
-        .mt-3 { margin-top: 3rem; }
-        .flex { display: flex; }
-        .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
-        .gap-2 { gap: 0.5rem; }
-        .gap-4 { gap: 1rem; }
-        .w-full { width: 100%; }
     </style>
 </head>
 <body>
@@ -802,408 +457,175 @@
                 <img src="https://images3.alphacoders.com/669/thumb-1920-669240.jpg" alt="Proxima Logo" class="logo-image">
                 <div class="header-text">
                     <div class="logo">PROXIMA</div>
-                    <div class="tagline">Advanced Social Media API with Terminal Interface. Execute commands and copy API endpoints instantly.</div>
-                    <button class="button" onclick="scrollToTerminal()">
-                        <i class="fas fa-terminal"></i> OPEN TERMINAL
+                    <div class="tagline">Social Media Downloader API - Execute Commands & Get Results</div>
+                    <button class="button" onclick="scrollToTester()">
+                        <i class="fas fa-play"></i> EXECUTE API
                     </button>
                 </div>
             </div>
 
-            <!-- STATS -->
-            <div class="stats-container">
-                <div class="stat-card">
-                    <div class="stat-number">6</div>
-                    <div class="stat-label">Platforms Supported</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">⚡</div>
-                    <div class="stat-label">Fast Execution</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">📋</div>
-                    <div class="stat-label">Copy API URLs</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">🔓</div>
-                    <div class="stat-label">Free API Access</div>
+            <!-- DOWNLOADER SECTION -->
+            <div class="section">
+                <h2 class="section-title">Social Media Downloaders</h2>
+                <div class="downloader-grid">
+                    <div class="downloader-card" data-endpoint="tiktok" onclick="selectPlatform('tiktok')">
+                        <div class="downloader-icon">🎵</div>
+                        <div class="downloader-title">TikTok</div>
+                        <div class="downloader-desc">Download without watermark</div>
+                    </div>
+                    <div class="downloader-card" data-endpoint="youtube" onclick="selectPlatform('youtube')">
+                        <div class="downloader-icon">📺</div>
+                        <div class="downloader-title">YouTube</div>
+                        <div class="downloader-desc">Multiple quality options</div>
+                    </div>
+                    <div class="downloader-card" data-endpoint="instagram" onclick="selectPlatform('instagram')">
+                        <div class="downloader-icon">📷</div>
+                        <div class="downloader-title">Instagram</div>
+                        <div class="downloader-desc">Posts, stories, reels</div>
+                    </div>
+                    <div class="downloader-card" data-endpoint="facebook" onclick="selectPlatform('facebook')">
+                        <div class="downloader-icon">👥</div>
+                        <div class="downloader-title">Facebook</div>
+                        <div class="downloader-desc">Videos & reels</div>
+                    </div>
+                    <div class="downloader-card" data-endpoint="twitter" onclick="selectPlatform('twitter')">
+                        <div class="downloader-icon">🐦</div>
+                        <div class="downloader-title">Twitter/X</div>
+                        <div class="downloader-desc">Videos & GIFs</div>
+                    </div>
+                    <div class="downloader-card" data-endpoint="pinterest" onclick="selectPlatform('pinterest')">
+                        <div class="downloader-icon">📌</div>
+                        <div class="downloader-title">Pinterest</div>
+                        <div class="downloader-desc">Images & videos</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- CATEGORY NAVIGATION -->
-            <div class="category-navigation">
-                <button class="category-tab active" data-category="downloader">
-                    <i class="fas fa-download category-icon"></i>
-                    <span>Downloader</span>
-                </button>
-                <button class="category-tab" data-category="search">
-                    <i class="fas fa-search category-icon"></i>
-                    <span>Search</span>
-                </button>
-                <button class="category-tab" data-category="tools">
-                    <i class="fas fa-tools category-icon"></i>
-                    <span>Tools</span>
-                </button>
-                <button class="category-tab" data-category="api">
-                    <i class="fas fa-code category-icon"></i>
-                    <span>API Docs</span>
-                </button>
-            </div>
-
-            <!-- DOWNLOADER CATEGORY -->
-            <div class="category-content active" id="downloader-category">
-                <!-- Platform Grid -->
-                <div class="section">
-                    <h2 class="section-title">
-                        <i class="fas fa-download"></i> Social Media Downloaders
-                    </h2>
-                    <div class="downloader-grid">
-                        <!-- TikTok -->
-                        <div class="downloader-card" data-endpoint="tiktok">
-                            <div class="downloader-icon" style="color: #ff0050;">
-                                <i class="fab fa-tiktok fa-2x"></i>
+            <!-- COMMAND PROMPT SECTION -->
+            <div class="section">
+                <h2 class="section-title">API Command Prompt</h2>
+                
+                <div class="command-prompt">
+                    <div class="command-line">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="prompt">root@ienz</span>
+                                <span>> /api/tiktok?url=https://www.tiktok.com/@khaliiisya/video/7587701740212997397?is_from_webapp=1&sender_device=pc</span>
                             </div>
-                            <h3 class="downloader-title">TikTok Downloader</h3>
-                            <p class="downloader-desc">Execute API calls to download TikTok videos without watermark.</p>
-                            <div class="downloader-features">
-                                <span class="feature-tag">curl API</span>
-                                <span class="feature-tag">No Watermark</span>
-                                <span class="feature-tag">JSON Response</span>
-                            </div>
-                            <button class="button secondary" onclick="selectPlatform('tiktok')">
-                                <i class="fas fa-play"></i> Execute
+                            <button class="copy-btn" onclick="copyCommand()">
+                                <i class="fas fa-copy"></i> Copy
                             </button>
                         </div>
-
-                        <!-- YouTube -->
-                        <div class="downloader-card" data-endpoint="youtube">
-                            <div class="downloader-icon" style="color: #ff0000;">
-                                <i class="fab fa-youtube fa-2x"></i>
-                            </div>
-                            <h3 class="downloader-title">YouTube Downloader</h3>
-                            <p class="downloader-desc">Execute YouTube API for video and audio extraction.</p>
-                            <div class="downloader-features">
-                                <span class="feature-tag">MP4/MP3</span>
-                                <span class="feature-tag">4K Support</span>
-                                <span class="feature-tag">API First</span>
-                            </div>
-                            <button class="button secondary" onclick="selectPlatform('youtube')">
-                                <i class="fas fa-play"></i> Execute
-                            </button>
-                        </div>
-
-                        <!-- Instagram -->
-                        <div class="downloader-card" data-endpoint="instagram">
-                            <div class="downloader-icon" style="color: #E4405F;">
-                                <i class="fab fa-instagram fa-2x"></i>
-                            </div>
-                            <h3 class="downloader-title">Instagram Downloader</h3>
-                            <p class="downloader-desc">API endpoints for Instagram posts, stories, and reels.</p>
-                            <div class="downloader-features">
-                                <span class="feature-tag">Posts</span>
-                                <span class="feature-tag">Stories</span>
-                                <span class="feature-tag">REST API</span>
-                            </div>
-                            <button class="button secondary" onclick="selectPlatform('instagram')">
-                                <i class="fas fa-play"></i> Execute
-                            </button>
-                        </div>
-
-                        <!-- Facebook -->
-                        <div class="downloader-card" data-endpoint="facebook">
-                            <div class="downloader-icon" style="color: #1877F2;">
-                                <i class="fab fa-facebook fa-2x"></i>
-                            </div>
-                            <h3 class="downloader-title">Facebook Downloader</h3>
-                            <p class="downloader-desc">Execute Facebook video download API commands.</p>
-                            <div class="downloader-features">
-                                <span class="feature-tag">Videos</span>
-                                <span class="feature-tag">Reels</span>
-                                <span class="feature-tag">API Access</span>
-                            </div>
-                            <button class="button secondary" onclick="selectPlatform('facebook')">
-                                <i class="fas fa-play"></i> Execute
-                            </button>
-                        </div>
-
-                        <!-- Twitter -->
-                        <div class="downloader-card" data-endpoint="twitter">
-                            <div class="downloader-icon" style="color: #1DA1F2;">
-                                <i class="fab fa-twitter fa-2x"></i>
-                            </div>
-                            <h3 class="downloader-title">Twitter/X Downloader</h3>
-                            <p class="downloader-desc">Execute Twitter API for video and media downloads.</p>
-                            <div class="downloader-features">
-                                <span class="feature-tag">Videos</span>
-                                <span class="feature-tag">GIFs</span>
-                                <span class="feature-tag">JSON API</span>
-                            </div>
-                            <button class="button secondary" onclick="selectPlatform('twitter')">
-                                <i class="fas fa-play"></i> Execute
-                            </button>
-                        </div>
-
-                        <!-- Pinterest -->
-                        <div class="downloader-card" data-endpoint="pinterest">
-                            <div class="downloader-icon" style="color: #E60023;">
-                                <i class="fab fa-pinterest fa-2x"></i>
-                            </div>
-                            <h3 class="downloader-title">Pinterest Downloader</h3>
-                            <p class="downloader-desc">Execute Pinterest API for image and video downloads.</p>
-                            <div class="downloader-features">
-                                <span class="feature-tag">Images</span>
-                                <span class="feature-tag">Videos</span>
-                                <span class="feature-tag">API Ready</span>
-                            </div>
-                            <button class="button secondary" onclick="selectPlatform('pinterest')">
-                                <i class="fas fa-play"></i> Execute
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TERMINAL API TESTER -->
-                <div class="section">
-                    <h2 class="section-title">
-                        <i class="fas fa-terminal"></i> API Terminal
-                    </h2>
-                    
-                    <div class="terminal-container">
-                        <div class="terminal-header">
-                            <div class="terminal-title">
-                                <i class="fas fa-terminal"></i> Proxima API Terminal
-                            </div>
-                            <div class="terminal-controls">
-                                <div class="terminal-btn close"></div>
-                                <div class="terminal-btn minimize"></div>
-                                <div class="terminal-btn maximize"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="terminal-body" id="terminal-body">
-                            <div class="terminal-line">
-                                <span class="terminal-prompt">root@ienz</span>
-                                <span class="terminal-text"># Welcome to Proxima API Terminal</span>
-                            </div>
-                            <div class="terminal-line">
-                                <span class="terminal-prompt">root@ienz</span>
-                                <span class="terminal-text"># Type or paste URL, then press ENTER or click EXECUTE</span>
-                            </div>
-                            <div class="terminal-line">
-                                <span class="terminal-prompt">root@ienz</span>
-                                <span class="terminal-text"># Example: https://www.tiktok.com/@tiktok/video/7106675944969432362</span>
-                            </div>
-                            <div class="terminal-line mb-2"></div>
-                            
-                            <!-- Current API Endpoint Display -->
-                            <div class="api-endpoint-display" id="api-endpoint-display">
-                                <div style="color: var(--terminal-text); margin-bottom: 10px;">
-                                    <i class="fas fa-link"></i> Current API Endpoint:
-                                </div>
-                                <div class="api-url">
-                                    <code id="current-api-url">https://api-proxima.netlify.app/api/tiktok?url=</code>
-                                    <button class="copy-btn" onclick="copyApiUrl()">
-                                        <i class="fas fa-copy"></i> Copy
-                                    </button>
-                                </div>
-                                <div style="color: var(--gray); font-size: 0.9rem; margin-top: 10px;">
-                                    <i class="fas fa-info-circle"></i> Use curl: <code style="background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 4px;">curl "<span id="curl-api-url">https://api-proxima.netlify.app/api/tiktok?url=VIDEO_URL</span>"</code>
-                                </div>
-                            </div>
-                            
-                            <div class="terminal-line mb-2"></div>
-                            
-                            <!-- Command Input -->
-                            <div class="terminal-line" id="command-input-line">
-                                <span class="terminal-prompt">root@ienz</span>
-                                <span class="terminal-text">></span>
-                                <input type="text" class="terminal-command" id="terminal-command" 
-                                       placeholder="Paste video URL here and press ENTER..." 
-                                       autocomplete="off" autofocus>
-                            </div>
-                            
-                            <!-- Response will appear here -->
-                            <div id="terminal-response"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center justify-between mt-3">
-                        <div class="flex gap-4">
-                            <button class="button" id="execute-btn" onclick="executeCommand()">
-                                <i class="fas fa-play"></i> EXECUTE
-                            </button>
-                            <button class="button secondary" onclick="clearTerminal()">
-                                <i class="fas fa-broom"></i> CLEAR
-                            </button>
-                            <button class="button terminal" onclick="showCurlExample()">
-                                <i class="fas fa-code"></i> CURL EXAMPLE
-                            </button>
-                        </div>
-                        <div>
-                            <button class="button secondary" onclick="copyTerminalOutput()">
-                                <i class="fas fa-copy"></i> COPY OUTPUT
-                            </button>
+                        <div class="api-call" id="api-command-display">
+                            <!-- API command will appear here -->
                         </div>
                     </div>
                 </div>
                 
-                <!-- Endpoint Selector -->
-                <div class="section">
-                    <h2 class="section-title">
-                        <i class="fas fa-sliders-h"></i> API Endpoint Selector
-                    </h2>
+                <div class="api-tester">
                     <div class="endpoint-selector" id="endpoint-buttons">
                         <!-- Buttons will be generated by JavaScript -->
                     </div>
-                </div>
-            </div>
-
-            <!-- SEARCH CATEGORY (Coming Soon) -->
-            <div class="category-content" id="search-category">
-                <div class="coming-soon">
-                    <div class="coming-soon-icon">
-                        <i class="fas fa-search fa-5x"></i>
-                    </div>
-                    <h2 class="coming-soon-title">Search API Coming Soon!</h2>
-                    <p class="coming-soon-desc">
-                        We're building advanced search API endpoints that will allow you to search across all social media platforms 
-                        with terminal commands and REST API calls.
-                    </p>
                     
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <i class="fas fa-code fa-3x mb-2" style="color: var(--primary);"></i>
-                            <h3>API Search</h3>
-                            <p>Search endpoints with JSON responses</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <i class="fas fa-terminal fa-3x mb-2" style="color: var(--secondary);"></i>
-                            <h3>Terminal Commands</h3>
-                            <p>Execute search commands from terminal</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <i class="fas fa-filter fa-3x mb-2" style="color: var(--success);"></i>
-                            <h3>Advanced Filters</h3>
-                            <p>Filter results with query parameters</p>
-                        </div>
+                    <div class="input-group">
+                        <label for="video-url">Enter Video URL</label>
+                        <input type="text" id="video-url" placeholder="Paste video URL here...">
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <button class="button w-full" id="execute-btn" onclick="executeApi()">
+                            <i class="fas fa-play"></i> EXECUTE
+                        </button>
+                        <button class="button secondary" onclick="clearResults()">
+                            <i class="fas fa-broom"></i> CLEAR
+                        </button>
+                    </div>
+                    
+                    <div class="response-box" id="response-box">
+🚀 Welcome to Proxima API
+Paste any social media URL above and click EXECUTE
+
+📌 Example URLs:
+• TikTok: https://www.tiktok.com/@tiktok/video/7106675944969432362
+• YouTube: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+• Instagram: https://www.instagram.com/p/Cz7hNzTPzYx/
+                    </div>
+                    
+                    <div id="download-links" class="download-links" style="display: none;">
+                        <!-- Download links will appear here -->
                     </div>
                 </div>
             </div>
 
-            <!-- TOOLS CATEGORY (Coming Soon) -->
-            <div class="category-content" id="tools-category">
-                <div class="coming-soon">
-                    <div class="coming-soon-icon">
-                        <i class="fas fa-tools fa-5x"></i>
+            <!-- QUICK EXAMPLES -->
+            <div class="section">
+                <h2 class="section-title">Quick Examples</h2>
+                <div class="command-prompt">
+                    <div class="command-line">
+                        <span class="prompt">root@ienz</span>
+                        <span>> Click any example below to execute</span>
                     </div>
-                    <h2 class="coming-soon-title">API Tools Coming Soon!</h2>
-                    <p class="coming-soon-desc">
-                        Advanced API tools for video processing, conversion, and analysis. All accessible via REST API 
-                        and terminal commands.
-                    </p>
                     
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <i class="fas fa-exchange-alt fa-3x mb-2" style="color: var(--primary);"></i>
-                            <h3>Convert API</h3>
-                            <p>API for video format conversion</p>
+                    <div class="mt-2">
+                        <div class="api-call mb-1" style="cursor: pointer;" onclick="loadExample('tiktok', 'https://www.tiktok.com/@tiktok/video/7106675944969432362')">
+                            /api/tiktok?url=https://www.tiktok.com/@tiktok/video/7106675944969432362
                         </div>
-                        
-                        <div class="feature-card">
-                            <i class="fas fa-compress-alt fa-3x mb-2" style="color: var(--secondary);"></i>
-                            <h3>Compress API</h3>
-                            <p>API endpoint for video compression</p>
+                        <div class="api-call mb-1" style="cursor: pointer;" onclick="loadExample('youtube', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ')">
+                            /api/youtube?url=https://www.youtube.com/watch?v=dQw4w9WgXcQ
                         </div>
-                        
-                        <div class="feature-card">
-                            <i class="fas fa-wave-square fa-3x mb-2" style="color: var(--success);"></i>
-                            <h3>Audio API</h3>
-                            <p>Extract audio via API calls</p>
+                        <div class="api-call mb-1" style="cursor: pointer;" onclick="loadExample('instagram', 'https://www.instagram.com/p/Cz7hNzTPzYx/')">
+                            /api/instagram?url=https://www.instagram.com/p/Cz7hNzTPzYx/
+                        </div>
+                        <div class="api-call mb-1" style="cursor: pointer;" onclick="loadExample('twitter', 'https://twitter.com/Twitter/status/20')">
+                            /api/twitter?url=https://twitter.com/Twitter/status/20
+                        </div>
+                        <div class="api-call" style="cursor: pointer;" onclick="loadExample('pinterest', 'https://www.pinterest.com/pin/595699155001658720/')">
+                            /api/pinterest?url=https://www.pinterest.com/pin/595699155001658720/
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- API DOCS CATEGORY -->
-            <div class="category-content" id="api-category">
-                <div class="section">
-                    <h2 class="section-title">
-                        <i class="fas fa-code"></i> API Documentation
-                    </h2>
+            <!-- API DOCS -->
+            <div class="section">
+                <h2 class="section-title">API Documentation</h2>
+                <div class="command-prompt">
+                    <div class="command-line">
+                        <span class="prompt">root@ienz</span>
+                        <span>> Available API Endpoints:</span>
+                    </div>
                     
-                    <div class="terminal-container mb-3">
-                        <div class="terminal-header">
-                            <div class="terminal-title">
-                                <i class="fas fa-book"></i> API Reference
-                            </div>
+                    <div class="mt-2">
+                        <div class="api-call mb-1">
+                            GET /api/tiktok?url={video_url}
+                            <button class="copy-btn" onclick="copyText('GET /api/tiktok?url={video_url}')">Copy</button>
                         </div>
-                        <div class="terminal-body">
-                            <div class="terminal-line">
-                                <span class="terminal-prompt">root@ienz</span>
-                                <span class="terminal-text"># Proxima API Documentation</span>
-                            </div>
-                            <div class="terminal-line">
-                                <span class="terminal-prompt">root@ienz</span>
-                                <span class="terminal-text"># Base URL: https://api-proxima.netlify.app</span>
-                            </div>
-                            <div class="terminal-line mb-2"></div>
-                            
-                            <div class="api-endpoint-display">
-                                <div style="color: var(--terminal-text); margin-bottom: 15px; font-weight: bold;">
-                                    <i class="fas fa-network-wired"></i> Available Endpoints:
-                                </div>
-                                
-                                <div class="api-url mb-2">
-                                    <code>GET /api/tiktok?url={video_url}</code>
-                                    <button class="copy-btn" onclick="copyText('GET /api/tiktok?url={video_url}')">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                                
-                                <div class="api-url mb-2">
-                                    <code>GET /api/youtube?url={video_url}</code>
-                                    <button class="copy-btn" onclick="copyText('GET /api/youtube?url={video_url}')">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                                
-                                <div class="api-url mb-2">
-                                    <code>GET /api/instagram?url={post_url}</code>
-                                    <button class="copy-btn" onclick="copyText('GET /api/instagram?url={post_url}')">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                                
-                                <div class="api-url mb-2">
-                                    <code>GET /api/facebook?url={video_url}</code>
-                                    <button class="copy-btn" onclick="copyText('GET /api/facebook?url={video_url}')">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                                
-                                <div class="api-url mb-2">
-                                    <code>GET /api/twitter?url={tweet_url}</code>
-                                    <button class="copy-btn" onclick="copyText('GET /api/twitter?url={tweet_url}')">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                                
-                                <div class="api-url mb-2">
-                                    <code>GET /api/pinterest?url={pin_url}</code>
-                                    <button class="copy-btn" onclick="copyText('GET /api/pinterest?url={pin_url}')">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="terminal-line mb-2"></div>
-                            
-                            <div class="api-endpoint-display">
-                                <div style="color: var(--terminal-text); margin-bottom: 10px; font-weight: bold;">
-                                    <i class="fas fa-server"></i> Response Format:
-                                </div>
-                                <pre style="color: var(--gray); background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; overflow-x: auto;">
+                        <div class="api-call mb-1">
+                            GET /api/youtube?url={video_url}
+                            <button class="copy-btn" onclick="copyText('GET /api/youtube?url={video_url}')">Copy</button>
+                        </div>
+                        <div class="api-call mb-1">
+                            GET /api/instagram?url={post_url}
+                            <button class="copy-btn" onclick="copyText('GET /api/instagram?url={post_url}')">Copy</button>
+                        </div>
+                        <div class="api-call mb-1">
+                            GET /api/facebook?url={video_url}
+                            <button class="copy-btn" onclick="copyText('GET /api/facebook?url={video_url}')">Copy</button>
+                        </div>
+                        <div class="api-call mb-1">
+                            GET /api/twitter?url={tweet_url}
+                            <button class="copy-btn" onclick="copyText('GET /api/twitter?url={tweet_url}')">Copy</button>
+                        </div>
+                        <div class="api-call">
+                            GET /api/pinterest?url={pin_url}
+                            <button class="copy-btn" onclick="copyText('GET /api/pinterest?url={pin_url}')">Copy</button>
+                        </div>
+                    </div>
+                    
+                    <div class="command-line mt-2">
+                        <span class="prompt">root@ienz</span>
+                        <span>> Response Format:</span>
+                        <div class="api-call mt-1">
 {
     "status": true,
     "creator": "iEnz",
@@ -1211,11 +633,9 @@
     "data": {
         "title": "Video title",
         "author": "Author name",
-        "video_url": "Direct download URL",
-        // ... other fields
+        "video_url": "Direct download URL"
     }
-}</pre>
-                            </div>
+}
                         </div>
                     </div>
                 </div>
@@ -1223,23 +643,24 @@
 
             <!-- FOOTER -->
             <footer>
-                <div class="footer-logo">PROXIMA API</div>
-                <div class="version">Version 2.1 • Creator: iEnz • Terminal Interface</div>
-                <div class="version">Format: Status: True | Creator: iEnz | Result: [Your Data]</div>
-                
-                <div class="mt-2">
-                    <span class="api-status" id="api-status">
-                        <i class="fas fa-circle"></i> Checking API Status...
-                    </span>
-                </div>
-                
-                <div class="mt-2 flex gap-4 justify-center">
-                    <button class="button secondary" onclick="checkAllAPIs()">
-                        <i class="fas fa-sync-alt"></i> Check API Status
-                    </button>
-                    <button class="button terminal" onclick="showNotification('API Base URL: https://api-proxima.netlify.app')">
-                        <i class="fas fa-copy"></i> Copy Base URL
-                    </button>
+                <div class="text-center">
+                    <div style="font-size: 2rem; font-weight: bold; color: var(--primary); margin-bottom: 1rem;">
+                        PROXIMA API
+                    </div>
+                    <div class="version">Version 2.0 • Creator: iEnz</div>
+                    <div class="version">Format: Status: True | Creator: iEnz | Result: [Your Data]</div>
+                    
+                    <div class="mt-2">
+                        <span class="api-status" id="api-status">
+                            <i class="fas fa-circle"></i> Checking API Status...
+                        </span>
+                    </div>
+                    
+                    <div class="mt-2">
+                        <button class="button secondary" onclick="checkApiStatus()">
+                            <i class="fas fa-sync-alt"></i> Check Status
+                        </button>
+                    </div>
                 </div>
             </footer>
         </div>
@@ -1254,67 +675,59 @@
         const endpoints = {
             tiktok: {
                 name: "TikTok",
-                icon: "fab fa-tiktok",
+                icon: "🎵",
                 color: "#ff0050",
                 placeholder: "https://www.tiktok.com/@username/video/123456789",
-                example: "https://www.tiktok.com/@tiktok/video/7106675944969432362",
-                apiPath: "/api/tiktok?url="
+                example: "https://www.tiktok.com/@khaliiisya/video/7587701740212997397?is_from_webapp=1&sender_device=pc"
             },
             youtube: {
                 name: "YouTube",
-                icon: "fab fa-youtube",
+                icon: "📺",
                 color: "#ff0000",
                 placeholder: "https://www.youtube.com/watch?v=xxxxxxxxxxx",
-                example: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                apiPath: "/api/youtube?url="
+                example: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
             },
             instagram: {
                 name: "Instagram",
-                icon: "fab fa-instagram",
+                icon: "📷",
                 color: "#E4405F",
                 placeholder: "https://www.instagram.com/p/xxxxxxxxxxx/",
-                example: "https://www.instagram.com/p/Cz7hNzTPzYx/",
-                apiPath: "/api/instagram?url="
+                example: "https://www.instagram.com/p/Cz7hNzTPzYx/"
             },
             facebook: {
                 name: "Facebook",
-                icon: "fab fa-facebook",
+                icon: "👥",
                 color: "#1877F2",
                 placeholder: "https://www.facebook.com/watch/?v=123456789",
-                example: "https://www.facebook.com/facebook/videos/10153231379946729/",
-                apiPath: "/api/facebook?url="
+                example: "https://www.facebook.com/facebook/videos/10153231379946729/"
             },
             twitter: {
                 name: "Twitter/X",
-                icon: "fab fa-twitter",
+                icon: "🐦",
                 color: "#1DA1F2",
                 placeholder: "https://twitter.com/user/status/123456789",
-                example: "https://twitter.com/Twitter/status/20",
-                apiPath: "/api/twitter?url="
+                example: "https://twitter.com/Twitter/status/20"
             },
             pinterest: {
                 name: "Pinterest",
-                icon: "fab fa-pinterest",
+                icon: "📌",
                 color: "#E60023",
                 placeholder: "https://www.pinterest.com/pin/123456789/",
-                example: "https://www.pinterest.com/pin/595699155001658720/",
-                apiPath: "/api/pinterest?url="
+                example: "https://www.pinterest.com/pin/595699155001658720/"
             }
         };
 
         let currentEndpoint = 'tiktok';
-        let currentCategory = 'downloader';
-        let terminalHistory = [];
 
         // Initialize on page load
         window.addEventListener('DOMContentLoaded', function() {
             initializeEndpointButtons();
-            checkAPIStatus();
+            checkApiStatus();
             setupEventListeners();
-            updateApiUrlDisplay();
             
-            // Set initial command input value
-            document.getElementById('terminal-command').value = endpoints.tiktok.example;
+            // Set initial example
+            document.getElementById('video-url').value = endpoints.tiktok.example;
+            updateCommandDisplay();
         });
 
         // Initialize endpoint buttons
@@ -1327,37 +740,15 @@
                 button.className = `endpoint-btn ${key === currentEndpoint ? 'active' : ''}`;
                 button.dataset.endpoint = key;
                 button.innerHTML = `
-                    <i class="${endpoint.icon}"></i>
-                    <span>${endpoint.name}</span>
+                    ${endpoint.icon} ${endpoint.name}
                 `;
                 button.style.borderLeft = `4px solid ${endpoint.color}`;
                 container.appendChild(button);
             });
         }
 
-        // Update API URL display
-        function updateApiUrlDisplay() {
-            const endpoint = endpoints[currentEndpoint];
-            const apiUrl = `${baseUrl}${endpoint.apiPath}`;
-            const curlUrl = `${baseUrl}${endpoint.apiPath}VIDEO_URL`;
-            
-            document.getElementById('current-api-url').textContent = apiUrl;
-            document.getElementById('curl-api-url').textContent = curlUrl;
-            
-            // Also update the command input placeholder
-            document.getElementById('terminal-command').placeholder = `Paste ${endpoint.name} URL here...`;
-        }
-
         // Setup event listeners
         function setupEventListeners() {
-            // Category tabs
-            document.querySelectorAll('.category-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const category = this.dataset.category;
-                    switchCategory(category);
-                });
-            });
-
             // Endpoint buttons
             document.addEventListener('click', function(e) {
                 if (e.target.closest('.endpoint-btn')) {
@@ -1366,53 +757,18 @@
                 }
             });
 
-            // Downloader cards
-            document.querySelectorAll('.downloader-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const endpoint = this.dataset.endpoint;
-                    selectEndpoint(endpoint);
-                });
-            });
-
-            // Execute button
-            document.getElementById('execute-btn').addEventListener('click', executeCommand);
-
-            // Enter key in terminal command
-            document.getElementById('terminal-command').addEventListener('keypress', function(e) {
+            // Enter key in input
+            document.getElementById('video-url').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
-                    executeCommand();
+                    executeApi();
                 }
             });
-
-            // Clear terminal button
-            document.getElementById('terminal-command').addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    this.value = '';
-                }
-            });
-        }
-
-        // Switch category
-        function switchCategory(category) {
-            currentCategory = category;
-            
-            // Update active tab
-            document.querySelectorAll('.category-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelector(`.category-tab[data-category="${category}"]`).classList.add('active');
-            
-            // Show selected category
-            document.querySelectorAll('.category-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById(`${category}-category`).classList.add('active');
         }
 
         // Select platform
         function selectPlatform(platform) {
             selectEndpoint(platform);
-            document.getElementById('downloader-category').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('video-url').focus();
         }
 
         // Select endpoint
@@ -1425,39 +781,33 @@
             });
             document.querySelector(`.endpoint-btn[data-endpoint="${endpoint}"]`).classList.add('active');
             
-            // Update API URL display
-            updateApiUrlDisplay();
-            
-            // Set example URL in command input
+            // Update input placeholder and example
             const endpointConfig = endpoints[endpoint];
-            document.getElementById('terminal-command').value = endpointConfig.example;
+            document.getElementById('video-url').placeholder = endpointConfig.placeholder;
+            document.getElementById('video-url').value = endpointConfig.example;
             
-            // Switch to downloader category
-            if (currentCategory !== 'downloader') {
-                switchCategory('downloader');
-            }
+            // Update command display
+            updateCommandDisplay();
             
-            // Scroll to terminal
+            // Focus input
             setTimeout(() => {
-                document.getElementById('terminal-command').focus();
-                document.getElementById('terminal-command').select();
-            }, 300);
+                document.getElementById('video-url').focus();
+                document.getElementById('video-url').select();
+            }, 100);
         }
 
-        // Scroll to terminal
-        function scrollToTerminal() {
-            document.getElementById('downloader-category').scrollIntoView({ behavior: 'smooth' });
-            setTimeout(() => {
-                document.getElementById('terminal-command').focus();
-                document.getElementById('terminal-command').select();
-            }, 500);
+        // Update command display
+        function updateCommandDisplay() {
+            const urlInput = document.getElementById('video-url').value.trim();
+            const apiCall = `/api/${currentEndpoint}?url=${encodeURIComponent(urlInput)}`;
+            document.getElementById('api-command-display').textContent = apiCall;
         }
 
-        // Execute command
-        async function executeCommand() {
-            const commandInput = document.getElementById('terminal-command');
-            const urlInput = commandInput.value.trim();
-            const responseContainer = document.getElementById('terminal-response');
+        // Execute API
+        async function executeApi() {
+            const urlInput = document.getElementById('video-url').value.trim();
+            const responseBox = document.getElementById('response-box');
+            const downloadLinks = document.getElementById('download-links');
             
             if (!urlInput) {
                 showNotification('Please enter a video URL', 'warning');
@@ -1472,21 +822,16 @@
                 return;
             }
 
-            // Add command to terminal history
-            addTerminalLine(`root@ienz > ${urlInput}`);
+            // Update command display
+            updateCommandDisplay();
             
-            // Show executing message
-            addTerminalLine('Executing API request...', 'info');
-            
-            // Clear previous response
-            responseContainer.innerHTML = '';
-            
+            // Show loading
+            responseBox.innerHTML = '<div class="loading">Executing API request...</div>';
+            downloadLinks.style.display = 'none';
+            downloadLinks.innerHTML = '';
+
             try {
-                const endpoint = endpoints[currentEndpoint];
-                const apiUrl = `${baseUrl}${endpoint.apiPath}${encodeURIComponent(urlInput)}`;
-                
-                // Show API URL being called
-                addTerminalLine(`API: ${apiUrl}`, 'api');
+                const apiUrl = `${baseUrl}/api/${currentEndpoint}?url=${encodeURIComponent(urlInput)}`;
                 
                 const response = await axios.get(apiUrl, {
                     timeout: 30000,
@@ -1495,7 +840,7 @@
                     }
                 });
                 
-                displayTerminalResult(response.data);
+                displayResult(response.data);
                 
             } catch (error) {
                 console.error('API Error:', error);
@@ -1507,150 +852,127 @@
                     errorMessage = 'No response from server. Check your connection.';
                 }
                 
-                addTerminalLine(`❌ Error: ${errorMessage}`, 'error');
-                addTerminalLine('💡 Try: Check URL validity, internet connection, or try another video.', 'tip');
+                responseBox.innerHTML = `
+                    <div class="response-line"><span class="status-false">❌ Status: False</span></div>
+                    <div class="response-line"><span class="creator">👤 Creator: iEnz</span></div>
+                    <div class="response-line">⚠️ Error: ${errorMessage}</div>
+                `;
             }
             
-            // Scroll to bottom of terminal
-            scrollTerminalToBottom();
+            // Scroll to results
+            responseBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        // Add line to terminal
-        function addTerminalLine(text, type = 'normal') {
-            const terminalBody = document.getElementById('terminal-body');
-            const line = document.createElement('div');
-            line.className = 'terminal-line';
+        // Display result
+        function displayResult(data) {
+            const responseBox = document.getElementById('response-box');
+            const downloadLinks = document.getElementById('download-links');
             
-            let content = '';
-            switch(type) {
-                case 'info':
-                    content = `<span style="color: var(--secondary);">${text}</span>`;
-                    break;
-                case 'error':
-                    content = `<span style="color: var(--danger);">${text}</span>`;
-                    break;
-                case 'success':
-                    content = `<span style="color: var(--success);">${text}</span>`;
-                    break;
-                case 'api':
-                    content = `<span style="color: var(--terminal-text);">${text}</span>`;
-                    break;
-                case 'tip':
-                    content = `<span style="color: var(--warning);">${text}</span>`;
-                    break;
-                default:
-                    content = `<span style="color: var(--terminal-text);">${text}</span>`;
-            }
-            
-            line.innerHTML = content;
-            terminalBody.appendChild(line);
-            
-            // Add to history
-            terminalHistory.push({ text, type, timestamp: new Date() });
-            
-            // Limit history
-            if (terminalHistory.length > 50) {
-                terminalHistory.shift();
-            }
-            
-            return line;
-        }
-
-        // Display result in terminal
-        function displayTerminalResult(data) {
-            const responseContainer = document.getElementById('terminal-response');
+            let html = '';
             
             if (data.status === true) {
-                addTerminalLine(`✅ Status: True`, 'success');
-                addTerminalLine(`👤 Creator: iEnz`, 'success');
+                html += `<div class="response-line"><span class="status-true">✅ Status: True</span></div>`;
+                html += `<div class="response-line"><span class="creator">👤 Creator: iEnz</span></div>`;
                 
                 if (data.result) {
-                    addTerminalLine(`📦 Result: ${data.result}`, 'success');
+                    html += `<div class="response-line"><span class="result">📦 Result: ${data.result}</span></div>`;
                 }
                 
                 if (data.data) {
                     const dataObj = data.data;
+                    html += `<div class="response-line" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">`;
+                    html += `<div style="color: var(--primary); font-weight: bold; margin-bottom: 15px;">📊 Video Information:</div>`;
                     
-                    addTerminalLine('📊 VIDEO INFORMATION:', 'info');
+                    // Display basic info
+                    if (dataObj.title) html += `<div class="response-line">📝 Title: ${dataObj.title}</div>`;
+                    if (dataObj.author) html += `<div class="response-line">👤 Author: ${dataObj.author}</div>`;
+                    if (dataObj.duration) html += `<div class="response-line">⏱️ Duration: ${dataObj.duration}</div>`;
+                    if (dataObj.views) html += `<div class="response-line">👁️ Views: ${dataObj.views}</div>`;
+                    if (dataObj.likes) html += `<div class="response-line">👍 Likes: ${dataObj.likes}</div>`;
                     
-                    if (dataObj.title) addTerminalLine(`  Title: ${dataObj.title}`);
-                    if (dataObj.author) addTerminalLine(`  Author: ${dataObj.author}`);
-                    if (dataObj.duration) addTerminalLine(`  Duration: ${dataObj.duration}`);
-                    if (dataObj.views) addTerminalLine(`  Views: ${dataObj.views}`);
+                    html += `</div>`;
                     
-                    // Show download links if available
+                    // Display download links if available
                     if (dataObj.video_url || dataObj.url || (dataObj.download_links && dataObj.download_links.length > 0)) {
-                        addTerminalLine('📥 DOWNLOAD LINKS:', 'info');
+                        downloadLinks.style.display = 'block';
+                        
+                        let downloadHTML = `<div style="color: var(--success); font-weight: bold; margin-bottom: 15px;">📥 Download Links:</div>`;
+                        downloadHTML += `<div class="download-grid">`;
                         
                         if (dataObj.download_links && Array.isArray(dataObj.download_links)) {
                             dataObj.download_links.forEach((link, index) => {
-                                const btnId = `download-btn-${Date.now()}-${index}`;
-                                addTerminalLine(`  [${index + 1}] ${link.quality || 'Download'} ${link.type ? `(${link.type})` : ''}`);
-                                addTerminalLine(`      URL: ${link.download_url || link.url}`);
+                                downloadHTML += `
+                                    <div class="download-card">
+                                        <div style="font-weight: bold; margin-bottom: 10px;">${link.quality || 'Download'} ${link.type ? `(${link.type})` : ''}</div>
+                                        <button class="button secondary" onclick="window.open('${link.download_url || link.url}', '_blank')" style="width: 100%;">
+                                            <i class="fas fa-download"></i> Download
+                                        </button>
+                                    </div>
+                                `;
                             });
                         } else {
                             const videoUrl = dataObj.video_url || dataObj.url;
-                            addTerminalLine(`  [1] Direct Download: ${videoUrl}`);
+                            downloadHTML += `
+                                <div class="download-card">
+                                    <div style="font-weight: bold; margin-bottom: 10px;">Direct Download</div>
+                                    <button class="button secondary" onclick="window.open('${videoUrl}', '_blank')" style="width: 100%;">
+                                        <i class="fas fa-download"></i> Download Video
+                                    </button>
+                                </div>
+                            `;
                         }
+                        
+                        downloadHTML += `</div>`;
+                        downloadLinks.innerHTML = downloadHTML;
                     }
-                    
-                    // Add copy API button
-                    const copyBtn = document.createElement('button');
-                    copyBtn.className = 'copy-btn mt-2';
-                    copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy API Response';
-                    copyBtn.onclick = () => copyText(JSON.stringify(data, null, 2));
-                    
-                    const line = addTerminalLine('');
-                    line.appendChild(copyBtn);
                 }
                 
             } else {
-                addTerminalLine(`❌ Status: False`, 'error');
-                addTerminalLine(`👤 Creator: iEnz`, 'error');
-                addTerminalLine(`⚠️ Error: ${data.error || data.message || 'Unknown error'}`, 'error');
+                html += `<div class="response-line"><span class="status-false">❌ Status: False</span></div>`;
+                html += `<div class="response-line"><span class="creator">👤 Creator: iEnz</span></div>`;
+                html += `<div class="response-line">⚠️ Error: ${data.error || data.message || 'Unknown error'}</div>`;
                 
+                // Show mock data if available
                 if (data.mock_data) {
-                    addTerminalLine('📋 Showing demo data (API offline):', 'tip');
-                    addTerminalLine(`  Title: ${data.mock_data.title || 'Demo Video'}`);
-                    addTerminalLine(`  Author: ${data.mock_data.author || 'Demo User'}`);
+                    html += `<div class="response-line" style="margin-top: 20px; color: var(--warning);">
+                        <div>📋 Showing demo data:</div>
+                        <div>Title: ${data.mock_data.title || 'Demo Video'}</div>
+                        <div>Author: ${data.mock_data.author || 'Demo User'}</div>
+                    </div>`;
                 }
             }
+            
+            responseBox.innerHTML = html;
         }
 
-        // Scroll terminal to bottom
-        function scrollTerminalToBottom() {
-            const terminalBody = document.getElementById('terminal-body');
-            terminalBody.scrollTop = terminalBody.scrollHeight;
+        // Load example
+        function loadExample(endpoint, url) {
+            selectEndpoint(endpoint);
+            document.getElementById('video-url').value = url;
+            updateCommandDisplay();
+            executeApi();
         }
 
-        // Clear terminal
-        function clearTerminal() {
-            const terminalBody = document.getElementById('terminal-body');
-            const responseContainer = document.getElementById('terminal-response');
-            
-            // Keep only the first 4 lines (welcome messages)
-            const lines = terminalBody.querySelectorAll('.terminal-line');
-            lines.forEach((line, index) => {
-                if (index > 3) {
-                    line.remove();
-                }
-            });
-            
-            // Clear response container
-            responseContainer.innerHTML = '';
-            
-            // Clear history
-            terminalHistory = [];
-            
-            // Add cleared message
-            addTerminalLine('Terminal cleared. Ready for new commands.', 'info');
-            scrollTerminalToBottom();
+        // Clear results
+        function clearResults() {
+            document.getElementById('response-box').innerHTML = `
+🚀 Welcome to Proxima API
+Paste any social media URL above and click EXECUTE
+
+📌 Example URLs:
+• TikTok: https://www.tiktok.com/@tiktok/video/7106675944969432362
+• YouTube: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+• Instagram: https://www.instagram.com/p/Cz7hNzTPzYx/
+            `;
+            document.getElementById('download-links').style.display = 'none';
+            document.getElementById('download-links').innerHTML = '';
+            showNotification('Results cleared', 'info');
         }
 
-        // Copy API URL
-        function copyApiUrl() {
-            const apiUrl = document.getElementById('current-api-url').textContent;
-            copyText(apiUrl);
+        // Copy command
+        function copyCommand() {
+            const command = document.getElementById('api-command-display').textContent;
+            copyText(command);
             
             const copyBtn = document.querySelector('.copy-btn');
             const originalText = copyBtn.innerHTML;
@@ -1675,39 +997,8 @@
                 });
         }
 
-        // Copy terminal output
-        function copyTerminalOutput() {
-            const terminalBody = document.getElementById('terminal-body');
-            const text = terminalBody.innerText;
-            copyText(text);
-        }
-
-        // Show curl example
-        function showCurlExample() {
-            const endpoint = endpoints[currentEndpoint];
-            const exampleUrl = endpoint.example;
-            const apiUrl = `${baseUrl}${endpoint.apiPath}${encodeURIComponent(exampleUrl)}`;
-            
-            const curlCommand = `curl "${apiUrl}"`;
-            
-            addTerminalLine('📋 CURL EXAMPLE:', 'info');
-            addTerminalLine(curlCommand);
-            addTerminalLine('');
-            
-            // Add copy button
-            const copyBtn = document.createElement('button');
-            copyBtn.className = 'copy-btn mt-1';
-            copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy curl command';
-            copyBtn.onclick = () => copyText(curlCommand);
-            
-            const line = addTerminalLine('');
-            line.appendChild(copyBtn);
-            
-            scrollTerminalToBottom();
-        }
-
         // Check API status
-        async function checkAPIStatus() {
+        async function checkApiStatus() {
             const statusElement = document.getElementById('api-status');
             
             try {
@@ -1717,47 +1008,25 @@
                 }).catch(() => ({ data: { status: false } }));
                 
                 if (response.data && response.data.status !== undefined) {
-                    statusElement.innerHTML = `<i class="fas fa-circle" style="color: var(--success);"></i> API ONLINE`;
+                    statusElement.innerHTML = '<i class="fas fa-circle" style="color: var(--success);"></i> API ONLINE';
                     statusElement.style.color = 'var(--success)';
                 } else {
-                    statusElement.innerHTML = `<i class="fas fa-circle" style="color: var(--warning);"></i> API OFFLINE (Using Demo)`;
+                    statusElement.innerHTML = '<i class="fas fa-circle" style="color: var(--warning);"></i> API OFFLINE (Using Demo)';
                     statusElement.style.color = 'var(--warning)';
                 }
             } catch (error) {
-                statusElement.innerHTML = `<i class="fas fa-circle" style="color: var(--danger);"></i> API OFFLINE`;
+                statusElement.innerHTML = '<i class="fas fa-circle" style="color: var(--danger);"></i> API OFFLINE';
                 statusElement.style.color = 'var(--danger)';
             }
         }
 
-        // Check all APIs
-        async function checkAllAPIs() {
-            const statusElement = document.getElementById('api-status');
-            statusElement.innerHTML = `<i class="fas fa-sync-alt fa-spin"></i> Testing APIs...`;
-            
-            let onlineCount = 0;
-            const totalAPIs = Object.keys(endpoints).length;
-            
-            for (const [key, endpoint] of Object.entries(endpoints)) {
-                try {
-                    await axios.head(`${baseUrl}${endpoint.apiPath.replace('?url=', '')}`, { timeout: 2000 });
-                    onlineCount++;
-                } catch (e) {
-                    // API might be offline
-                }
-            }
-            
-            if (onlineCount === totalAPIs) {
-                statusElement.innerHTML = `<i class="fas fa-circle" style="color: var(--success);"></i> ALL ${totalAPIs} APIS ONLINE`;
-                statusElement.style.color = 'var(--success)';
-            } else if (onlineCount > 0) {
-                statusElement.innerHTML = `<i class="fas fa-circle" style="color: var(--warning);"></i> ${onlineCount}/${totalAPIs} APIS ONLINE`;
-                statusElement.style.color = 'var(--warning)';
-            } else {
-                statusElement.innerHTML = `<i class="fas fa-circle" style="color: var(--danger);"></i> ALL APIS OFFLINE (Using Demo)`;
-                statusElement.style.color = 'var(--danger)';
-            }
-            
-            showNotification(`API Status: ${onlineCount}/${totalAPIs} online`, onlineCount === totalAPIs ? 'success' : 'warning');
+        // Scroll to tester
+        function scrollToTester() {
+            document.querySelector('.api-tester').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                document.getElementById('video-url').focus();
+                document.getElementById('video-url').select();
+            }, 500);
         }
 
         // Show notification
@@ -1779,7 +1048,6 @@
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                max-width: 400px;
             `;
             
             notification.innerHTML = `
@@ -1814,6 +1082,9 @@
                 document.head.appendChild(style);
             }
         }
+
+        // Update command display when input changes
+        document.getElementById('video-url').addEventListener('input', updateCommandDisplay);
     </script>
 </body>
 </html>
