@@ -26,6 +26,9 @@
             --gray: #a0a0cc;
             --card-bg: rgba(40, 40, 60, 0.9);
             --section-bg: rgba(30, 30, 50, 0.8);
+            --terminal-bg: #0a0a12;
+            --terminal-text: #00ff00;
+            --terminal-prompt: #ff6b6b;
         }
 
         body {
@@ -145,6 +148,17 @@
             background: var(--primary);
         }
 
+        .button.terminal {
+            background: var(--terminal-bg);
+            border: 2px solid var(--terminal-text);
+            color: var(--terminal-text);
+            font-family: 'Courier New', monospace;
+        }
+
+        .button.terminal:hover {
+            background: rgba(0, 255, 0, 0.1);
+        }
+
         /* CATEGORY NAVIGATION */
         .category-navigation {
             display: flex;
@@ -231,6 +245,141 @@
             -webkit-text-fill-color: transparent;
         }
 
+        /* TERMINAL STYLE API TESTER */
+        .terminal-container {
+            background: var(--terminal-bg);
+            border-radius: 15px;
+            padding: 0;
+            overflow: hidden;
+            border: 2px solid rgba(0, 255, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            font-family: 'Courier New', monospace;
+        }
+
+        .terminal-header {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+        }
+
+        .terminal-title {
+            color: var(--terminal-text);
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terminal-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+        }
+
+        .terminal-btn.close { background: #ff5f56; }
+        .terminal-btn.minimize { background: #ffbd2e; }
+        .terminal-btn.maximize { background: #27ca3f; }
+
+        .terminal-body {
+            padding: 25px;
+            min-height: 350px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .terminal-line {
+            margin-bottom: 12px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .terminal-prompt {
+            color: var(--terminal-prompt);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .terminal-command {
+            color: var(--terminal-text);
+            background: transparent;
+            border: none;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            width: calc(100% - 150px);
+            outline: none;
+            caret-color: var(--terminal-text);
+        }
+
+        .terminal-url {
+            color: #4dabf7;
+            text-decoration: none;
+            background: rgba(77, 171, 247, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(77, 171, 247, 0.3);
+        }
+
+        .terminal-url:hover {
+            background: rgba(77, 171, 247, 0.2);
+        }
+
+        .copy-btn {
+            background: rgba(123, 97, 255, 0.2);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 10px;
+            transition: all 0.2s;
+            font-family: 'Courier New', monospace;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .copy-btn.copied {
+            background: var(--success);
+            color: var(--dark);
+            border-color: var(--success);
+        }
+
+        .api-endpoint-display {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 3px solid var(--primary);
+            font-family: 'Courier New', monospace;
+        }
+
+        .api-url {
+            color: var(--terminal-text);
+            word-break: break-all;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 4px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         /* DOWNLOADER SECTION */
         .downloader-grid {
             display: grid;
@@ -312,49 +461,7 @@
             font-weight: 600;
         }
 
-        /* API TESTER */
-        .api-tester {
-            background: var(--card-bg);
-            border-radius: 18px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            border: 2px solid rgba(42, 42, 64, 0.8);
-        }
-
-        .endpoint-selector {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .endpoint-btn {
-            padding: 1rem 2rem;
-            background: rgba(40, 40, 60, 0.9);
-            border: 2px solid rgba(42, 42, 64, 0.8);
-            border-radius: 12px;
-            color: var(--gray);
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .endpoint-btn:hover {
-            transform: translateY(-3px);
-            border-color: var(--secondary);
-        }
-
-        .endpoint-btn.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 8px 20px rgba(123, 97, 255, 0.3);
-        }
-
+        /* INPUT GROUP */
         .input-group {
             margin-bottom: 2rem;
         }
@@ -388,6 +495,7 @@
             box-shadow: 0 0 0 3px rgba(123, 97, 255, 0.2);
         }
 
+        /* RESPONSE BOX */
         .response-box {
             background: rgba(20, 20, 35, 0.95);
             border-radius: 15px;
@@ -444,33 +552,39 @@
             to { transform: rotate(360deg); }
         }
 
-        /* DOWNLOAD LINKS */
-        .download-links {
-            margin-top: 2rem;
-            padding: 2rem;
-            background: rgba(30, 30, 50, 0.9);
-            border-radius: 15px;
-            border-left: 5px solid var(--success);
+        /* ENDPOINT SELECTOR */
+        .endpoint-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
 
-        .download-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .download-card {
+        .endpoint-btn {
+            padding: 1rem 2rem;
             background: rgba(40, 40, 60, 0.9);
+            border: 2px solid rgba(42, 42, 64, 0.8);
             border-radius: 12px;
-            padding: 1.5rem;
-            border: 2px solid transparent;
+            color: var(--gray);
+            cursor: pointer;
             transition: all 0.3s;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .download-card:hover {
+        .endpoint-btn:hover {
+            transform: translateY(-3px);
             border-color: var(--secondary);
-            transform: translateY(-5px);
+        }
+
+        .endpoint-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(123, 97, 255, 0.3);
         }
 
         /* SEARCH & TOOLS SECTIONS */
@@ -650,6 +764,20 @@
             background: linear-gradient(var(--secondary), var(--primary));
         }
 
+        /* TERMINAL SCROLLBAR */
+        .terminal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terminal-body::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb {
+            background: var(--terminal-text);
+            border-radius: 4px;
+        }
+
         /* UTILITY */
         .text-center { text-align: center; }
         .mb-1 { margin-bottom: 1rem; }
@@ -658,6 +786,12 @@
         .mt-1 { margin-top: 1rem; }
         .mt-2 { margin-top: 2rem; }
         .mt-3 { margin-top: 3rem; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-4 { gap: 1rem; }
+        .w-full { width: 100%; }
     </style>
 </head>
 <body>
@@ -668,9 +802,9 @@
                 <img src="https://images3.alphacoders.com/669/thumb-1920-669240.jpg" alt="Proxima Logo" class="logo-image">
                 <div class="header-text">
                     <div class="logo">PROXIMA</div>
-                    <div class="tagline">Your Ultimate Social Media Toolkit. Download videos, images, and audio from all major platforms with our powerful API.</div>
-                    <button class="button" onclick="scrollToTester()">
-                        <i class="fas fa-rocket"></i> START DOWNLOADING
+                    <div class="tagline">Advanced Social Media API with Terminal Interface. Execute commands and copy API endpoints instantly.</div>
+                    <button class="button" onclick="scrollToTerminal()">
+                        <i class="fas fa-terminal"></i> OPEN TERMINAL
                     </button>
                 </div>
             </div>
@@ -682,16 +816,16 @@
                     <div class="stat-label">Platforms Supported</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">99.9%</div>
-                    <div class="stat-label">API Uptime</div>
+                    <div class="stat-number">⚡</div>
+                    <div class="stat-label">Fast Execution</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">⚡</div>
-                    <div class="stat-label">Fast Response</div>
+                    <div class="stat-number">📋</div>
+                    <div class="stat-label">Copy API URLs</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">🔓</div>
-                    <div class="stat-label">Free & Unlimited</div>
+                    <div class="stat-label">Free API Access</div>
                 </div>
             </div>
 
@@ -709,6 +843,10 @@
                     <i class="fas fa-tools category-icon"></i>
                     <span>Tools</span>
                 </button>
+                <button class="category-tab" data-category="api">
+                    <i class="fas fa-code category-icon"></i>
+                    <span>API Docs</span>
+                </button>
             </div>
 
             <!-- DOWNLOADER CATEGORY -->
@@ -725,14 +863,14 @@
                                 <i class="fab fa-tiktok fa-2x"></i>
                             </div>
                             <h3 class="downloader-title">TikTok Downloader</h3>
-                            <p class="downloader-desc">Download TikTok videos without watermark. Supports HD quality, audio extraction, and bulk downloads.</p>
+                            <p class="downloader-desc">Execute API calls to download TikTok videos without watermark.</p>
                             <div class="downloader-features">
+                                <span class="feature-tag">curl API</span>
                                 <span class="feature-tag">No Watermark</span>
-                                <span class="feature-tag">HD Quality</span>
-                                <span class="feature-tag">Audio Only</span>
+                                <span class="feature-tag">JSON Response</span>
                             </div>
                             <button class="button secondary" onclick="selectPlatform('tiktok')">
-                                <i class="fas fa-play"></i> Try Now
+                                <i class="fas fa-play"></i> Execute
                             </button>
                         </div>
 
@@ -742,14 +880,14 @@
                                 <i class="fab fa-youtube fa-2x"></i>
                             </div>
                             <h3 class="downloader-title">YouTube Downloader</h3>
-                            <p class="downloader-desc">Download YouTube videos in multiple formats and qualities. MP4, MP3, 4K, 1080p, and more.</p>
+                            <p class="downloader-desc">Execute YouTube API for video and audio extraction.</p>
                             <div class="downloader-features">
                                 <span class="feature-tag">MP4/MP3</span>
                                 <span class="feature-tag">4K Support</span>
-                                <span class="feature-tag">Playlists</span>
+                                <span class="feature-tag">API First</span>
                             </div>
                             <button class="button secondary" onclick="selectPlatform('youtube')">
-                                <i class="fas fa-play"></i> Try Now
+                                <i class="fas fa-play"></i> Execute
                             </button>
                         </div>
 
@@ -759,14 +897,14 @@
                                 <i class="fab fa-instagram fa-2x"></i>
                             </div>
                             <h3 class="downloader-title">Instagram Downloader</h3>
-                            <p class="downloader-desc">Download Instagram posts, stories, reels, IGTV videos. High-quality images and videos.</p>
+                            <p class="downloader-desc">API endpoints for Instagram posts, stories, and reels.</p>
                             <div class="downloader-features">
                                 <span class="feature-tag">Posts</span>
                                 <span class="feature-tag">Stories</span>
-                                <span class="feature-tag">Reels</span>
+                                <span class="feature-tag">REST API</span>
                             </div>
                             <button class="button secondary" onclick="selectPlatform('instagram')">
-                                <i class="fas fa-play"></i> Try Now
+                                <i class="fas fa-play"></i> Execute
                             </button>
                         </div>
 
@@ -776,14 +914,14 @@
                                 <i class="fab fa-facebook fa-2x"></i>
                             </div>
                             <h3 class="downloader-title">Facebook Downloader</h3>
-                            <p class="downloader-desc">Download Facebook videos, reels, and posts. Works with public and private videos.</p>
+                            <p class="downloader-desc">Execute Facebook video download API commands.</p>
                             <div class="downloader-features">
                                 <span class="feature-tag">Videos</span>
                                 <span class="feature-tag">Reels</span>
-                                <span class="feature-tag">HD Quality</span>
+                                <span class="feature-tag">API Access</span>
                             </div>
                             <button class="button secondary" onclick="selectPlatform('facebook')">
-                                <i class="fas fa-play"></i> Try Now
+                                <i class="fas fa-play"></i> Execute
                             </button>
                         </div>
 
@@ -793,14 +931,14 @@
                                 <i class="fab fa-twitter fa-2x"></i>
                             </div>
                             <h3 class="downloader-title">Twitter/X Downloader</h3>
-                            <p class="downloader-desc">Download videos, GIFs, and images from Twitter/X. Supports tweets, spaces, and moments.</p>
+                            <p class="downloader-desc">Execute Twitter API for video and media downloads.</p>
                             <div class="downloader-features">
                                 <span class="feature-tag">Videos</span>
                                 <span class="feature-tag">GIFs</span>
-                                <span class="feature-tag">Threads</span>
+                                <span class="feature-tag">JSON API</span>
                             </div>
                             <button class="button secondary" onclick="selectPlatform('twitter')">
-                                <i class="fas fa-play"></i> Try Now
+                                <i class="fas fa-play"></i> Execute
                             </button>
                         </div>
 
@@ -810,57 +948,111 @@
                                 <i class="fab fa-pinterest fa-2x"></i>
                             </div>
                             <h3 class="downloader-title">Pinterest Downloader</h3>
-                            <p class="downloader-desc">Download Pinterest pins, images, and videos. High-resolution downloads with metadata.</p>
+                            <p class="downloader-desc">Execute Pinterest API for image and video downloads.</p>
                             <div class="downloader-features">
                                 <span class="feature-tag">Images</span>
                                 <span class="feature-tag">Videos</span>
-                                <span class="feature-tag">Boards</span>
+                                <span class="feature-tag">API Ready</span>
                             </div>
                             <button class="button secondary" onclick="selectPlatform('pinterest')">
-                                <i class="fas fa-play"></i> Try Now
+                                <i class="fas fa-play"></i> Execute
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Quick Examples -->
+                <!-- TERMINAL API TESTER -->
                 <div class="section">
                     <h2 class="section-title">
-                        <i class="fas fa-bolt"></i> Quick Examples
+                        <i class="fas fa-terminal"></i> API Terminal
                     </h2>
-                    <div class="api-tester">
-                        <div class="endpoint-selector" id="endpoint-buttons">
-                            <!-- Buttons akan di-generate oleh JavaScript -->
+                    
+                    <div class="terminal-container">
+                        <div class="terminal-header">
+                            <div class="terminal-title">
+                                <i class="fas fa-terminal"></i> Proxima API Terminal
+                            </div>
+                            <div class="terminal-controls">
+                                <div class="terminal-btn close"></div>
+                                <div class="terminal-btn minimize"></div>
+                                <div class="terminal-btn maximize"></div>
+                            </div>
                         </div>
                         
-                        <div class="input-group">
-                            <label class="input-label">
-                                <i class="fas fa-link"></i> Enter Video URL
-                            </label>
-                            <input type="text" id="video-url" class="url-input" placeholder="Paste video URL here...">
+                        <div class="terminal-body" id="terminal-body">
+                            <div class="terminal-line">
+                                <span class="terminal-prompt">root@ienz</span>
+                                <span class="terminal-text"># Welcome to Proxima API Terminal</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="terminal-prompt">root@ienz</span>
+                                <span class="terminal-text"># Type or paste URL, then press ENTER or click EXECUTE</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="terminal-prompt">root@ienz</span>
+                                <span class="terminal-text"># Example: https://www.tiktok.com/@tiktok/video/7106675944969432362</span>
+                            </div>
+                            <div class="terminal-line mb-2"></div>
+                            
+                            <!-- Current API Endpoint Display -->
+                            <div class="api-endpoint-display" id="api-endpoint-display">
+                                <div style="color: var(--terminal-text); margin-bottom: 10px;">
+                                    <i class="fas fa-link"></i> Current API Endpoint:
+                                </div>
+                                <div class="api-url">
+                                    <code id="current-api-url">https://api-proxima.netlify.app/api/tiktok?url=</code>
+                                    <button class="copy-btn" onclick="copyApiUrl()">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <div style="color: var(--gray); font-size: 0.9rem; margin-top: 10px;">
+                                    <i class="fas fa-info-circle"></i> Use curl: <code style="background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 4px;">curl "<span id="curl-api-url">https://api-proxima.netlify.app/api/tiktok?url=VIDEO_URL</span>"</code>
+                                </div>
+                            </div>
+                            
+                            <div class="terminal-line mb-2"></div>
+                            
+                            <!-- Command Input -->
+                            <div class="terminal-line" id="command-input-line">
+                                <span class="terminal-prompt">root@ienz</span>
+                                <span class="terminal-text">></span>
+                                <input type="text" class="terminal-command" id="terminal-command" 
+                                       placeholder="Paste video URL here and press ENTER..." 
+                                       autocomplete="off" autofocus>
+                            </div>
+                            
+                            <!-- Response will appear here -->
+                            <div id="terminal-response"></div>
                         </div>
-                        
-                        <div class="mb-2">
-                            <button class="button" id="fetch-btn" style="width: 100%;">
-                                <i class="fas fa-download"></i> FETCH & DOWNLOAD
+                    </div>
+                    
+                    <div class="flex items-center justify-between mt-3">
+                        <div class="flex gap-4">
+                            <button class="button" id="execute-btn" onclick="executeCommand()">
+                                <i class="fas fa-play"></i> EXECUTE
+                            </button>
+                            <button class="button secondary" onclick="clearTerminal()">
+                                <i class="fas fa-broom"></i> CLEAR
+                            </button>
+                            <button class="button terminal" onclick="showCurlExample()">
+                                <i class="fas fa-code"></i> CURL EXAMPLE
                             </button>
                         </div>
-                        
-                        <div class="response-box" id="response-box">
-🚀 Welcome to Proxima Downloader!
-Paste any social media URL above and click "FETCH & DOWNLOAD"
-
-📌 Quick Test URLs:
-• TikTok: https://www.tiktok.com/@tiktok/video/7106675944969432362
-• YouTube: https://www.youtube.com/watch?v=dQw4w9WgXcQ
-• Instagram: https://www.instagram.com/p/Cz7hNzTPzYx/
-• Twitter: https://twitter.com/Twitter/status/20
-• Pinterest: https://www.pinterest.com/pin/595699155001658720/
+                        <div>
+                            <button class="button secondary" onclick="copyTerminalOutput()">
+                                <i class="fas fa-copy"></i> COPY OUTPUT
+                            </button>
                         </div>
-                        
-                        <div id="download-links" class="download-links" style="display: none;">
-                            <!-- Download links will appear here -->
-                        </div>
+                    </div>
+                </div>
+                
+                <!-- Endpoint Selector -->
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-sliders-h"></i> API Endpoint Selector
+                    </h2>
+                    <div class="endpoint-selector" id="endpoint-buttons">
+                        <!-- Buttons will be generated by JavaScript -->
                     </div>
                 </div>
             </div>
@@ -871,36 +1063,30 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                     <div class="coming-soon-icon">
                         <i class="fas fa-search fa-5x"></i>
                     </div>
-                    <h2 class="coming-soon-title">Search Feature Coming Soon!</h2>
+                    <h2 class="coming-soon-title">Search API Coming Soon!</h2>
                     <p class="coming-soon-desc">
-                        We're building an advanced search engine that lets you find content across all social media platforms. 
-                        Search by keywords, hashtags, users, or trending topics.
+                        We're building advanced search API endpoints that will allow you to search across all social media platforms 
+                        with terminal commands and REST API calls.
                     </p>
                     
                     <div class="features-grid">
                         <div class="feature-card">
-                            <i class="fas fa-hashtag fa-3x mb-2" style="color: var(--primary);"></i>
-                            <h3>Hashtag Search</h3>
-                            <p>Search content by hashtags across multiple platforms</p>
+                            <i class="fas fa-code fa-3x mb-2" style="color: var(--primary);"></i>
+                            <h3>API Search</h3>
+                            <p>Search endpoints with JSON responses</p>
                         </div>
                         
                         <div class="feature-card">
-                            <i class="fas fa-chart-line fa-3x mb-2" style="color: var(--secondary);"></i>
-                            <h3>Trending Topics</h3>
-                            <p>Discover what's trending on social media</p>
+                            <i class="fas fa-terminal fa-3x mb-2" style="color: var(--secondary);"></i>
+                            <h3>Terminal Commands</h3>
+                            <p>Execute search commands from terminal</p>
                         </div>
                         
                         <div class="feature-card">
                             <i class="fas fa-filter fa-3x mb-2" style="color: var(--success);"></i>
                             <h3>Advanced Filters</h3>
-                            <p>Filter by date, platform, content type, and more</p>
+                            <p>Filter results with query parameters</p>
                         </div>
-                    </div>
-                    
-                    <div class="mt-3">
-                        <button class="button" onclick="showNotification('Search feature coming in v3.0!')">
-                            <i class="fas fa-bell"></i> Notify Me When Ready
-                        </button>
                     </div>
                 </div>
             </div>
@@ -911,42 +1097,126 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                     <div class="coming-soon-icon">
                         <i class="fas fa-tools fa-5x"></i>
                     </div>
-                    <h2 class="coming-soon-title">Tools Feature Coming Soon!</h2>
+                    <h2 class="coming-soon-title">API Tools Coming Soon!</h2>
                     <p class="coming-soon-desc">
-                        Get ready for our powerful toolkit that includes video conversion, editing, compression, 
-                        and analysis tools. Everything you need for content creation.
+                        Advanced API tools for video processing, conversion, and analysis. All accessible via REST API 
+                        and terminal commands.
                     </p>
                     
                     <div class="features-grid">
                         <div class="feature-card">
-                            <i class="fas fa-file-video fa-3x mb-2" style="color: var(--primary);"></i>
-                            <h3>Video Converter</h3>
-                            <p>Convert videos between formats (MP4, AVI, MOV, etc.)</p>
+                            <i class="fas fa-exchange-alt fa-3x mb-2" style="color: var(--primary);"></i>
+                            <h3>Convert API</h3>
+                            <p>API for video format conversion</p>
                         </div>
                         
                         <div class="feature-card">
                             <i class="fas fa-compress-alt fa-3x mb-2" style="color: var(--secondary);"></i>
-                            <h3>Video Compressor</h3>
-                            <p>Compress videos without losing quality</p>
+                            <h3>Compress API</h3>
+                            <p>API endpoint for video compression</p>
                         </div>
                         
                         <div class="feature-card">
-                            <i class="fas fa-edit fa-3x mb-2" style="color: var(--success);"></i>
-                            <h3>Video Editor</h3>
-                            <p>Basic editing tools: trim, crop, merge videos</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <i class="fas fa-wave-square fa-3x mb-2" style="color: var(--warning);"></i>
-                            <h3>Audio Extractor</h3>
-                            <p>Extract audio from videos as MP3</p>
+                            <i class="fas fa-wave-square fa-3x mb-2" style="color: var(--success);"></i>
+                            <h3>Audio API</h3>
+                            <p>Extract audio via API calls</p>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- API DOCS CATEGORY -->
+            <div class="category-content" id="api-category">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-code"></i> API Documentation
+                    </h2>
                     
-                    <div class="mt-3">
-                        <button class="button" onclick="showNotification('Tools feature coming in v3.0!')">
-                            <i class="fas fa-bell"></i> Notify Me When Ready
-                        </button>
+                    <div class="terminal-container mb-3">
+                        <div class="terminal-header">
+                            <div class="terminal-title">
+                                <i class="fas fa-book"></i> API Reference
+                            </div>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-line">
+                                <span class="terminal-prompt">root@ienz</span>
+                                <span class="terminal-text"># Proxima API Documentation</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="terminal-prompt">root@ienz</span>
+                                <span class="terminal-text"># Base URL: https://api-proxima.netlify.app</span>
+                            </div>
+                            <div class="terminal-line mb-2"></div>
+                            
+                            <div class="api-endpoint-display">
+                                <div style="color: var(--terminal-text); margin-bottom: 15px; font-weight: bold;">
+                                    <i class="fas fa-network-wired"></i> Available Endpoints:
+                                </div>
+                                
+                                <div class="api-url mb-2">
+                                    <code>GET /api/tiktok?url={video_url}</code>
+                                    <button class="copy-btn" onclick="copyText('GET /api/tiktok?url={video_url}')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="api-url mb-2">
+                                    <code>GET /api/youtube?url={video_url}</code>
+                                    <button class="copy-btn" onclick="copyText('GET /api/youtube?url={video_url}')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="api-url mb-2">
+                                    <code>GET /api/instagram?url={post_url}</code>
+                                    <button class="copy-btn" onclick="copyText('GET /api/instagram?url={post_url}')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="api-url mb-2">
+                                    <code>GET /api/facebook?url={video_url}</code>
+                                    <button class="copy-btn" onclick="copyText('GET /api/facebook?url={video_url}')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="api-url mb-2">
+                                    <code>GET /api/twitter?url={tweet_url}</code>
+                                    <button class="copy-btn" onclick="copyText('GET /api/twitter?url={tweet_url}')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="api-url mb-2">
+                                    <code>GET /api/pinterest?url={pin_url}</code>
+                                    <button class="copy-btn" onclick="copyText('GET /api/pinterest?url={pin_url}')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="terminal-line mb-2"></div>
+                            
+                            <div class="api-endpoint-display">
+                                <div style="color: var(--terminal-text); margin-bottom: 10px; font-weight: bold;">
+                                    <i class="fas fa-server"></i> Response Format:
+                                </div>
+                                <pre style="color: var(--gray); background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; overflow-x: auto;">
+{
+    "status": true,
+    "creator": "iEnz",
+    "result": "Success message",
+    "data": {
+        "title": "Video title",
+        "author": "Author name",
+        "video_url": "Direct download URL",
+        // ... other fields
+    }
+}</pre>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -954,8 +1224,8 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
             <!-- FOOTER -->
             <footer>
                 <div class="footer-logo">PROXIMA API</div>
-                <div class="version">Version 2.0 • Creator: iEnz • Made with <i class="fas fa-heart" style="color: #ff4c4c;"></i></div>
-                <div class="version">Response Format: Status: True | Creator: iEnz | Result: [Your Data]</div>
+                <div class="version">Version 2.1 • Creator: iEnz • Terminal Interface</div>
+                <div class="version">Format: Status: True | Creator: iEnz | Result: [Your Data]</div>
                 
                 <div class="mt-2">
                     <span class="api-status" id="api-status">
@@ -963,9 +1233,12 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                     </span>
                 </div>
                 
-                <div class="mt-2">
+                <div class="mt-2 flex gap-4 justify-center">
                     <button class="button secondary" onclick="checkAllAPIs()">
                         <i class="fas fa-sync-alt"></i> Check API Status
+                    </button>
+                    <button class="button terminal" onclick="showNotification('API Base URL: https://api-proxima.netlify.app')">
+                        <i class="fas fa-copy"></i> Copy Base URL
                     </button>
                 </div>
             </footer>
@@ -974,6 +1247,10 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
 
     <script>
         // API Endpoints Configuration
+        const baseUrl = window.location.origin.includes('netlify') 
+            ? window.location.origin 
+            : 'https://api-proxima.netlify.app';
+        
         const endpoints = {
             tiktok: {
                 name: "TikTok",
@@ -981,7 +1258,7 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                 color: "#ff0050",
                 placeholder: "https://www.tiktok.com/@username/video/123456789",
                 example: "https://www.tiktok.com/@tiktok/video/7106675944969432362",
-                apiUrl: "/api/tiktok?url="
+                apiPath: "/api/tiktok?url="
             },
             youtube: {
                 name: "YouTube",
@@ -989,7 +1266,7 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                 color: "#ff0000",
                 placeholder: "https://www.youtube.com/watch?v=xxxxxxxxxxx",
                 example: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                apiUrl: "/api/youtube?url="
+                apiPath: "/api/youtube?url="
             },
             instagram: {
                 name: "Instagram",
@@ -997,7 +1274,7 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                 color: "#E4405F",
                 placeholder: "https://www.instagram.com/p/xxxxxxxxxxx/",
                 example: "https://www.instagram.com/p/Cz7hNzTPzYx/",
-                apiUrl: "/api/instagram?url="
+                apiPath: "/api/instagram?url="
             },
             facebook: {
                 name: "Facebook",
@@ -1005,7 +1282,7 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                 color: "#1877F2",
                 placeholder: "https://www.facebook.com/watch/?v=123456789",
                 example: "https://www.facebook.com/facebook/videos/10153231379946729/",
-                apiUrl: "/api/facebook?url="
+                apiPath: "/api/facebook?url="
             },
             twitter: {
                 name: "Twitter/X",
@@ -1013,7 +1290,7 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                 color: "#1DA1F2",
                 placeholder: "https://twitter.com/user/status/123456789",
                 example: "https://twitter.com/Twitter/status/20",
-                apiUrl: "/api/twitter?url="
+                apiPath: "/api/twitter?url="
             },
             pinterest: {
                 name: "Pinterest",
@@ -1021,19 +1298,23 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                 color: "#E60023",
                 placeholder: "https://www.pinterest.com/pin/123456789/",
                 example: "https://www.pinterest.com/pin/595699155001658720/",
-                apiUrl: "/api/pinterest?url="
+                apiPath: "/api/pinterest?url="
             }
         };
 
         let currentEndpoint = 'tiktok';
         let currentCategory = 'downloader';
+        let terminalHistory = [];
 
         // Initialize on page load
         window.addEventListener('DOMContentLoaded', function() {
             initializeEndpointButtons();
             checkAPIStatus();
             setupEventListeners();
-            document.getElementById('video-url').value = endpoints.tiktok.example;
+            updateApiUrlDisplay();
+            
+            // Set initial command input value
+            document.getElementById('terminal-command').value = endpoints.tiktok.example;
         });
 
         // Initialize endpoint buttons
@@ -1052,6 +1333,19 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                 button.style.borderLeft = `4px solid ${endpoint.color}`;
                 container.appendChild(button);
             });
+        }
+
+        // Update API URL display
+        function updateApiUrlDisplay() {
+            const endpoint = endpoints[currentEndpoint];
+            const apiUrl = `${baseUrl}${endpoint.apiPath}`;
+            const curlUrl = `${baseUrl}${endpoint.apiPath}VIDEO_URL`;
+            
+            document.getElementById('current-api-url').textContent = apiUrl;
+            document.getElementById('curl-api-url').textContent = curlUrl;
+            
+            // Also update the command input placeholder
+            document.getElementById('terminal-command').placeholder = `Paste ${endpoint.name} URL here...`;
         }
 
         // Setup event listeners
@@ -1080,13 +1374,20 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                 });
             });
 
-            // Fetch button
-            document.getElementById('fetch-btn').addEventListener('click', fetchData);
+            // Execute button
+            document.getElementById('execute-btn').addEventListener('click', executeCommand);
 
-            // Enter key in input
-            document.getElementById('video-url').addEventListener('keypress', function(e) {
+            // Enter key in terminal command
+            document.getElementById('terminal-command').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
-                    fetchData();
+                    executeCommand();
+                }
+            });
+
+            // Clear terminal button
+            document.getElementById('terminal-command').addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    this.value = '';
                 }
             });
         }
@@ -1106,11 +1407,6 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                 content.classList.remove('active');
             });
             document.getElementById(`${category}-category`).classList.add('active');
-            
-            // Scroll to category if not downloader
-            if (category !== 'downloader') {
-                document.getElementById(`${category}-category`).scrollIntoView({ behavior: 'smooth' });
-            }
         }
 
         // Select platform
@@ -1129,35 +1425,39 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
             });
             document.querySelector(`.endpoint-btn[data-endpoint="${endpoint}"]`).classList.add('active');
             
-            // Update input placeholder and example
+            // Update API URL display
+            updateApiUrlDisplay();
+            
+            // Set example URL in command input
             const endpointConfig = endpoints[endpoint];
-            document.getElementById('video-url').placeholder = endpointConfig.placeholder;
-            document.getElementById('video-url').value = endpointConfig.example;
+            document.getElementById('terminal-command').value = endpointConfig.example;
             
             // Switch to downloader category
             if (currentCategory !== 'downloader') {
                 switchCategory('downloader');
             }
             
-            // Scroll to tester
+            // Scroll to terminal
             setTimeout(() => {
-                document.getElementById('video-url').focus();
+                document.getElementById('terminal-command').focus();
+                document.getElementById('terminal-command').select();
             }, 300);
         }
 
-        // Scroll to tester
-        function scrollToTester() {
+        // Scroll to terminal
+        function scrollToTerminal() {
             document.getElementById('downloader-category').scrollIntoView({ behavior: 'smooth' });
             setTimeout(() => {
-                document.getElementById('video-url').focus();
+                document.getElementById('terminal-command').focus();
+                document.getElementById('terminal-command').select();
             }, 500);
         }
 
-        // Fetch data from API
-        async function fetchData() {
-            const urlInput = document.getElementById('video-url').value.trim();
-            const responseBox = document.getElementById('response-box');
-            const downloadLinks = document.getElementById('download-links');
+        // Execute command
+        async function executeCommand() {
+            const commandInput = document.getElementById('terminal-command');
+            const urlInput = commandInput.value.trim();
+            const responseContainer = document.getElementById('terminal-response');
             
             if (!urlInput) {
                 showNotification('Please enter a video URL', 'warning');
@@ -1172,13 +1472,21 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                 return;
             }
 
-            // Show loading
-            responseBox.innerHTML = '<div class="loading">Fetching video data...</div>';
-            downloadLinks.style.display = 'none';
-            downloadLinks.innerHTML = '';
-
+            // Add command to terminal history
+            addTerminalLine(`root@ienz > ${urlInput}`);
+            
+            // Show executing message
+            addTerminalLine('Executing API request...', 'info');
+            
+            // Clear previous response
+            responseContainer.innerHTML = '';
+            
             try {
-                const apiUrl = `${endpoints[currentEndpoint].apiUrl}${encodeURIComponent(urlInput)}`;
+                const endpoint = endpoints[currentEndpoint];
+                const apiUrl = `${baseUrl}${endpoint.apiPath}${encodeURIComponent(urlInput)}`;
+                
+                // Show API URL being called
+                addTerminalLine(`API: ${apiUrl}`, 'api');
                 
                 const response = await axios.get(apiUrl, {
                     timeout: 30000,
@@ -1187,7 +1495,7 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                     }
                 });
                 
-                displayResult(response.data);
+                displayTerminalResult(response.data);
                 
             } catch (error) {
                 console.error('API Error:', error);
@@ -1199,104 +1507,203 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                     errorMessage = 'No response from server. Check your connection.';
                 }
                 
-                responseBox.innerHTML = `
-                    <div class="status-false">❌ Status: False</div>
-                    <div class="creator">👤 Creator: iEnz</div>
-                    <div>⚠️ Error: ${errorMessage}</div>
-                    <div class="mt-2" style="color: var(--warning);">
-                        💡 Try these solutions:
-                        <ul style="margin-left: 20px; margin-top: 10px;">
-                            <li>Check if the video URL is correct</li>
-                            <li>Make sure the video is public</li>
-                            <li>Try a different video</li>
-                            <li>Check your internet connection</li>
-                        </ul>
-                    </div>
-                `;
+                addTerminalLine(`❌ Error: ${errorMessage}`, 'error');
+                addTerminalLine('💡 Try: Check URL validity, internet connection, or try another video.', 'tip');
             }
+            
+            // Scroll to bottom of terminal
+            scrollTerminalToBottom();
         }
 
-        // Display result
-        function displayResult(data) {
-            const responseBox = document.getElementById('response-box');
-            const downloadLinks = document.getElementById('download-links');
+        // Add line to terminal
+        function addTerminalLine(text, type = 'normal') {
+            const terminalBody = document.getElementById('terminal-body');
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
             
-            let html = '';
+            let content = '';
+            switch(type) {
+                case 'info':
+                    content = `<span style="color: var(--secondary);">${text}</span>`;
+                    break;
+                case 'error':
+                    content = `<span style="color: var(--danger);">${text}</span>`;
+                    break;
+                case 'success':
+                    content = `<span style="color: var(--success);">${text}</span>`;
+                    break;
+                case 'api':
+                    content = `<span style="color: var(--terminal-text);">${text}</span>`;
+                    break;
+                case 'tip':
+                    content = `<span style="color: var(--warning);">${text}</span>`;
+                    break;
+                default:
+                    content = `<span style="color: var(--terminal-text);">${text}</span>`;
+            }
+            
+            line.innerHTML = content;
+            terminalBody.appendChild(line);
+            
+            // Add to history
+            terminalHistory.push({ text, type, timestamp: new Date() });
+            
+            // Limit history
+            if (terminalHistory.length > 50) {
+                terminalHistory.shift();
+            }
+            
+            return line;
+        }
+
+        // Display result in terminal
+        function displayTerminalResult(data) {
+            const responseContainer = document.getElementById('terminal-response');
             
             if (data.status === true) {
-                html += `<div class="status-true">✅ Status: True</div>`;
-                html += `<div class="creator">👤 Creator: iEnz</div>`;
+                addTerminalLine(`✅ Status: True`, 'success');
+                addTerminalLine(`👤 Creator: iEnz`, 'success');
                 
                 if (data.result) {
-                    html += `<div class="result">📦 Result: ${data.result}</div>`;
+                    addTerminalLine(`📦 Result: ${data.result}`, 'success');
                 }
                 
                 if (data.data) {
                     const dataObj = data.data;
-                    html += `<div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">`;
-                    html += `<div style="color: var(--primary); font-weight: bold; margin-bottom: 15px;">📊 Video Information:</div>`;
                     
-                    // Display basic info
-                    if (dataObj.title) html += `<div>📝 Title: ${dataObj.title}</div>`;
-                    if (dataObj.author) html += `<div>👤 Author: ${dataObj.author}</div>`;
-                    if (dataObj.duration) html += `<div>⏱️ Duration: ${dataObj.duration}</div>`;
-                    if (dataObj.views) html += `<div>👁️ Views: ${dataObj.views}</div>`;
-                    if (dataObj.likes) html += `<div>👍 Likes: ${dataObj.likes}</div>`;
-                    if (dataObj.description) html += `<div>📋 Description: ${dataObj.description.substring(0, 150)}...</div>`;
+                    addTerminalLine('📊 VIDEO INFORMATION:', 'info');
                     
-                    html += `</div>`;
+                    if (dataObj.title) addTerminalLine(`  Title: ${dataObj.title}`);
+                    if (dataObj.author) addTerminalLine(`  Author: ${dataObj.author}`);
+                    if (dataObj.duration) addTerminalLine(`  Duration: ${dataObj.duration}`);
+                    if (dataObj.views) addTerminalLine(`  Views: ${dataObj.views}`);
                     
-                    // Display download links if available
+                    // Show download links if available
                     if (dataObj.video_url || dataObj.url || (dataObj.download_links && dataObj.download_links.length > 0)) {
-                        downloadLinks.style.display = 'block';
-                        
-                        let downloadHTML = `<div style="color: var(--success); font-weight: bold; margin-bottom: 15px;">📥 Download Links:</div>`;
-                        downloadHTML += `<div class="download-grid">`;
+                        addTerminalLine('📥 DOWNLOAD LINKS:', 'info');
                         
                         if (dataObj.download_links && Array.isArray(dataObj.download_links)) {
                             dataObj.download_links.forEach((link, index) => {
-                                downloadHTML += `
-                                    <div class="download-card">
-                                        <div style="font-weight: bold; margin-bottom: 10px;">${link.quality || 'Download'} ${link.type ? `(${link.type})` : ''}</div>
-                                        <button class="button secondary" onclick="window.open('${link.download_url || link.url}', '_blank')" style="width: 100%;">
-                                            <i class="fas fa-download"></i> Download ${link.quality || ''}
-                                        </button>
-                                    </div>
-                                `;
+                                const btnId = `download-btn-${Date.now()}-${index}`;
+                                addTerminalLine(`  [${index + 1}] ${link.quality || 'Download'} ${link.type ? `(${link.type})` : ''}`);
+                                addTerminalLine(`      URL: ${link.download_url || link.url}`);
                             });
                         } else {
                             const videoUrl = dataObj.video_url || dataObj.url;
-                            downloadHTML += `
-                                <div class="download-card">
-                                    <div style="font-weight: bold; margin-bottom: 10px;">Direct Download</div>
-                                    <button class="button secondary" onclick="window.open('${videoUrl}', '_blank')" style="width: 100%;">
-                                        <i class="fas fa-download"></i> Download Video
-                                    </button>
-                                </div>
-                            `;
+                            addTerminalLine(`  [1] Direct Download: ${videoUrl}`);
                         }
-                        
-                        downloadHTML += `</div>`;
-                        downloadLinks.innerHTML = downloadHTML;
                     }
+                    
+                    // Add copy API button
+                    const copyBtn = document.createElement('button');
+                    copyBtn.className = 'copy-btn mt-2';
+                    copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy API Response';
+                    copyBtn.onclick = () => copyText(JSON.stringify(data, null, 2));
+                    
+                    const line = addTerminalLine('');
+                    line.appendChild(copyBtn);
                 }
                 
             } else {
-                html += `<div class="status-false">❌ Status: False</div>`;
-                html += `<div class="creator">👤 Creator: iEnz</div>`;
-                html += `<div>⚠️ Error: ${data.error || data.message || 'Unknown error'}</div>`;
+                addTerminalLine(`❌ Status: False`, 'error');
+                addTerminalLine(`👤 Creator: iEnz`, 'error');
+                addTerminalLine(`⚠️ Error: ${data.error || data.message || 'Unknown error'}`, 'error');
                 
-                // Show mock data if available
                 if (data.mock_data) {
-                    html += `<div style="margin-top: 20px; color: var(--warning);">
-                        <div>📋 Showing demo data:</div>
-                        <div>Title: ${data.mock_data.title || 'Demo Video'}</div>
-                        <div>Author: ${data.mock_data.author || 'Demo User'}</div>
-                    </div>`;
+                    addTerminalLine('📋 Showing demo data (API offline):', 'tip');
+                    addTerminalLine(`  Title: ${data.mock_data.title || 'Demo Video'}`);
+                    addTerminalLine(`  Author: ${data.mock_data.author || 'Demo User'}`);
                 }
             }
+        }
+
+        // Scroll terminal to bottom
+        function scrollTerminalToBottom() {
+            const terminalBody = document.getElementById('terminal-body');
+            terminalBody.scrollTop = terminalBody.scrollHeight;
+        }
+
+        // Clear terminal
+        function clearTerminal() {
+            const terminalBody = document.getElementById('terminal-body');
+            const responseContainer = document.getElementById('terminal-response');
             
-            responseBox.innerHTML = html;
+            // Keep only the first 4 lines (welcome messages)
+            const lines = terminalBody.querySelectorAll('.terminal-line');
+            lines.forEach((line, index) => {
+                if (index > 3) {
+                    line.remove();
+                }
+            });
+            
+            // Clear response container
+            responseContainer.innerHTML = '';
+            
+            // Clear history
+            terminalHistory = [];
+            
+            // Add cleared message
+            addTerminalLine('Terminal cleared. Ready for new commands.', 'info');
+            scrollTerminalToBottom();
+        }
+
+        // Copy API URL
+        function copyApiUrl() {
+            const apiUrl = document.getElementById('current-api-url').textContent;
+            copyText(apiUrl);
+            
+            const copyBtn = document.querySelector('.copy-btn');
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            copyBtn.classList.add('copied');
+            
+            setTimeout(() => {
+                copyBtn.innerHTML = originalText;
+                copyBtn.classList.remove('copied');
+            }, 2000);
+        }
+
+        // Copy text to clipboard
+        function copyText(text) {
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    showNotification('Copied to clipboard!', 'success');
+                })
+                .catch(err => {
+                    console.error('Failed to copy: ', err);
+                    showNotification('Failed to copy', 'error');
+                });
+        }
+
+        // Copy terminal output
+        function copyTerminalOutput() {
+            const terminalBody = document.getElementById('terminal-body');
+            const text = terminalBody.innerText;
+            copyText(text);
+        }
+
+        // Show curl example
+        function showCurlExample() {
+            const endpoint = endpoints[currentEndpoint];
+            const exampleUrl = endpoint.example;
+            const apiUrl = `${baseUrl}${endpoint.apiPath}${encodeURIComponent(exampleUrl)}`;
+            
+            const curlCommand = `curl "${apiUrl}"`;
+            
+            addTerminalLine('📋 CURL EXAMPLE:', 'info');
+            addTerminalLine(curlCommand);
+            addTerminalLine('');
+            
+            // Add copy button
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn mt-1';
+            copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy curl command';
+            copyBtn.onclick = () => copyText(curlCommand);
+            
+            const line = addTerminalLine('');
+            line.appendChild(copyBtn);
+            
+            scrollTerminalToBottom();
         }
 
         // Check API status
@@ -1304,7 +1711,7 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
             const statusElement = document.getElementById('api-status');
             
             try {
-                const response = await axios.get('/api/tiktok', {
+                const response = await axios.get(`${baseUrl}/api/tiktok`, {
                     params: { url: 'test' },
                     timeout: 5000
                 }).catch(() => ({ data: { status: false } }));
@@ -1332,7 +1739,7 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
             
             for (const [key, endpoint] of Object.entries(endpoints)) {
                 try {
-                    await axios.head(endpoint.apiUrl.replace('?url=', ''), { timeout: 2000 });
+                    await axios.head(`${baseUrl}${endpoint.apiPath.replace('?url=', '')}`, { timeout: 2000 });
                     onlineCount++;
                 } catch (e) {
                     // API might be offline
@@ -1372,6 +1779,7 @@ Paste any social media URL above and click "FETCH & DOWNLOAD"
                 display: flex;
                 align-items: center;
                 gap: 10px;
+                max-width: 400px;
             `;
             
             notification.innerHTML = `
