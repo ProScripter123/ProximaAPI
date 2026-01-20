@@ -1,8 +1,7 @@
 [build]
-  publish = "public"  
-  functions = "netlify/functions"  !
+  publish = "public"
+  functions = "netlify/functions"
 
-# DOWNLOADER API
 [[redirects]]
   from = "/api/downloader/tiktok"
   to = "/.netlify/functions/tiktok"
@@ -11,16 +10,6 @@
 [[redirects]]
   from = "/api/downloader/youtube"
   to = "/.netlify/functions/youtube"
-  status = 200
-
-  [[redirects]]
-  from = "/api/downloader/ytmp3"
-  to = "/.netlify/functions/ytmp3"
-  status = 200
-
-[[redirects]]
-  from = "/api/downloader/ytmp4"
-  to = "/.netlify/functions/ytmp4"
   status = 200
 
 [[redirects]]
@@ -43,7 +32,31 @@
   to = "/.netlify/functions/facebook"
   status = 200
 
-# STALKER API
+[[redirects]]
+  from = "/api/ytmp3"
+  to = "/.netlify/functions/ytmp3"
+  status = 200
+
+[[redirects]]
+  from = "/api/ytmp4"
+  to = "/.netlify/functions/ytmp4"
+  status = 200
+
+[[redirects]]
+  from = "/api/downloader/ytmp3"
+  to = "/.netlify/functions/ytmp3"
+  status = 200
+
+[[redirects]]
+  from = "/api/downloader/ytmp4"
+  to = "/.netlify/functions/ytmp4"
+  status = 200
+
+[[redirects]]
+  from = "/download/youtube"
+  to = "/.netlify/functions/ytmp3"
+  status = 200
+
 [[redirects]]
   from = "/api/stalker/wuwastalker"
   to = "/.netlify/functions/wuwastalker"
@@ -55,6 +68,3 @@
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type"
-
-
-
