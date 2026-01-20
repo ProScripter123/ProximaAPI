@@ -7,9 +7,30 @@
   NODE_VERSION = "18"
 
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  from = "/api/downloader/tiktok"
+  to = "/.netlify/functions/downloader/tiktok-downloader"
   status = 200
+
+[[redirects]]
+  from = "/api/downloader/youtube"
+  to = "/.netlify/functions/downloader/youtube-downloader"
+  status = 200
+
+  [[redirects]]
+  from = "/api/downloader/instagram"
+  to = "/.netlify/functions/downloader/instagram-downloader"
+  status = 200
+
+[[redirects]]
+  from = "/api/downloader/pinterest"
+  to = "/.netlify/functions/downloader/pinterest-downloader"
+  status = 200
+
+  [[redirects]]
+  from = "/api/downloader/twitter"
+  to = "/.netlify/functions/downloader/twitter-downloader"
+  status = 200
+
 
 [[headers]]
   for = "/api/*"
@@ -17,3 +38,4 @@
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type"
+
