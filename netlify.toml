@@ -2,19 +2,58 @@
   publish = "public"
   functions = "netlify/functions"
 
+# Build settings untuk Node.js
+[build.environment]
+  NODE_VERSION = "18"
+
+# Redirects untuk API endpoints
 [[redirects]]
-  from = "/api/downloader/*"
-  to = "/.netlify/functions/downloader/:splat"
+  from = "/api/downloader/:api"
+  to = "/.netlify/functions/downloader/:api"
   status = 200
 
 [[redirects]]
-  from = "/api/stalk/*"
-  to = "/.netlify/functions/stalk/:splat"
+  from = "/api/stalk/:api"
+  to = "/.netlify/functions/stalk/:api"
   status = 200
 
+[[redirects]]
+  from = "/api/search/:api"
+  to = "/.netlify/functions/search/:api"
+  status = 200
+
+[[redirects]]
+  from = "/api/tools/:api"
+  to = "/.netlify/functions/tools/:api"
+  status = 200
+
+# Redirect untuk root API (optional)
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+# Redirect untuk static assets
+[[redirects]]
+  from = "/media/*"
+  to = "/media/:splat"
+  status = 200
+
+# CORS headers untuk API
 [[headers]]
-  for = "/*"
+  for = "/api/*"
   [headers.values]
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Headers = "*"
-    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Max-Age = "86400"
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https://images6.alphacoders.com https://images3.alphacoders.com; font-src 'self' https://cdnjs.cloudflare.com;"
