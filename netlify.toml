@@ -3,8 +3,13 @@
   functions = "netlify/functions"
 
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  from = "/api/downloader/*"
+  to = "/.netlify/functions/downloader/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/stalk/*"
+  to = "/.netlify/functions/stalk/:splat"
   status = 200
 
 [[headers]]
