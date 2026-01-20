@@ -1,6 +1,6 @@
 [build]
-  publish = "."
-  functions = "functions"
+  publish = "public"  # ← karena ada folder public
+  functions = "netlify/functions"  # ← path yang benar!
 
 # DOWNLOADER API
 [[redirects]]
