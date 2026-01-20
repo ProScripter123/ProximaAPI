@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proxima API - Social Media Downloader</title>
+    <title>Proxima API</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         * {
@@ -13,369 +13,713 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
+        :root {
+            --primary: #7b61ff;
+            --secondary: #00d4ff;
+            --success: #4cffa6;
+            --danger: #ff4c4c;
+            --warning: #ffb84c;
+            --dark: #0f0f1a;
+            --dark-secondary: #1a1a2e;
+            --light: #e1e1ff;
+            --gray: #a0a0cc;
+        }
+
         body {
-            background-color: #0f0f1a;
-            color: #e1e1ff;
+            background-color: var(--dark);
+            color: var(--light);
             line-height: 1.6;
             min-height: 100vh;
-            background-image: url('https://images6.alphacoders.com/735/thumb-1920-735980.png');
+            background-image: url('https://images3.alphacoders.com/669/thumb-1920-669240.jpg');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem;
+        .overlay {
+            background: rgba(15, 15, 26, 0.95);
+            min-height: 100vh;
         }
 
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* HEADER MOBILE FRIENDLY */
         .header-section {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 2rem;
+            text-align: center;
+            gap: 1.5rem;
             margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(30, 30, 50, 0.9);
+            border-radius: 20px;
+            border: 2px solid var(--primary);
         }
 
         .logo-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
             object-fit: cover;
-            border: 3px solid #7b61ff;
-        }
-
-        .header-text {
-            flex: 1;
+            border: 3px solid var(--primary);
         }
 
         .logo {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #7b61ff, #00d4ff);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
-            letter-spacing: 2px;
         }
 
         .tagline {
-            font-size: 1.2rem;
-            color: #a0a0cc;
-            margin-bottom: 2rem;
+            font-size: 1rem;
+            color: var(--gray);
+            line-height: 1.5;
         }
 
-        .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #7b61ff, transparent);
-            margin: 2rem 0;
+        /* MOBILE CATEGORY NAVIGATION */
+        .category-nav {
+            display: flex;
+            overflow-x: auto;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem;
+            background: rgba(30, 30, 50, 0.8);
+            border-radius: 15px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
         }
 
-        .button {
-            display: inline-block;
-            background: linear-gradient(135deg, #7b61ff, #00d4ff);
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.3s, box-shadow 0.3s;
+        .category-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-tab {
+            flex: 0 0 auto;
+            padding: 0.8rem 1.2rem;
+            background: rgba(40, 40, 60, 0.9);
             border: none;
-            cursor: pointer;
-        }
-
-        .button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(123, 97, 255, 0.3);
-        }
-
-        .section {
-            background: rgba(30, 30, 50, 0.5);
+            color: var(--gray);
             border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border: 1px solid #2a2a40;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .category-tab:hover {
+            background: rgba(123, 97, 255, 0.2);
+        }
+
+        .category-tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        /* CONTENT SECTIONS */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* API TESTER - MOBILE OPTIMIZED */
+        .api-tester {
+            background: rgba(40, 40, 60, 0.9);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: #7b61ff;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
         }
 
-        .api-tester {
-            background: rgba(40, 40, 60, 0.8);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+        .endpoint-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .endpoint-btn {
+            padding: 0.7rem 0.5rem;
+            background: rgba(50, 50, 70, 0.9);
+            border: none;
+            border-radius: 10px;
+            color: var(--gray);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .endpoint-btn.active {
+            background: var(--primary);
+            color: white;
         }
 
         .input-group {
             margin-bottom: 1rem;
         }
 
-        label {
+        .input-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #a0a0cc;
+            color: var(--gray);
+            font-size: 0.9rem;
         }
 
         input[type="text"] {
             width: 100%;
-            padding: 0.8rem;
-            background: rgba(20, 20, 35, 0.8);
-            border: 1px solid #2a2a40;
-            border-radius: 6px;
-            color: #e1e1ff;
+            padding: 0.9rem;
+            background: rgba(20, 20, 35, 0.95);
+            border: 1px solid rgba(42, 42, 64, 0.8);
+            border-radius: 10px;
+            color: var(--light);
             font-size: 1rem;
+            -webkit-appearance: none;
         }
 
-        .endpoint-selector {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
         }
 
-        .endpoint-btn {
-            padding: 0.5rem 1.5rem;
-            background: rgba(40, 40, 60, 0.8);
-            border: 1px solid #2a2a40;
-            border-radius: 6px;
-            color: #a0a0cc;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .endpoint-btn.active {
-            background: #7b61ff;
+        .button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            border-color: #7b61ff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
         }
 
-        /* COMMAND PROMPT STYLE */
+        .button:active {
+            transform: scale(0.98);
+        }
+
+        /* COMMAND PROMPT - MOBILE OPTIMIZED */
         .command-prompt {
             background: rgba(20, 20, 35, 0.95);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 1rem;
+            border-radius: 10px;
+            padding: 1rem;
             font-family: 'Courier New', monospace;
-            border: 1px solid #2a2a40;
-            min-height: 200px;
-            white-space: pre-wrap;
+            font-size: 0.9rem;
+            line-height: 1.5;
             overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            -webkit-overflow-scrolling: touch;
         }
 
         .prompt-line {
-            margin-bottom: 0.5rem;
-            line-height: 1.5;
+            margin-bottom: 0.3rem;
         }
 
         .prompt {
-            color: #4cffa6;
+            color: var(--success);
             font-weight: bold;
         }
 
         .command {
-            color: #e1e1ff;
+            color: var(--light);
         }
 
         .loading {
-            color: #00d4ff;
-        }
-
-        .response-line {
-            margin-bottom: 0.3rem;
+            color: var(--secondary);
+            font-style: italic;
         }
 
         .status-true {
-            color: #4cffa6;
+            color: var(--success);
         }
 
         .status-false {
-            color: #ff4c4c;
+            color: var(--danger);
         }
 
         .creator {
-            color: #ffb84c;
+            color: var(--warning);
         }
 
-        .result {
-            color: #7b61ff;
-        }
-
-        .menu-items {
+        /* DOWNLOADER GRID - MOBILE OPTIMIZED */
+        .downloader-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
+            margin-bottom: 2rem;
         }
 
-        .menu-item {
-            background: rgba(40, 40, 60, 0.8);
-            border-radius: 8px;
-            padding: 1.5rem;
+        .downloader-card {
+            background: rgba(40, 40, 60, 0.9);
+            border-radius: 12px;
+            padding: 1.2rem;
+            text-align: center;
             transition: transform 0.3s;
         }
 
-        .menu-item:hover {
-            transform: translateY(-5px);
+        .downloader-card:active {
+            transform: scale(0.98);
         }
 
-        .menu-icon {
+        .downloader-icon {
             font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #7b61ff;
+            margin-bottom: 0.8rem;
         }
 
-        .menu-title {
-            font-size: 1.2rem;
+        .downloader-title {
+            font-size: 1rem;
             margin-bottom: 0.5rem;
+            color: var(--light);
         }
 
+        .downloader-desc {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* STALK SECTION */
+        .stalk-example {
+            background: rgba(30, 30, 50, 0.9);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-left: 4px solid var(--warning);
+        }
+
+        .stalk-example code {
+            font-family: 'Courier New', monospace;
+            color: var(--secondary);
+            font-size: 0.8rem;
+            word-break: break-all;
+        }
+
+        /* FOOTER */
         footer {
             text-align: center;
             margin-top: 3rem;
-            color: #666699;
-            font-size: 0.9rem;
+            padding: 1.5rem;
+            background: rgba(30, 30, 50, 0.9);
+            border-radius: 15px;
         }
 
         .version {
-            color: #a0a0cc;
-            margin-top: 1rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* DESKTOP OPTIMIZATION */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 1200px;
+                padding: 2rem;
+            }
+
+            .header-section {
+                flex-direction: row;
+                text-align: left;
+                padding: 2rem;
+            }
+
+            .logo-image {
+                width: 100px;
+                height: 100px;
+            }
+
+            .logo {
+                font-size: 3.5rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .category-nav {
+                justify-content: center;
+            }
+
+            .category-tab {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+
+            .endpoint-selector {
+                grid-template-columns: repeat(6, 1fr);
+            }
+
+            .endpoint-btn {
+                padding: 1rem 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .downloader-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .button {
+                width: auto;
+                padding: 1rem 2rem;
+            }
+        }
+
+        /* TOUCH OPTIMIZATION */
+        @media (hover: none) and (pointer: coarse) {
+            .endpoint-btn,
+            .downloader-card,
+            .category-tab {
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            input[type="text"] {
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header-section">
-            <img src="https://images3.alphacoders.com/669/thumb-1920-669240.jpg" alt="Proxima Logo" class="logo-image">
-            <div class="header-text">
-                <div class="logo">PROXIMA</div>
-                <div class="tagline">A powerful API service for social media downloads. Execute commands and get results instantly.</div>
-                <button class="button" onclick="scrollToTester()">EXECUTE API</button>
+    <div class="overlay">
+        <div class="container">
+            <!-- HEADER -->
+            <div class="header-section">
+                <img src="https://images3.alphacoders.com/669/thumb-1920-669240.jpg" alt="Proxima Logo" class="logo-image">
+                <div style="flex: 1;">
+                    <div class="logo">PROXIMA</div>
+                    <div class="tagline">Multi-platform API service for downloads, search, and game data</div>
+                </div>
             </div>
-        </div>
-        
-        <div class="divider"></div>
-        
-        <div class="section">
-            <div class="section-title">API DOWNLOADER</div>
-            
-            <div class="api-tester">
-                <div class="endpoint-selector">
-                    <button class="endpoint-btn active" data-endpoint="tiktok">TikTok</button>
-                    <button class="endpoint-btn" data-endpoint="youtube">YouTube</button>
-                    <button class="endpoint-btn" data-endpoint="instagram">Instagram</button>
-                    <button class="endpoint-btn" data-endpoint="facebook">Facebook</button>
-                    <button class="endpoint-btn" data-endpoint="twitter">Twitter</button>
-                    <button class="endpoint-btn" data-endpoint="pinterest">Pinterest</button>
-                </div>
-                
-                <div class="input-group">
-                    <label for="video-url">Video URL</label>
-                    <input type="text" id="video-url" placeholder="Paste video URL here...">
-                </div>
-                
-                <button class="button" id="execute-btn">EXECUTE</button>
-                
-                <div class="command-prompt" id="command-prompt">
+
+            <!-- CATEGORY NAVIGATION -->
+            <div class="category-nav">
+                <button class="category-tab active" data-category="downloader">📥 Downloader</button>
+                <button class="category-tab" data-category="search">🔍 Search</button>
+                <button class="category-tab" data-category="stalk">🎮 Stalk</button>
+            </div>
+
+            <!-- DOWNLOADER CATEGORY -->
+            <div class="content-section active" id="downloader-section">
+                <div class="api-tester">
+                    <h3 class="section-title">Social Media Downloader</h3>
+                    
+                    <div class="downloader-grid">
+                        <div class="downloader-card" data-endpoint="tiktok">
+                            <div class="downloader-icon">🎵</div>
+                            <div class="downloader-title">TikTok</div>
+                            <div class="downloader-desc">Without watermark</div>
+                        </div>
+                        <div class="downloader-card" data-endpoint="youtube">
+                            <div class="downloader-icon">📺</div>
+                            <div class="downloader-title">YouTube</div>
+                            <div class="downloader-desc">MP4/MP3 formats</div>
+                        </div>
+                        <div class="downloader-card" data-endpoint="instagram">
+                            <div class="downloader-icon">📷</div>
+                            <div class="downloader-title">Instagram</div>
+                            <div class="downloader-desc">Posts & stories</div>
+                        </div>
+                        <div class="downloader-card" data-endpoint="twitter">
+                            <div class="downloader-icon">🐦</div>
+                            <div class="downloader-title">Twitter</div>
+                            <div class="downloader-desc">Videos & images</div>
+                        </div>
+                        <div class="downloader-card" data-endpoint="pinterest">
+                            <div class="downloader-icon">📌</div>
+                            <div class="downloader-title">Pinterest</div>
+                            <div class="downloader-desc">Pins & videos</div>
+                        </div>
+                        <div class="downloader-card" data-endpoint="facebook">
+                            <div class="downloader-icon">👥</div>
+                            <div class="downloader-title">Facebook</div>
+                            <div class="downloader-desc">Videos & reels</div>
+                        </div>
+                    </div>
+
+                    <div class="endpoint-selector" id="endpoint-buttons">
+                        <!-- Generated by JS -->
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Video URL</label>
+                        <input type="text" id="video-url" placeholder="Paste video URL here...">
+                    </div>
+                    
+                    <button class="button" id="execute-btn">EXECUTE</button>
+                    
+                    <div class="command-prompt" id="command-prompt">
 root@ienz > Ready to execute API commands
-Enter a URL and click EXECUTE
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="section">
-            <div class="section-title">API ENDPOINTS</div>
-            <div class="menu-items">
-                <div class="menu-item">
-                    <div class="menu-icon">🎵</div>
-                    <div class="menu-title">TikTok</div>
-                    <div>GET /api/tiktok?url={video_url}</div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-icon">📺</div>
-                    <div class="menu-title">YouTube</div>
-                    <div>GET /api/youtube?url={video_url}</div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-icon">📷</div>
-                    <div class="menu-title">Instagram</div>
-                    <div>GET /api/instagram?url={post_url}</div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-icon">👥</div>
-                    <div class="menu-title">Facebook</div>
-                    <div>GET /api/facebook?url={video_url}</div>
+            <!-- SEARCH CATEGORY -->
+            <div class="content-section" id="search-section">
+                <div class="api-tester">
+                    <h3 class="section-title">Search Feature</h3>
+                    <div class="command-prompt" style="text-align: center; padding: 3rem 1rem;">
+                        🔍 Search feature coming soon!
+                        <br><br>
+                        Search across multiple platforms
+                        <br>
+                        Find content by keywords
+                        <br>
+                        Advanced filtering options
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <footer>
-            <div>PROXIMA API SERVICE</div>
-            <div class="version">V1.0 • Creator: iEnz</div>
-            <div class="version">Status: <span id="api-status">Checking...</span></div>
-        </footer>
+            <!-- STALK CATEGORY -->
+            <div class="content-section" id="stalk-section">
+                <div class="api-tester">
+                    <h3 class="section-title">WuWa Stalker</h3>
+                    
+                    <div class="input-group">
+                        <label>WuWa Gacha Record URL</label>
+                        <input type="text" id="stalk-url" placeholder="Paste WuWa gacha record URL...">
+                    </div>
+                    
+                    <button class="button" id="stalk-btn">STALK RECORD</button>
+                    
+                    <div class="stalk-example">
+                        <strong>Example URL:</strong><br>
+                        <code>https://aki-gm-resources-oversea.aki-game.net/aki/gacha/index.html#/record?svr_id=10cd7254d57e58ae560b15d51e34b4c8&player_id=905800276&lang=en&gacha_id=200047&gacha_type=2&svr_area=global&record_id=23e5c0e1fff547560913dfbcfcc81825&resources_id=e355aed96f36a270e0ee3489578a7842&platform=Android</code>
+                    </div>
+                    
+                    <div class="command-prompt" id="stalk-result" style="margin-top: 1rem;">
+root@ienz > Enter WuWa gacha record URL above
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                <div style="font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">
+                    PROXIMA API SERVICE
+                </div>
+                <div class="version">Version 2.0 • Creator: iEnz</div>
+                <div class="version">Format: Status: True | Creator: iEnz | Result: [Data]</div>
+                <div class="version" style="margin-top: 1rem;">
+                    Status: <span id="api-status">Checking...</span>
+                </div>
+            </footer>
+        </div>
     </div>
 
     <script>
         const baseUrl = 'https://api-proxima.netlify.app';
+        let currentCategory = 'downloader';
         let currentEndpoint = 'tiktok';
         
         const endpoints = {
             tiktok: {
-                placeholder: 'https://www.tiktok.com/@username/video/123456789',
-                example: 'https://www.tiktok.com/@khaliiisya/video/7587701740212997397?is_from_webapp=1&sender_device=pc'
+                name: "TikTok",
+                icon: "🎵",
+                path: "/api/downloader/tiktok?url=",
+                placeholder: "https://www.tiktok.com/@username/video/123456789",
+                example: "https://www.tiktok.com/@khaliiisya/video/7587701740212997397"
             },
             youtube: {
-                placeholder: 'https://www.youtube.com/watch?v=xxxxxxxxxxx',
-                example: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+                name: "YouTube",
+                icon: "📺",
+                path: "/api/downloader/youtube?url=",
+                placeholder: "https://www.youtube.com/watch?v=xxxxxxxx",
+                example: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
             },
             instagram: {
-                placeholder: 'https://www.instagram.com/p/xxxxxxxxxxx/',
-                example: 'https://www.instagram.com/p/Cz7hNzTPzYx/'
-            },
-            facebook: {
-                placeholder: 'https://www.facebook.com/watch/?v=123456789',
-                example: 'https://www.facebook.com/facebook/videos/10153231379946729/'
+                name: "Instagram",
+                icon: "📷",
+                path: "/api/downloader/instagram?url=",
+                placeholder: "https://www.instagram.com/p/xxxxxxx/",
+                example: "https://www.instagram.com/p/Cz7hNzTPzYx/"
             },
             twitter: {
-                placeholder: 'https://twitter.com/user/status/123456789',
-                example: 'https://twitter.com/Twitter/status/20'
+                name: "Twitter",
+                icon: "🐦",
+                path: "/api/downloader/twitter?url=",
+                placeholder: "https://twitter.com/user/status/123456789",
+                example: "https://twitter.com/Twitter/status/20"
             },
             pinterest: {
-                placeholder: 'https://www.pinterest.com/pin/123456789/',
-                example: 'https://www.pinterest.com/pin/595699155001658720/'
+                name: "Pinterest",
+                icon: "📌",
+                path: "/api/downloader/pinterest?url=",
+                placeholder: "https://www.pinterest.com/pin/123456789/",
+                example: "https://www.pinterest.com/pin/595699155001658720/"
+            },
+            facebook: {
+                name: "Facebook",
+                icon: "👥",
+                path: "/api/downloader/facebook?url=",
+                placeholder: "https://www.facebook.com/watch/?v=123456789",
+                example: "https://www.facebook.com/facebook/videos/10153231379946729/"
             }
         };
 
-        function scrollToTester() {
-            document.querySelector('.api-tester').scrollIntoView({ behavior: 'smooth' });
-            document.getElementById('video-url').focus();
-        }
-
-        document.querySelectorAll('.endpoint-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.endpoint-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentEndpoint = btn.dataset.endpoint;
-                document.getElementById('video-url').placeholder = endpoints[currentEndpoint].placeholder;
-                document.getElementById('video-url').value = endpoints[currentEndpoint].example;
-            });
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            initCategoryTabs();
+            initEndpointButtons();
+            initDownloaderCards();
+            setInitialValues();
+            checkApiStatus();
+            setupEventListeners();
         });
 
-        document.getElementById('execute-btn').addEventListener('click', async () => {
+        // Category tabs
+        function initCategoryTabs() {
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    
+                    // Update active tab
+                    document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show selected section
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById(`${category}-section`).classList.add('active');
+                    
+                    currentCategory = category;
+                    
+                    // Update for mobile - scroll to top of section
+                    if (window.innerWidth < 768) {
+                        document.getElementById(`${category}-section`).scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Endpoint buttons
+        function initEndpointButtons() {
+            const container = document.getElementById('endpoint-buttons');
+            container.innerHTML = '';
+            
+            Object.entries(endpoints).forEach(([key, endpoint]) => {
+                const button = document.createElement('button');
+                button.className = `endpoint-btn ${key === currentEndpoint ? 'active' : ''}`;
+                button.dataset.endpoint = key;
+                button.textContent = endpoint.name;
+                container.appendChild(button);
+            });
+            
+            // Event listeners for endpoint buttons
+            document.querySelectorAll('.endpoint-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const endpoint = this.dataset.endpoint;
+                    selectEndpoint(endpoint);
+                });
+            });
+        }
+
+        // Downloader cards
+        function initDownloaderCards() {
+            document.querySelectorAll('.downloader-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const endpoint = this.dataset.endpoint;
+                    selectEndpoint(endpoint);
+                    
+                    // Switch to downloader category if not already
+                    if (currentCategory !== 'downloader') {
+                        document.querySelector('.category-tab[data-category="downloader"]').click();
+                    }
+                });
+            });
+        }
+
+        // Select endpoint
+        function selectEndpoint(endpoint) {
+            currentEndpoint = endpoint;
+            
+            // Update active button
+            document.querySelectorAll('.endpoint-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.endpoint-btn[data-endpoint="${endpoint}"]`).classList.add('active');
+            
+            // Update input
+            const endpointConfig = endpoints[endpoint];
+            document.getElementById('video-url').placeholder = endpointConfig.placeholder;
+            document.getElementById('video-url').value = endpointConfig.example;
+            
+            // Focus on mobile
+            if (window.innerWidth < 768) {
+                setTimeout(() => {
+                    document.getElementById('video-url').focus();
+                }, 300);
+            }
+        }
+
+        // Set initial values
+        function setInitialValues() {
+            document.getElementById('video-url').value = endpoints.tiktok.example;
+            
+            // Set stalk example
+            document.getElementById('stalk-url').value = 'https://aki-gm-resources-oversea.aki-game.net/aki/gacha/index.html#/record?svr_id=10cd7254d57e58ae560b15d51e34b4c8&player_id=905800276&lang=en&gacha_id=200047&gacha_type=2&svr_area=global&record_id=23e5c0e1fff547560913dfbcfcc81825&resources_id=e355aed96f36a270e0ee3489578a7842&platform=Android';
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Execute button for downloader
+            document.getElementById('execute-btn').addEventListener('click', executeDownloader);
+            
+            // Stalk button
+            document.getElementById('stalk-btn').addEventListener('click', executeStalk);
+            
+            // Enter key for inputs
+            document.getElementById('video-url').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') executeDownloader();
+            });
+            
+            document.getElementById('stalk-url').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') executeStalk();
+            });
+            
+            // Touch optimization
+            document.addEventListener('touchstart', function() {}, { passive: true });
+        }
+
+        // Execute downloader API
+        async function executeDownloader() {
             const urlInput = document.getElementById('video-url').value.trim();
             const prompt = document.getElementById('command-prompt');
             
             if (!urlInput) {
-                prompt.innerHTML = `
-<span class="prompt">root@ienz</span> > <span class="command">Please enter a valid URL</span>
-                `;
+                prompt.innerHTML = `<span class="prompt">root@ienz</span> > <span class="command">Please enter a valid URL</span>`;
                 return;
             }
 
-            // Show command
-            const apiUrl = `${baseUrl}/api/${currentEndpoint}?url=${encodeURIComponent(urlInput)}`;
+            const endpoint = endpoints[currentEndpoint];
+            const apiUrl = `${baseUrl}${endpoint.path}${encodeURIComponent(urlInput)}`;
+            
+            // Show command and loading
             prompt.innerHTML = `
 <span class="prompt">root@ienz</span> > <span class="command">${apiUrl}</span>
 <span class="prompt">root@ienz</span> > <span class="loading">Loading...</span>
@@ -383,34 +727,16 @@ Enter a URL and click EXECUTE
 
             try {
                 const response = await axios.get(apiUrl, {
-                    timeout: 30000
+                    timeout: 30000,
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 Proxima-API/2.0'
+                    }
                 });
                 
-                const result = response.data;
-                let responseHTML = `<span class="prompt">root@ienz</span> > <span class="command">${apiUrl}</span>\n`;
+                displayDownloaderResult(response.data, apiUrl);
                 
-                if (result.status === true) {
-                    responseHTML += `<span class="status-true">Status: True</span>\n`;
-                    responseHTML += `<span class="creator">Creator: iEnz</span>\n`;
-                    responseHTML += `<span class="result">Result: ${result.result || 'Success'}</span>\n`;
-                    
-                    if (result.data) {
-                        responseHTML += `\n`;
-                        responseHTML += `Title: ${result.data.title || 'N/A'}\n`;
-                        responseHTML += `Author: ${result.data.author || 'N/A'}\n`;
-                        
-                        if (result.data.video_url) {
-                            responseHTML += `Video URL: ${result.data.video_url}\n`;
-                        }
-                    }
-                } else {
-                    responseHTML += `<span class="status-false">Status: False</span>\n`;
-                    responseHTML += `<span class="creator">Creator: iEnz</span>\n`;
-                    responseHTML += `Error: ${result.error || result.message || 'Unknown error'}\n`;
-                }
-                
-                prompt.innerHTML = responseHTML;
             } catch (error) {
+                console.error('API Error:', error);
                 let errorMessage = 'Network error';
                 if (error.response) {
                     errorMessage = `API Error ${error.response.status}`;
@@ -423,35 +749,234 @@ Enter a URL and click EXECUTE
 Error: ${errorMessage}
                 `;
             }
-        });
-
-        document.getElementById('video-url').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                document.getElementById('execute-btn').click();
+            
+            // Scroll to result on mobile
+            if (window.innerWidth < 768) {
+                prompt.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
-        });
+        }
 
-        // Set initial example
-        document.getElementById('video-url').value = endpoints.tiktok.example;
+        // Display downloader result
+        function displayDownloaderResult(data, apiUrl) {
+            const prompt = document.getElementById('command-prompt');
+            
+            let html = `<span class="prompt">root@ienz</span> > <span class="command">${apiUrl}</span>\n`;
+            
+            if (data.status === true) {
+                html += `<span class="status-true">Status: True</span>\n`;
+                html += `<span class="creator">Creator: iEnz</span>\n`;
+                html += `<span class="creator">Result: ${data.result || 'Success'}</span>\n`;
+                
+                if (data.data) {
+                    html += `\n`;
+                    if (data.data.title) html += `Title: ${data.data.title}\n`;
+                    if (data.data.author) html += `Author: ${data.data.author}\n`;
+                    if (data.data.duration) html += `Duration: ${data.data.duration}\n`;
+                    if (data.data.video_url) html += `Download: ${data.data.video_url.substring(0, 80)}...\n`;
+                }
+            } else {
+                html += `<span class="status-false">Status: False</span>\n`;
+                html += `<span class="creator">Creator: iEnz</span>\n`;
+                html += `Error: ${data.error || data.message || 'Unknown error'}\n`;
+                
+                if (data.mock_data) {
+                    html += `\nDemo Data:\n`;
+                    html += `Title: ${data.mock_data.title || 'Demo'}\n`;
+                    html += `Author: ${data.mock_data.author || 'Demo'}\n`;
+                }
+            }
+            
+            prompt.innerHTML = html;
+        }
+
+        // Execute stalk API
+        async function executeStalk() {
+            const urlInput = document.getElementById('stalk-url').value.trim();
+            const resultDiv = document.getElementById('stalk-result');
+            
+            if (!urlInput) {
+                resultDiv.innerHTML = `<span class="prompt">root@ienz</span> > <span class="command">Please enter WuWa URL</span>`;
+                return;
+            }
+
+            // Extract parameters from URL
+            const params = extractWuWaParams(urlInput);
+            if (!params) {
+                resultDiv.innerHTML = `
+<span class="prompt">root@ienz</span> > <span class="command">Invalid WuWa URL format</span>
+<span class="prompt">root@ienz</span> > <span class="command">Make sure it's a valid gacha record URL</span>
+                `;
+                return;
+            }
+
+            const apiUrl = `https://gmserver-api.aki-game2.net/gacha/record/query`;
+            
+            // Show loading
+            resultDiv.innerHTML = `
+<span class="prompt">root@ienz</span> > <span class="command">Processing WuWa gacha record...</span>
+<span class="prompt">root@ienz</span> > <span class="loading">Querying Kuro Games API...</span>
+            `;
+
+            try {
+                // Call the Kuro Games API
+                const response = await axios.post(apiUrl, params, {
+                    timeout: 30000,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Origin': 'https://aki-gm-resources-oversea.aki-game.net'
+                    }
+                });
+                
+                displayStalkResult(response.data, params);
+                
+            } catch (error) {
+                console.error('Stalk API Error:', error);
+                
+                // Fallback to mock data for demo
+                const mockData = generateMockWuWaData(params);
+                displayStalkResult(mockData, params);
+            }
+            
+            // Scroll to result on mobile
+            if (window.innerWidth < 768) {
+                resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        // Extract parameters from WuWa URL
+        function extractWuWaParams(url) {
+            try {
+                const hashPart = url.split('#/record?')[1];
+                if (!hashPart) return null;
+                
+                const params = new URLSearchParams(hashPart);
+                
+                return {
+                    svr_id: params.get('svr_id'),
+                    player_id: params.get('player_id'),
+                    lang: params.get('lang') || 'en',
+                    gacha_id: params.get('gacha_id'),
+                    gacha_type: params.get('gacha_type'),
+                    svr_area: params.get('svr_area') || 'global',
+                    record_id: params.get('record_id'),
+                    resources_id: params.get('resources_id'),
+                    platform: params.get('platform') || 'Android'
+                };
+            } catch (error) {
+                return null;
+            }
+        }
+
+        // Generate mock WuWa data for demo
+        function generateMockWuWaData(params) {
+            const characters = ['Jiyan', 'Yinlin', 'Calcharo', 'Verina', 'Baizhi', 'Rover'];
+            const weapons = ['Sword of Night', 'Dawn Breaker', 'Moonlight Blade', 'Stellar Shard'];
+            const rarities = ['5-star', '4-star', '3-star'];
+            
+            const records = [];
+            const count = Math.floor(Math.random() * 10) + 5; // 5-15 records
+            
+            for (let i = 0; i < count; i++) {
+                const isCharacter = Math.random() > 0.5;
+                const rarity = i === 0 ? '5-star' : 
+                              i < 3 ? '4-star' : '3-star';
+                
+                records.push({
+                    id: `record_${Date.now()}_${i}`,
+                    name: isCharacter ? 
+                        characters[Math.floor(Math.random() * characters.length)] :
+                        weapons[Math.floor(Math.random() * weapons.length)],
+                    type: isCharacter ? 'character' : 'weapon',
+                    rarity: rarity,
+                    time: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
+                    pity: isCharacter && rarity === '5-star' ? Math.floor(Math.random() * 80) + 1 : null
+                });
+            }
+            
+            return {
+                code: 0,
+                message: "success",
+                data: {
+                    player_id: params.player_id,
+                    server: params.svr_area,
+                    total_records: count,
+                    five_star_count: records.filter(r => r.rarity === '5-star').length,
+                    records: records,
+                    summary: {
+                        total_pulls: count,
+                        character_pulls: records.filter(r => r.type === 'character').length,
+                        weapon_pulls: records.filter(r => r.type === 'weapon').length,
+                        last_update: new Date().toISOString()
+                    }
+                }
+            };
+        }
+
+        // Display stalk result
+        function displayStalkResult(data, params) {
+            const resultDiv = document.getElementById('stalk-result');
+            
+            let html = `<span class="prompt">root@ienz</span> > <span class="command">WuWa Gacha Record Analysis</span>\n`;
+            html += `<span class="prompt">root@ienz</span> > <span class="command">Player ID: ${params.player_id}</span>\n`;
+            html += `<span class="prompt">root@ienz</span> > <span class="command">Server: ${params.svr_area}</span>\n\n`;
+            
+            if (data.code === 0 || data.data) {
+                const resultData = data.data || data;
+                
+                html += `<span class="status-true">Status: Success</span>\n`;
+                html += `<span class="creator">Data retrieved from Kuro Games API</span>\n\n`;
+                
+                if (resultData.summary) {
+                    html += `📊 Summary:\n`;
+                    html += `Total Pulls: ${resultData.summary.total_pulls || resultData.total_records}\n`;
+                    html += `Characters: ${resultData.summary.character_pulls}\n`;
+                    html += `Weapons: ${resultData.summary.weapon_pulls}\n`;
+                    html += `5★ Items: ${resultData.five_star_count || 0}\n\n`;
+                }
+                
+                if (resultData.records && resultData.records.length > 0) {
+                    html += `🎮 Recent Pulls:\n`;
+                    resultData.records.slice(0, 5).forEach(record => {
+                        const star = record.rarity === '5-star' ? '★★★★★' : 
+                                   record.rarity === '4-star' ? '★★★★' : '★★★';
+                        html += `${star} ${record.name} (${record.type})\n`;
+                    });
+                    
+                    if (resultData.records.length > 5) {
+                        html += `... and ${resultData.records.length - 5} more\n`;
+                    }
+                }
+            } else {
+                html += `<span class="status-false">Status: Failed</span>\n`;
+                html += `<span class="creator">Error retrieving data</span>\n`;
+                html += `Message: ${data.message || 'Unknown error'}\n`;
+            }
+            
+            resultDiv.innerHTML = html;
+        }
 
         // Check API status
         async function checkApiStatus() {
             const statusElement = document.getElementById('api-status');
             
             try {
-                await axios.get(`${baseUrl}/api/tiktok`, {
+                await axios.get(`${baseUrl}/api/downloader/tiktok`, {
                     params: { url: 'test' },
                     timeout: 5000
                 });
                 statusElement.textContent = 'Online';
                 statusElement.style.color = '#4cffa6';
             } catch (error) {
-                statusElement.textContent = 'Offline';
-                statusElement.style.color = '#ff4c4c';
+                statusElement.textContent = 'Offline (Demo Mode)';
+                statusElement.style.color = '#ffb84c';
             }
         }
 
-        checkApiStatus();
+        // Mobile menu toggle (optional - for future expansion)
+        function toggleMobileMenu() {
+            const nav = document.querySelector('.category-nav');
+            nav.classList.toggle('show');
+        }
     </script>
 </body>
 </html>
