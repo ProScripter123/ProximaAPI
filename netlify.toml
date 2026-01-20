@@ -6,6 +6,7 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# DOWNLOADER REDIRECTS
 [[redirects]]
   from = "/api/downloader/tiktok"
   to = "/.netlify/functions/downloader/tiktok-downloader"
@@ -16,7 +17,7 @@
   to = "/.netlify/functions/downloader/youtube-downloader"
   status = 200
 
-  [[redirects]]
+[[redirects]]
   from = "/api/downloader/instagram"
   to = "/.netlify/functions/downloader/instagram-downloader"
   status = 200
@@ -26,18 +27,27 @@
   to = "/.netlify/functions/downloader/pinterest-downloader"
   status = 200
 
-  [[redirects]]
+[[redirects]]
   from = "/api/downloader/twitter"
   to = "/.netlify/functions/downloader/twitter-downloader"
   status = 200
 
-    [[redirects]]
-  from = "/api/stalk/wuwastalker"
+[[redirects]]
+  from = "/api/downloader/facebook"
+  to = "/.netlify/functions/downloader/facebook-downloader"
+  status = 200
+
+# STALKER REDIRECTS - PASTIKAN SESUAI KODE HTML
+[[redirects]]
+  from = "/api/stalker/wuwastalker"
   to = "/.netlify/functions/stalk/wuwastalker"
   status = 200
 
-
-  
+# Atau lebih baik: RENAME FOLDER 'stalk' jadi 'stalker'
+# [[redirects]]
+#   from = "/api/stalker/wuwastalker"
+#   to = "/.netlify/functions/stalker/wuwastalker"
+#   status = 200
 
 [[headers]]
   for = "/api/*"
@@ -45,4 +55,3 @@
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type"
-
