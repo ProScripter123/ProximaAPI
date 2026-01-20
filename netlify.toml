@@ -35,7 +35,7 @@
 
 # STALKER API
 [[redirects]]
-  from = "/api/stalk/wuwastalker"
+  from = "/api/stalker/wuwastalker"
   to = "/.netlify/functions/wuwastalker"
   status = 200
 
@@ -45,3 +45,4 @@
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type"
+
