@@ -16,9 +16,6 @@
         :root {
             --primary: #7b61ff;
             --secondary: #00d4ff;
-            --success: #4cffa6;
-            --danger: #ff4c4c;
-            --warning: #ffb84c;
             --dark: #0f0f1a;
             --dark-secondary: #1a1a2e;
             --light: #e1e1ff;
@@ -30,47 +27,26 @@
             color: var(--light);
             line-height: 1.6;
             min-height: 100vh;
-            background-image: url('https://images6.alphacoders.com/735/thumb-1920-735980.png');
+            background-image: url('https://images3.alphacoders.com/669/thumb-1920-669240.jpg');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
         }
 
-        .overlay {
-            background: rgba(15, 15, 26, 0.95);
-            min-height: 100vh;
-        }
-
         .container {
-            max-width: 100%;
+            max-width: 800px;
             margin: 0 auto;
             padding: 1rem;
         }
 
-        /* HEADER MOBILE FRIENDLY */
-        .header-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        /* HEADER */
+        .header {
             text-align: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: rgba(30, 30, 50, 0.9);
-            border-radius: 20px;
-            border: 2px solid var(--primary);
-        }
-
-        .logo-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 15px;
-            object-fit: cover;
-            border: 3px solid var(--primary);
+            padding: 2rem 0;
         }
 
         .logo {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 900;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
@@ -78,103 +54,108 @@
             margin-bottom: 0.5rem;
         }
 
-        .tagline {
-            font-size: 1rem;
+        .subtitle {
             color: var(--gray);
-            line-height: 1.5;
+            font-size: 1.1rem;
         }
 
-        /* MOBILE CATEGORY NAVIGATION */
-        .category-nav {
+        /* MAIN CONTENT */
+        .main-content {
             display: flex;
-            overflow-x: auto;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            padding: 0.5rem;
-            background: rgba(30, 30, 50, 0.8);
-            border-radius: 15px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
+            flex-direction: column;
+            gap: 2rem;
         }
 
-        .category-nav::-webkit-scrollbar {
-            display: none;
-        }
-
-        .category-tab {
-            flex: 0 0 auto;
-            padding: 0.8rem 1.2rem;
-            background: rgba(40, 40, 60, 0.9);
-            border: none;
-            color: var(--gray);
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.3s;
-        }
-
-        .category-tab:hover {
-            background: rgba(123, 97, 255, 0.2);
-        }
-
-        .category-tab.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-
-        /* CONTENT SECTIONS */
-        .content-section {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* API TESTER - MOBILE OPTIMIZED */
-        .api-tester {
-            background: rgba(40, 40, 60, 0.9);
+        /* CATEGORY SECTIONS */
+        .category-section {
+            background: rgba(30, 30, 50, 0.9);
             border-radius: 15px;
             padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            border: 1px solid rgba(42, 42, 64, 0.8);
         }
 
-        .section-title {
+        .category-title {
             font-size: 1.3rem;
+            color: var(--primary);
             margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(123, 97, 255, 0.3);
+        }
+
+        /* API BUTTONS - VERTICAL LAYOUT */
+        .api-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .api-button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: rgba(40, 40, 60, 0.9);
+            border: 2px solid rgba(42, 42, 64, 0.8);
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s;
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .api-button:hover {
+            background: rgba(50, 50, 70, 0.9);
+            transform: translateX(5px);
+        }
+
+        .api-button.active {
+            background: rgba(123, 97, 255, 0.2);
+            border-color: var(--primary);
+        }
+
+        .api-button::before {
+            content: '▶';
+            position: absolute;
+            left: 1rem;
             color: var(--primary);
         }
 
-        .endpoint-selector {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+        .api-button.active::before {
+            content: '▼';
         }
 
-        .endpoint-btn {
-            padding: 0.7rem 0.5rem;
-            background: rgba(50, 50, 70, 0.9);
-            border: none;
+        /* API INPUT SECTION */
+        .api-input-section {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(20, 20, 35, 0.9);
             border-radius: 10px;
-            color: var(--gray);
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
+            border-left: 4px solid var(--primary);
         }
 
-        .endpoint-btn.active {
-            background: var(--primary);
-            color: white;
+        .api-input-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .endpoint-display {
+            font-family: 'Courier New', monospace;
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            word-break: break-all;
         }
 
         .input-group {
@@ -193,10 +174,9 @@
             padding: 0.9rem;
             background: rgba(20, 20, 35, 0.95);
             border: 1px solid rgba(42, 42, 64, 0.8);
-            border-radius: 10px;
+            border-radius: 8px;
             color: var(--light);
             font-size: 1rem;
-            -webkit-appearance: none;
         }
 
         input[type="text"]:focus {
@@ -204,636 +184,488 @@
             border-color: var(--primary);
         }
 
-        .button {
+        .execute-btn {
             width: 100%;
             padding: 1rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            margin-bottom: 1rem;
             transition: transform 0.3s;
         }
 
-        .button:active {
+        .execute-btn:active {
             transform: scale(0.98);
         }
 
-        /* COMMAND PROMPT - MOBILE OPTIMIZED */
-        .command-prompt {
-            background: rgba(20, 20, 35, 0.95);
-            border-radius: 10px;
-            padding: 1rem;
+        /* RESULT DISPLAY */
+        .result-display {
             font-family: 'Courier New', monospace;
             font-size: 0.9rem;
             line-height: 1.5;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-break: break-all;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .prompt-line {
-            margin-bottom: 0.3rem;
-        }
-
-        .prompt {
-            color: var(--success);
-            font-weight: bold;
-        }
-
-        .command {
-            color: var(--light);
-        }
-
-        .loading {
-            color: var(--secondary);
-            font-style: italic;
-        }
-
-        .status-true {
-            color: var(--success);
-        }
-
-        .status-false {
-            color: var(--danger);
-        }
-
-        .creator {
-            color: var(--warning);
-        }
-
-        /* DOWNLOADER GRID - MOBILE OPTIMIZED */
-        .downloader-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .downloader-card {
-            background: rgba(40, 40, 60, 0.9);
-            border-radius: 12px;
-            padding: 1.2rem;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-
-        .downloader-card:active {
-            transform: scale(0.98);
-        }
-
-        .downloader-icon {
-            font-size: 2rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .downloader-title {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            color: var(--light);
-        }
-
-        .downloader-desc {
-            font-size: 0.8rem;
-            color: var(--gray);
-        }
-
-        /* STALK SECTION */
-        .stalk-example {
-            background: rgba(30, 30, 50, 0.9);
-            border-radius: 10px;
+            background: rgba(20, 20, 35, 0.95);
+            border-radius: 8px;
             padding: 1rem;
             margin-top: 1rem;
-            border-left: 4px solid var(--warning);
-        }
-
-        .stalk-example code {
-            font-family: 'Courier New', monospace;
-            color: var(--secondary);
-            font-size: 0.8rem;
+            min-height: 150px;
+            white-space: pre-wrap;
             word-break: break-all;
+            border: 1px solid rgba(42, 42, 64, 0.8);
         }
 
         /* FOOTER */
-        footer {
+        .footer {
             text-align: center;
-            margin-top: 3rem;
-            padding: 1.5rem;
-            background: rgba(30, 30, 50, 0.9);
-            border-radius: 15px;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(42, 42, 64, 0.8);
         }
 
-        .version {
+        .footer-text {
             color: var(--gray);
             font-size: 0.9rem;
-            margin-top: 0.5rem;
+            line-height: 1.5;
         }
 
-        /* DESKTOP OPTIMIZATION */
-        @media (min-width: 768px) {
+        /* MOBILE OPTIMIZATION */
+        @media (max-width: 600px) {
             .container {
-                max-width: 1200px;
-                padding: 2rem;
-            }
-
-            .header-section {
-                flex-direction: row;
-                text-align: left;
-                padding: 2rem;
-            }
-
-            .logo-image {
-                width: 100px;
-                height: 100px;
+                padding: 0.5rem;
             }
 
             .logo {
-                font-size: 3.5rem;
+                font-size: 2.5rem;
             }
 
-            .tagline {
-                font-size: 1.2rem;
+            .category-section {
+                padding: 1rem;
             }
 
-            .category-nav {
-                justify-content: center;
-            }
-
-            .category-tab {
-                padding: 1rem 2rem;
-                font-size: 1rem;
-            }
-
-            .endpoint-selector {
-                grid-template-columns: repeat(6, 1fr);
-            }
-
-            .endpoint-btn {
-                padding: 1rem 0.5rem;
+            .api-button {
+                padding: 0.8rem;
+                padding-left: 2.5rem;
                 font-size: 0.9rem;
             }
 
-            .downloader-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .button {
-                width: auto;
-                padding: 1rem 2rem;
+            .api-button::before {
+                left: 0.8rem;
             }
         }
 
         /* TOUCH OPTIMIZATION */
-        @media (hover: none) and (pointer: coarse) {
-            .endpoint-btn,
-            .downloader-card,
-            .category-tab {
-                min-height: 44px;
-                min-width: 44px;
-            }
+        .api-button {
+            min-height: 44px;
+        }
 
-            input[type="text"] {
-                font-size: 16px; /* Prevent zoom on iOS */
-            }
+        input[type="text"] {
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <div class="overlay">
-        <div class="container">
-            <!-- HEADER -->
-            <div class="header-section">
-                <img src="https://images3.alphacoders.com/669/thumb-1920-669240.jpg" alt="Proxima Logo" class="logo-image">
-                <div style="flex: 1;">
-                    <div class="logo">PROXIMA</div>
-                    <div class="tagline">Multi-platform API service for downloads, search, and game data</div>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo">PROXIMA</div>
+            <div class="subtitle">API Service</div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- DOWNLOADER CATEGORY -->
+            <div class="category-section">
+                <div class="category-title">Downloader</div>
+                <div class="api-buttons" id="downloader-buttons">
+                    <!-- Downloader buttons will be generated by JavaScript -->
+                </div>
+                
+                <!-- Downloader Input Section -->
+                <div class="api-input-section" id="downloader-input">
+                    <div class="endpoint-display" id="downloader-endpoint"></div>
+                    <div class="input-group">
+                        <label>Enter Video URL</label>
+                        <input type="text" id="downloader-url" placeholder="Paste URL here...">
+                    </div>
+                    <button class="execute-btn" id="downloader-execute">EXECUTE</button>
+                    <div class="result-display" id="downloader-result">
+Click EXECUTE to get results
+                    </div>
                 </div>
             </div>
 
-            <!-- CATEGORY NAVIGATION -->
-            <div class="category-nav">
-                <button class="category-tab active" data-category="downloader">📥 Downloader</button>
-                <button class="category-tab" data-category="search">🔍 Search</button>
-                <button class="category-tab" data-category="stalk">🎮 Stalk</button>
-            </div>
-
-            <!-- DOWNLOADER CATEGORY -->
-            <div class="content-section active" id="downloader-section">
-                <div class="api-tester">
-                    <h3 class="section-title">API Downloader</h3>
-                    
-                    <div class="downloader-grid">
-                        <div class="downloader-card" data-endpoint="tiktok">
-                            <div class="downloader-icon">🎵</div>
-                            <div class="downloader-title">TikTok</div>
-                            <div class="downloader-desc">Without watermark</div>
-                        </div>
-                        <div class="downloader-card" data-endpoint="youtube">
-                            <div class="downloader-icon">📺</div>
-                            <div class="downloader-title">YouTube</div>
-                            <div class="downloader-desc">MP4/MP3 formats</div>
-                        </div>
-                        <div class="downloader-card" data-endpoint="instagram">
-                            <div class="downloader-icon">📷</div>
-                            <div class="downloader-title">Instagram</div>
-                            <div class="downloader-desc">Posts & stories</div>
-                        </div>
-                        <div class="downloader-card" data-endpoint="twitter">
-                            <div class="downloader-icon">🐦</div>
-                            <div class="downloader-title">Twitter</div>
-                            <div class="downloader-desc">Videos & images</div>
-                        </div>
-                        <div class="downloader-card" data-endpoint="pinterest">
-                            <div class="downloader-icon">📌</div>
-                            <div class="downloader-title">Pinterest</div>
-                            <div class="downloader-desc">Pins & videos</div>
-                        </div>
-                        <div class="downloader-card" data-endpoint="facebook">
-                            <div class="downloader-icon">👥</div>
-                            <div class="downloader-title">Facebook</div>
-                            <div class="downloader-desc">Videos & reels</div>
-                        </div>
-                    </div>
-
-                    <div class="endpoint-selector" id="endpoint-buttons">
-                        <!-- Generated by JS -->
-                    </div>
-                    
+            <!-- STALKER CATEGORY -->
+            <div class="category-section">
+                <div class="category-title">Stalker</div>
+                <div class="api-buttons" id="stalker-buttons">
+                    <!-- Stalker buttons will be generated by JavaScript -->
+                </div>
+                
+                <!-- Stalker Input Section -->
+                <div class="api-input-section" id="stalker-input">
+                    <div class="endpoint-display" id="stalker-endpoint"></div>
                     <div class="input-group">
-                        <label>Video URL</label>
-                        <input type="text" id="video-url" placeholder="Paste video URL here...">
+                        <label>Enter Record URL</label>
+                        <input type="text" id="stalker-url" placeholder="Paste WuWa record URL here...">
                     </div>
-                    
-                    <button class="button" id="execute-btn">EXECUTE</button>
-                    
-                    <div class="command-prompt" id="command-prompt">
-root@ienz > 
+                    <button class="execute-btn" id="stalker-execute">EXECUTE</button>
+                    <div class="result-display" id="stalker-result">
+Click EXECUTE to get results
                     </div>
                 </div>
             </div>
 
             <!-- SEARCH CATEGORY -->
-            <div class="content-section" id="search-section">
-                <div class="api-tester">
-                    <h3 class="section-title">Search Feature</h3>
-                    <div class="command-prompt" style="text-align: center; padding: 3rem 1rem;">
-                    </div>
+            <div class="category-section">
+                <div class="category-title">Search</div>
+                <div class="api-buttons" id="search-buttons">
+                    <button class="api-button" data-category="search" data-api="twitter-search">
+                        Twitter Search
+                    </button>
+                    <button class="api-button" data-category="search" data-api="youtube-search">
+                        YouTube Search
+                    </button>
+                    <button class="api-button" data-category="search" data-api="tiktok-search">
+                        TikTok Search
+                    </button>
                 </div>
-            </div>
-
-            <!-- STALK CATEGORY -->
-            <div class="content-section" id="stalk-section">
-                <div class="api-tester">
-                    <h3 class="section-title">WuWa Stalker</h3>
-                    
+                
+                <!-- Search Input Section -->
+                <div class="api-input-section" id="search-input">
+                    <div class="endpoint-display" id="search-endpoint"></div>
                     <div class="input-group">
-                        <label>WuWa Gacha Record URL</label>
-                        <input type="text" id="stalk-url" placeholder="Paste WuWa gacha record URL...">
+                        <label>Enter Search Query</label>
+                        <input type="text" id="search-query" placeholder="Enter search keywords...">
                     </div>
-                    
-                    <button class="button" id="stalk-btn">STALK RECORD</button>
-                    
-                    <div class="stalk-example">
-                        <strong>Example URL:</strong><br>
-                        <code>https://aki-gm-resources-oversea.aki-game.net/aki/gacha/index.html#/record?svr_id=10cd7254d57e58ae560b15d51e34b4c8&player_id=905800276&lang=en&gacha_id=200047&gacha_type=2&svr_area=global&record_id=23e5c0e1fff547560913dfbcfcc81825&resources_id=e355aed96f36a270e0ee3489578a7842&platform=Android</code>
-                    </div>
-                    
-                    <div class="command-prompt" id="stalk-result" style="margin-top: 1rem;">
-root@ienz > Enter WuWa gacha record URL above
+                    <button class="execute-btn" id="search-execute">EXECUTE</button>
+                    <div class="result-display" id="search-result">
+Click EXECUTE to get results
                     </div>
                 </div>
             </div>
+        </div>
 
-            <footer>
-                <div style="font-weight: bold; color: var(--primary); margin-bottom: 0.5rem;">
-                    PROXIMA API SERVICE
-                </div>
-                <div class="version">Version 2.0 • Creator: iEnz</div>
-                <div class="version">Format: Status: True | Creator: iEnz | Result: [Data]</div>
-                <div class="version" style="margin-top: 1rem;">
-                    Status: <span id="api-status">Checking...</span>
-                </div>
-            </footer>
+        <!-- FOOTER -->
+        <div class="footer">
+            <div class="footer-text">PROXIMA API SERVICE</div>
+            <div class="footer-text">Version 2.0 • Creator: iEnz</div>
         </div>
     </div>
 
     <script>
+        // API Configuration
         const baseUrl = 'https://api-proxima.netlify.app';
-        let currentCategory = 'downloader';
-        let currentEndpoint = 'tiktok';
         
-        const endpoints = {
-            tiktok: {
-                name: "TikTok",
-                icon: "🎵",
-                path: "/api/downloader/tiktok?url=",
-                placeholder: "https://www.tiktok.com/@username/video/123456789",
-                example: "https://www.tiktok.com/@khaliiisya/video/7587701740212997397"
+        // Downloader APIs
+        const downloaderApis = [
+            { 
+                name: 'TikTok Downloader',
+                api: 'tiktok',
+                endpoint: '/api/downloader/tiktok?url=',
+                placeholder: 'https://www.tiktok.com/@username/video/123456789',
+                example: 'https://www.tiktok.com/@tiktok/video/7106675944969432362'
             },
-            youtube: {
-                name: "YouTube",
-                icon: "📺",
-                path: "/api/downloader/youtube?url=",
-                placeholder: "https://www.youtube.com/watch?v=xxxxxxxx",
-                example: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            { 
+                name: 'YouTube Downloader',
+                api: 'youtube',
+                endpoint: '/api/downloader/youtube?url=',
+                placeholder: 'https://www.youtube.com/watch?v=VIDEO_ID',
+                example: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
             },
-            instagram: {
-                name: "Instagram",
-                icon: "📷",
-                path: "/api/downloader/instagram?url=",
-                placeholder: "https://www.instagram.com/p/xxxxxxx/",
-                example: "https://www.instagram.com/p/Cz7hNzTPzYx/"
+            { 
+                name: 'Instagram Downloader',
+                api: 'instagram',
+                endpoint: '/api/downloader/instagram?url=',
+                placeholder: 'https://www.instagram.com/p/POST_ID/',
+                example: 'https://www.instagram.com/p/Cz7hNzTPzYx/'
             },
-            twitter: {
-                name: "Twitter",
-                icon: "🐦",
-                path: "/api/downloader/twitter?url=",
-                placeholder: "https://twitter.com/user/status/123456789",
-                example: "https://twitter.com/Twitter/status/20"
+            { 
+                name: 'Twitter Downloader',
+                api: 'twitter',
+                endpoint: '/api/downloader/twitter?url=',
+                placeholder: 'https://twitter.com/user/status/TWEET_ID',
+                example: 'https://twitter.com/Twitter/status/20'
             },
-            pinterest: {
-                name: "Pinterest",
-                icon: "📌",
-                path: "/api/downloader/pinterest?url=",
-                placeholder: "https://www.pinterest.com/pin/123456789/",
-                example: "https://www.pinterest.com/pin/595699155001658720/"
+            { 
+                name: 'Pinterest Downloader',
+                api: 'pinterest',
+                endpoint: '/api/downloader/pinterest?url=',
+                placeholder: 'https://www.pinterest.com/pin/PIN_ID/',
+                example: 'https://www.pinterest.com/pin/595699155001658720/'
             },
-            facebook: {
-                name: "Facebook",
-                icon: "👥",
-                path: "/api/downloader/facebook?url=",
-                placeholder: "https://www.facebook.com/watch/?v=123456789",
-                example: "https://www.facebook.com/facebook/videos/10153231379946729/"
+            { 
+                name: 'Facebook Downloader',
+                api: 'facebook',
+                endpoint: '/api/downloader/facebook?url=',
+                placeholder: 'https://www.facebook.com/watch/?v=VIDEO_ID',
+                example: 'https://www.facebook.com/facebook/videos/10153231379946729/'
             }
-        };
+        ];
 
-        // Initialize
+        // Stalker APIs
+        const stalkerApis = [
+            { 
+                name: 'WuWa Stalker(On Testing)',
+                api: 'wuwastalker',
+                endpoint: '/api/stalk/wuwastalker?url=',
+                placeholder: 'Paste WuWa gacha record URL',
+                example: 'https://aki-gm-resources-oversea.aki-game.net/aki/gacha/index.html#/record?svr_id=10cd7254d57e58ae560b15d51e34b4c8&player_id=905800276&lang=en&gacha_id=200047&gacha_type=2&svr_area=global&record_id=23e5c0e1fff547560913dfbcfcc81825&resources_id=e355aed96f36a270e0ee3489578a7842&platform=Android'
+            }
+        ];
+
+        // Current state
+        let currentCategory = null;
+        let currentApi = null;
+
+        // Initialize on page load
         window.addEventListener('DOMContentLoaded', function() {
-            initCategoryTabs();
-            initEndpointButtons();
-            initDownloaderCards();
-            setInitialValues();
-            checkApiStatus();
+            initDownloaderButtons();
+            initStalkerButtons();
             setupEventListeners();
         });
 
-        // Category tabs
-        function initCategoryTabs() {
-            document.querySelectorAll('.category-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const category = this.dataset.category;
-                    
-                    // Update active tab
-                    document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Show selected section
-                    document.querySelectorAll('.content-section').forEach(section => {
-                        section.classList.remove('active');
-                    });
-                    document.getElementById(`${category}-section`).classList.add('active');
-                    
-                    currentCategory = category;
-                    
-                    // Update for mobile - scroll to top of section
-                    if (window.innerWidth < 768) {
-                        document.getElementById(`${category}-section`).scrollIntoView({ 
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-        }
-
-        // Endpoint buttons
-        function initEndpointButtons() {
-            const container = document.getElementById('endpoint-buttons');
+        // Initialize downloader buttons
+        function initDownloaderButtons() {
+            const container = document.getElementById('downloader-buttons');
             container.innerHTML = '';
             
-            Object.entries(endpoints).forEach(([key, endpoint]) => {
+            downloaderApis.forEach(api => {
                 const button = document.createElement('button');
-                button.className = `endpoint-btn ${key === currentEndpoint ? 'active' : ''}`;
-                button.dataset.endpoint = key;
-                button.textContent = endpoint.name;
+                button.className = 'api-button';
+                button.dataset.category = 'downloader';
+                button.dataset.api = api.api;
+                button.textContent = api.name;
                 container.appendChild(button);
             });
-            
-            // Event listeners for endpoint buttons
-            document.querySelectorAll('.endpoint-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const endpoint = this.dataset.endpoint;
-                    selectEndpoint(endpoint);
-                });
-            });
         }
 
-        // Downloader cards
-        function initDownloaderCards() {
-            document.querySelectorAll('.downloader-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const endpoint = this.dataset.endpoint;
-                    selectEndpoint(endpoint);
-                    
-                    // Switch to downloader category if not already
-                    if (currentCategory !== 'downloader') {
-                        document.querySelector('.category-tab[data-category="downloader"]').click();
-                    }
-                });
+        // Initialize stalker buttons
+        function initStalkerButtons() {
+            const container = document.getElementById('stalker-buttons');
+            container.innerHTML = '';
+            
+            stalkerApis.forEach(api => {
+                const button = document.createElement('button');
+                button.className = 'api-button';
+                button.dataset.category = 'stalker';
+                button.dataset.api = api.api;
+                button.textContent = api.name;
+                container.appendChild(button);
             });
-        }
-
-        // Select endpoint
-        function selectEndpoint(endpoint) {
-            currentEndpoint = endpoint;
-            
-            // Update active button
-            document.querySelectorAll('.endpoint-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`.endpoint-btn[data-endpoint="${endpoint}"]`).classList.add('active');
-            
-            // Update input
-            const endpointConfig = endpoints[endpoint];
-            document.getElementById('video-url').placeholder = endpointConfig.placeholder;
-            document.getElementById('video-url').value = endpointConfig.example;
-            
-            // Focus on mobile
-            if (window.innerWidth < 768) {
-                setTimeout(() => {
-                    document.getElementById('video-url').focus();
-                }, 300);
-            }
-        }
-
-        // Set initial values
-        function setInitialValues() {
-            document.getElementById('video-url').value = endpoints.tiktok.example;
-            
-            // Set stalk example
-            document.getElementById('stalk-url').value = 'https://aki-gm-resources-oversea.aki-game.net/aki/gacha/index.html#/record?svr_id=10cd7254d57e58ae560b15d51e34b4c8&player_id=905800276&lang=en&gacha_id=200047&gacha_type=2&svr_area=global&record_id=23e5c0e1fff547560913dfbcfcc81825&resources_id=e355aed96f36a270e0ee3489578a7842&platform=Android';
         }
 
         // Setup event listeners
         function setupEventListeners() {
-            // Execute button for downloader
-            document.getElementById('execute-btn').addEventListener('click', executeDownloader);
-            
-            // Stalk button
-            document.getElementById('stalk-btn').addEventListener('click', executeStalk);
-            
-            // Enter key for inputs
-            document.getElementById('video-url').addEventListener('keypress', function(e) {
+            // API button clicks
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('.api-button')) {
+                    const button = e.target;
+                    const category = button.dataset.category;
+                    const apiName = button.dataset.api;
+                    
+                    selectApi(category, apiName, button);
+                }
+            });
+
+            // Execute buttons
+            document.getElementById('downloader-execute').addEventListener('click', executeDownloader);
+            document.getElementById('stalker-execute').addEventListener('click', executeStalker);
+            document.getElementById('search-execute').addEventListener('click', executeSearch);
+
+            // Enter key in inputs
+            document.getElementById('downloader-url').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') executeDownloader();
             });
+            document.getElementById('stalker-url').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') executeStalker();
+            });
+            document.getElementById('search-query').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') executeSearch();
+            });
+        }
+
+        // Select API
+        function selectApi(category, apiName, button) {
+            // Remove active class from all buttons in this category
+            const categoryButtons = document.querySelectorAll(`.api-button[data-category="${category}"]`);
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
             
-            document.getElementById('stalk-url').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') executeStalk();
+            // Add active class to clicked button
+            button.classList.add('active');
+            
+            // Update current state
+            currentCategory = category;
+            currentApi = apiName;
+            
+            // Get API config
+            const apiConfig = getApiConfig(category, apiName);
+            
+            // Show input section for this category
+            showInputSection(category, apiConfig);
+        }
+
+        // Get API configuration
+        function getApiConfig(category, apiName) {
+            if (category === 'downloader') {
+                return downloaderApis.find(api => api.api === apiName);
+            } else if (category === 'stalker') {
+                return stalkerApis.find(api => api.api === apiName);
+            }
+            return null;
+        }
+
+        // Show input section
+        function showInputSection(category, apiConfig) {
+            // Hide all input sections
+            document.querySelectorAll('.api-input-section').forEach(section => {
+                section.classList.remove('active');
             });
             
-            // Touch optimization
-            document.addEventListener('touchstart', function() {}, { passive: true });
+            // Clear all inputs and results
+            clearInputsAndResults();
+            
+            // Show selected input section
+            const inputSection = document.getElementById(`${category}-input`);
+            if (inputSection) {
+                inputSection.classList.add('active');
+                
+                // Update endpoint display
+                const endpointDisplay = document.getElementById(`${category}-endpoint`);
+                if (endpointDisplay && apiConfig) {
+                    endpointDisplay.textContent = `${baseUrl}${apiConfig.endpoint}`;
+                }
+                
+                // Set input placeholder and example
+                if (apiConfig) {
+                    const inputField = document.getElementById(`${category}-url`);
+                    if (inputField) {
+                        inputField.placeholder = apiConfig.placeholder;
+                        inputField.value = apiConfig.example || '';
+                    }
+                }
+                
+                // Focus on input
+                setTimeout(() => {
+                    const inputField = document.getElementById(`${category}-url`) || 
+                                     document.getElementById(`${category}-query`);
+                    if (inputField) {
+                        inputField.focus();
+                        inputField.select();
+                    }
+                }, 100);
+            }
+        }
+
+        // Clear all inputs and results
+        function clearInputsAndResults() {
+            // Clear inputs
+            document.getElementById('downloader-url').value = '';
+            document.getElementById('stalker-url').value = '';
+            document.getElementById('search-query').value = '';
+            
+            // Clear results
+            document.getElementById('downloader-result').textContent = 'Click EXECUTE to get results';
+            document.getElementById('stalker-result').textContent = 'Click EXECUTE to get results';
+            document.getElementById('search-result').textContent = 'Click EXECUTE to get results';
         }
 
         // Execute downloader API
         async function executeDownloader() {
-            const urlInput = document.getElementById('video-url').value.trim();
-            const prompt = document.getElementById('command-prompt');
-            
-            if (!urlInput) {
-                prompt.innerHTML = `<span class="prompt">root@ienz</span> > <span class="command">Please enter a valid URL</span>`;
+            if (!currentCategory || !currentApi) {
+                alert('Please select an API first');
                 return;
             }
 
-            const endpoint = endpoints[currentEndpoint];
-            const apiUrl = `${baseUrl}${endpoint.path}${encodeURIComponent(urlInput)}`;
+            const urlInput = document.getElementById('downloader-url').value.trim();
+            const resultDiv = document.getElementById('downloader-result');
             
-            // Show command and loading
-            prompt.innerHTML = `
-<span class="prompt">root@ienz</span> > <span class="command">${apiUrl}</span>
-<span class="prompt">root@ienz</span> > <span class="loading">Loading...</span>
-            `;
+            if (!urlInput) {
+                resultDiv.textContent = 'Error: Please enter a URL';
+                return;
+            }
+
+            const apiConfig = getApiConfig(currentCategory, currentApi);
+            const apiUrl = `${baseUrl}${apiConfig.endpoint}${encodeURIComponent(urlInput)}`;
+            
+            // Show executing message
+            resultDiv.textContent = `Executing: ${apiUrl}\nLoading...`;
 
             try {
                 const response = await axios.get(apiUrl, {
-                    timeout: 30000,
-                    headers: {
-                        'User-Agent': 'Mozilla/5.0 Proxima-API/2.0'
-                    }
+                    timeout: 30000
                 });
                 
-                displayDownloaderResult(response.data, apiUrl);
+                displayResult(resultDiv, response.data);
                 
             } catch (error) {
                 console.error('API Error:', error);
-                let errorMessage = 'Network error';
-                if (error.response) {
-                    errorMessage = `API Error ${error.response.status}`;
-                }
-                
-                prompt.innerHTML = `
-<span class="prompt">root@ienz</span> > <span class="command">${apiUrl}</span>
-<span class="status-false">Status: False</span>
-<span class="creator">Creator: iEnz</span>
-Error: ${errorMessage}
-                `;
-            }
-            
-            // Scroll to result on mobile
-            if (window.innerWidth < 768) {
-                prompt.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                resultDiv.textContent = `Error: ${error.message || 'Failed to execute API'}`;
             }
         }
 
-        // Display downloader result
-        function displayDownloaderResult(data, apiUrl) {
-            const prompt = document.getElementById('command-prompt');
-            
-            let html = `<span class="prompt">root@ienz</span> > <span class="command">${apiUrl}</span>\n`;
-            
-            if (data.status === true) {
-                html += `<span class="status-true">Status: True</span>\n`;
-                html += `<span class="creator">Creator: iEnz</span>\n`;
-                html += `<span class="creator">Result: ${data.result || 'Success'}</span>\n`;
-                
-                if (data.data) {
-                    html += `\n`;
-                    if (data.data.title) html += `Title: ${data.data.title}\n`;
-                    if (data.data.author) html += `Author: ${data.data.author}\n`;
-                    if (data.data.duration) html += `Duration: ${data.data.duration}\n`;
-                    if (data.data.video_url) html += `Download: ${data.data.video_url.substring(0, 80)}...\n`;
-                }
-            } else {
-                html += `<span class="status-false">Status: False</span>\n`;
-                html += `<span class="creator">Creator: iEnz</span>\n`;
-                html += `Error: ${data.error || data.message || 'Unknown error'}\n`;
-                
-                if (data.mock_data) {
-                    html += `\nDemo Data:\n`;
-                    html += `Title: ${data.mock_data.title || 'Demo'}\n`;
-                    html += `Author: ${data.mock_data.author || 'Demo'}\n`;
-                }
+        // Execute stalker API
+        async function executeStalker() {
+            if (currentCategory !== 'stalker' || !currentApi) {
+                alert('Please select a stalker API first');
+                return;
             }
-            
-            prompt.innerHTML = html;
-        }
 
-        // Execute stalk API
-        async function executeStalk() {
-            const urlInput = document.getElementById('stalk-url').value.trim();
-            const resultDiv = document.getElementById('stalk-result');
+            const urlInput = document.getElementById('stalker-url').value.trim();
+            const resultDiv = document.getElementById('stalker-result');
             
             if (!urlInput) {
-                resultDiv.innerHTML = `<span class="prompt">root@ienz</span> > <span class="command">Please enter WuWa URL</span>`;
+                resultDiv.textContent = 'Error: Please enter a URL';
                 return;
             }
 
-            // Extract parameters from URL
-            const params = extractWuWaParams(urlInput);
-            if (!params) {
-                resultDiv.innerHTML = `
-<span class="prompt">root@ienz</span> > <span class="command">Invalid WuWa URL format</span>
-<span class="prompt">root@ienz</span> > <span class="command">Make sure it's a valid gacha record URL</span>
-                `;
-                return;
-            }
-
-            const apiUrl = `https://gmserver-api.aki-game2.net/gacha/record/query`;
+            const apiConfig = getApiConfig(currentCategory, currentApi);
+            const apiUrl = `${baseUrl}${apiConfig.endpoint}${encodeURIComponent(urlInput)}`;
             
-            // Show loading
-            resultDiv.innerHTML = `
-<span class="prompt">root@ienz</span> > <span class="command">Processing WuWa gacha record...</span>
-<span class="prompt">root@ienz</span> > <span class="loading">Querying Kuro Games API...</span>
-            `;
+            // Show executing message
+            resultDiv.textContent = `Executing: ${apiUrl}\nLoading...`;
 
             try {
-                // Call the Kuro Games API
-                const response = await axios.post(apiUrl, params, {
-                    timeout: 30000,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Origin': 'https://aki-gm-resources-oversea.aki-game.net'
+                // For WuWa stalker, we need to extract parameters from URL
+                if (currentApi === 'wuwastalker') {
+                    const params = extractWuWaParams(urlInput);
+                    if (!params) {
+                        resultDiv.textContent = 'Error: Invalid WuWa URL format';
+                        return;
                     }
-                });
-                
-                displayStalkResult(response.data, params);
+                    
+                    const stalkUrl = `${baseUrl}/api/stalk/wuwastalker?${new URLSearchParams(params)}`;
+                    const response = await axios.get(stalkUrl, {
+                        timeout: 30000
+                    });
+                    
+                    displayResult(resultDiv, response.data);
+                } else {
+                    const response = await axios.get(apiUrl, {
+                        timeout: 30000
+                    });
+                    
+                    displayResult(resultDiv, response.data);
+                }
                 
             } catch (error) {
-                console.error('Stalk API Error:', error);
-                
-                // Fallback to mock data for demo
-                const mockData = generateMockWuWaData(params);
-                displayStalkResult(mockData, params);
+                console.error('API Error:', error);
+                resultDiv.textContent = `Error: ${error.message || 'Failed to execute API'}`;
             }
+        }
+
+        // Execute search API
+        async function executeSearch() {
+            const queryInput = document.getElementById('search-query').value.trim();
+            const resultDiv = document.getElementById('search-result');
             
-            // Scroll to result on mobile
-            if (window.innerWidth < 768) {
-                resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            if (!queryInput) {
+                resultDiv.textContent = 'Error: Please enter a search query';
+                return;
             }
+
+            resultDiv.textContent = 'Search feature coming soon...\n\nExample result:\nSearch query: ' + queryInput + '\nResults found: 0\nStatus: Coming in next update';
         }
 
         // Extract parameters from WuWa URL
@@ -843,133 +675,79 @@ Error: ${errorMessage}
                 if (!hashPart) return null;
                 
                 const params = new URLSearchParams(hashPart);
-                
                 return {
                     svr_id: params.get('svr_id'),
                     player_id: params.get('player_id'),
-                    lang: params.get('lang') || 'en',
+                    lang: params.get('lang'),
                     gacha_id: params.get('gacha_id'),
                     gacha_type: params.get('gacha_type'),
-                    svr_area: params.get('svr_area') || 'global',
+                    svr_area: params.get('svr_area'),
                     record_id: params.get('record_id'),
                     resources_id: params.get('resources_id'),
-                    platform: params.get('platform') || 'Android'
+                    platform: params.get('platform')
                 };
             } catch (error) {
                 return null;
             }
         }
 
-        // Generate mock WuWa data for demo
-        function generateMockWuWaData(params) {
-            const characters = ['Jiyan', 'Yinlin', 'Calcharo', 'Verina', 'Baizhi', 'Rover'];
-            const weapons = ['Sword of Night', 'Dawn Breaker', 'Moonlight Blade', 'Stellar Shard'];
-            const rarities = ['5-star', '4-star', '3-star'];
-            
-            const records = [];
-            const count = Math.floor(Math.random() * 10) + 5; // 5-15 records
-            
-            for (let i = 0; i < count; i++) {
-                const isCharacter = Math.random() > 0.5;
-                const rarity = i === 0 ? '5-star' : 
-                              i < 3 ? '4-star' : '3-star';
+        // Display result
+        function displayResult(resultDiv, data) {
+            if (data.status === true || data.code === 0) {
+                let resultText = '';
                 
-                records.push({
-                    id: `record_${Date.now()}_${i}`,
-                    name: isCharacter ? 
-                        characters[Math.floor(Math.random() * characters.length)] :
-                        weapons[Math.floor(Math.random() * weapons.length)],
-                    type: isCharacter ? 'character' : 'weapon',
-                    rarity: rarity,
-                    time: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
-                    pity: isCharacter && rarity === '5-star' ? Math.floor(Math.random() * 80) + 1 : null
-                });
-            }
-            
-            return {
-                code: 0,
-                message: "success",
-                data: {
-                    player_id: params.player_id,
-                    server: params.svr_area,
-                    total_records: count,
-                    five_star_count: records.filter(r => r.rarity === '5-star').length,
-                    records: records,
-                    summary: {
-                        total_pulls: count,
-                        character_pulls: records.filter(r => r.type === 'character').length,
-                        weapon_pulls: records.filter(r => r.type === 'weapon').length,
-                        last_update: new Date().toISOString()
+                // Format the response data
+                if (data.data) {
+                    if (typeof data.data === 'object') {
+                        resultText += 'Data retrieved successfully\n\n';
+                        
+                        // Display basic info
+                        if (data.data.title) resultText += `Title: ${data.data.title}\n`;
+                        if (data.data.author) resultText += `Author: ${data.data.author}\n`;
+                        if (data.data.duration) resultText += `Duration: ${data.data.duration}\n`;
+                        if (data.data.video_url) resultText += `URL: ${data.data.video_url.substring(0, 100)}...\n`;
+                        
+                        // For WuWa data
+                        if (data.data.player_info) {
+                            resultText += `\nPlayer: ${data.data.player_info.player_id}\n`;
+                            resultText += `Server: ${data.data.player_info.server}\n`;
+                        }
+                        
+                        if (data.data.statistics) {
+                            resultText += `\nTotal records: ${data.data.statistics.total_records}\n`;
+                            resultText += `5-star items: ${data.data.statistics.five_star_count}\n`;
+                        }
+                        
+                        // If there are records, show first few
+                        if (data.data.records && Array.isArray(data.data.records)) {
+                            resultText += `\nRecent items:\n`;
+                            data.data.records.slice(0, 5).forEach((record, index) => {
+                                resultText += `${index + 1}. ${record.name} (${record.rarity})\n`;
+                            });
+                            if (data.data.records.length > 5) {
+                                resultText += `... and ${data.data.records.length - 5} more\n`;
+                            }
+                        }
+                    } else {
+                        resultText += `Result: ${data.data}\n`;
                     }
-                }
-            };
-        }
-
-        // Display stalk result
-        function displayStalkResult(data, params) {
-            const resultDiv = document.getElementById('stalk-result');
-            
-            let html = `<span class="prompt">root@ienz</span> > <span class="command">WuWa Gacha Record Analysis</span>\n`;
-            html += `<span class="prompt">root@ienz</span> > <span class="command">Player ID: ${params.player_id}</span>\n`;
-            html += `<span class="prompt">root@ienz</span> > <span class="command">Server: ${params.svr_area}</span>\n\n`;
-            
-            if (data.code === 0 || data.data) {
-                const resultData = data.data || data;
-                
-                html += `<span class="status-true">Status: Success</span>\n`;
-                html += `<span class="creator">Data retrieved from Kuro Games API</span>\n\n`;
-                
-                if (resultData.summary) {
-                    html += `📊 Summary:\n`;
-                    html += `Total Pulls: ${resultData.summary.total_pulls || resultData.total_records}\n`;
-                    html += `Characters: ${resultData.summary.character_pulls}\n`;
-                    html += `Weapons: ${resultData.summary.weapon_pulls}\n`;
-                    html += `5★ Items: ${resultData.five_star_count || 0}\n\n`;
+                } else if (data.result) {
+                    resultText += `Result: ${data.result}\n`;
                 }
                 
-                if (resultData.records && resultData.records.length > 0) {
-                    html += `🎮 Recent Pulls:\n`;
-                    resultData.records.slice(0, 5).forEach(record => {
-                        const star = record.rarity === '5-star' ? '★★★★★' : 
-                                   record.rarity === '4-star' ? '★★★★' : '★★★';
-                        html += `${star} ${record.name} (${record.type})\n`;
-                    });
-                    
-                    if (resultData.records.length > 5) {
-                        html += `... and ${resultData.records.length - 5} more\n`;
-                    }
-                }
+                resultDiv.textContent = resultText || 'Success - No data returned';
             } else {
-                html += `<span class="status-false">Status: Failed</span>\n`;
-                html += `<span class="creator">Error retrieving data</span>\n`;
-                html += `Message: ${data.message || 'Unknown error'}\n`;
-            }
-            
-            resultDiv.innerHTML = html;
-        }
-
-        // Check API status
-        async function checkApiStatus() {
-            const statusElement = document.getElementById('api-status');
-            
-            try {
-                await axios.get(`${baseUrl}/api/downloader/tiktok`, {
-                    params: { url: 'test' },
-                    timeout: 5000
-                });
-                statusElement.textContent = 'Online';
-                statusElement.style.color = '#4cffa6';
-            } catch (error) {
-                statusElement.textContent = 'Offline (Demo Mode)';
-                statusElement.style.color = '#ffb84c';
+                resultDiv.textContent = `Error: ${data.error || data.message || 'Unknown error'}`;
             }
         }
 
-        // Mobile menu toggle (optional - for future expansion)
-        function toggleMobileMenu() {
-            const nav = document.querySelector('.category-nav');
-            nav.classList.toggle('show');
-        }
+        // Auto-select first downloader API on page load
+        setTimeout(() => {
+            const firstButton = document.querySelector('.api-button[data-category="downloader"]');
+            if (firstButton) {
+                firstButton.click();
+            }
+        }, 100);
     </script>
 </body>
 </html>
