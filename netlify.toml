@@ -13,6 +13,16 @@
   to = "/.netlify/functions/youtube"
   status = 200
 
+  [[redirects]]
+  from = "/api/downloader/ytmp3"
+  to = "/.netlify/functions/ytmp3"
+  status = 200
+
+[[redirects]]
+  from = "/api/downloader/ytmp4"
+  to = "/.netlify/functions/ytmp4"
+  status = 200
+
 [[redirects]]
   from = "/api/downloader/instagram"
   to = "/.netlify/functions/instagram"
@@ -45,5 +55,6 @@
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type"
+
 
 
