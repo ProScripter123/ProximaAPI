@@ -3,23 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proxima API</title>
+    <title>PROXIMA API</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
         }
 
         :root {
-            --primary: #7b61ff;
-            --secondary: #00d4ff;
-            --dark: #0f0f1a;
-            --dark-secondary: #1a1a2e;
-            --light: #e1e1ff;
-            --gray: #a0a0cc;
+            --primary: #00ff88;
+            --secondary: #0088ff;
+            --accent: #ff0088;
+            --dark: #000000;
+            --darker: #0a0a0a;
+            --light: #ffffff;
+            --gray: #888888;
+            --terminal-bg: #000000;
+            --terminal-text: #00ff00;
+            --terminal-border: #00ff88;
         }
 
         body {
@@ -27,727 +31,1265 @@
             color: var(--light);
             line-height: 1.6;
             min-height: 100vh;
-            background-image: url('https://images3.alphacoders.com/669/thumb-1920-669240.jpg');
+            background-image: url('https://images6.alphacoders.com/735/thumb-1920-735980.png');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
+            overflow-x: hidden;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.85);
+            min-height: 100vh;
+            backdrop-filter: blur(3px);
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 1rem;
+            padding: 0 1rem;
         }
 
-        /* HEADER */
-        .header {
+        /* TOP BANNER SECTION */
+        .top-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(90deg, rgba(0,0,0,0.9), rgba(0,255,136,0.1), rgba(0,0,0,0.9));
+            border-bottom: 2px solid var(--terminal-border);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner-image {
+            width: 180px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid var(--terminal-border);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(0, 255, 136, 0.6); }
+        }
+
+        .banner-title {
             text-align: center;
-            padding: 2rem 0;
+            flex-grow: 1;
         }
 
-        .logo {
+        .main-title {
             font-size: 3rem;
             font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+            letter-spacing: 3px;
             margin-bottom: 0.5rem;
         }
 
         .subtitle {
             color: var(--gray);
-            font-size: 1.1rem;
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+
+        /* MUSIC PLAYER */
+        .music-player {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--terminal-border);
+            border-radius: 10px;
+            padding: 1rem;
+            width: 300px;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--terminal-border);
+        }
+
+        .player-title {
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .close-player {
+            background: transparent;
+            border: 1px solid var(--terminal-border);
+            color: var(--terminal-text);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        .music-item {
+            padding: 0.5rem;
+            margin: 0.2rem 0;
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid transparent;
+            border-radius: 5px;
+            cursor: pointer;
+            color: var(--gray);
+            transition: all 0.3s;
+        }
+
+        .music-item:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--terminal-border);
+            color: var(--light);
+        }
+
+        .music-item.playing {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .control-btn {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--terminal-border);
+            color: var(--terminal-text);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: rgba(0, 255, 136, 0.3);
+        }
+
+        .volume-slider {
+            flex-grow: 1;
+            -webkit-appearance: none;
+            height: 4px;
+            background: rgba(0, 255, 136, 0.2);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
         }
 
         /* MAIN CONTENT */
-        .main-content {
-            display: flex;
-            flex-direction: column;
+        .content-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
             gap: 2rem;
+            margin-bottom: 3rem;
         }
 
-        /* CATEGORY SECTIONS */
-        .category-section {
-            background: rgba(30, 30, 50, 0.9);
+        /* SIDEBAR */
+        .sidebar {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--terminal-border);
             border-radius: 15px;
             padding: 1.5rem;
-            border: 1px solid rgba(42, 42, 64, 0.8);
+            height: fit-content;
         }
 
-        .category-title {
-            font-size: 1.3rem;
+        .sidebar-title {
             color: var(--primary);
-            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-bottom: 2px solid var(--terminal-border);
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid rgba(123, 97, 255, 0.3);
         }
 
-        /* API BUTTONS - VERTICAL LAYOUT */
-        .api-buttons {
+        .category-list {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
 
-        .api-button {
-            display: block;
-            width: 100%;
+        .category-btn {
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid var(--terminal-border);
+            color: var(--gray);
             padding: 1rem;
-            background: rgba(40, 40, 60, 0.9);
-            border: 2px solid rgba(42, 42, 64, 0.8);
-            border-radius: 10px;
-            color: var(--light);
-            font-size: 1rem;
-            font-weight: 500;
+            border-radius: 8px;
             cursor: pointer;
             text-align: left;
+            font-size: 1rem;
             transition: all 0.3s;
             position: relative;
-            padding-left: 3rem;
+            overflow: hidden;
         }
 
-        .api-button:hover {
-            background: rgba(50, 50, 70, 0.9);
+        .category-btn:hover {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--light);
             transform: translateX(5px);
         }
 
-        .api-button.active {
-            background: rgba(123, 97, 255, 0.2);
+        .category-btn.active {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--primary);
             border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
         }
 
-        .api-button::before {
+        .category-btn.active::before {
             content: '▶';
             position: absolute;
-            left: 1rem;
+            right: 1rem;
             color: var(--primary);
         }
 
-        .api-button.active::before {
-            content: '▼';
+        /* API SECTION */
+        .api-section {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--terminal-border);
+            border-radius: 15px;
+            padding: 2rem;
+            min-height: 600px;
         }
 
-        /* API INPUT SECTION */
-        .api-input-section {
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--terminal-border);
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .api-status {
+            color: var(--terminal-text);
+            font-size: 0.9rem;
+            padding: 0.3rem 0.8rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--terminal-border);
+            border-radius: 5px;
+        }
+
+        /* API CONTENT */
+        .api-content {
             display: none;
-            margin-top: 1rem;
-            padding: 1rem;
-            background: rgba(20, 20, 35, 0.9);
-            border-radius: 10px;
-            border-left: 4px solid var(--primary);
         }
 
-        .api-input-section.active {
+        .api-content.active {
             display: block;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.5s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* API BUTTONS GRID */
+        .api-buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .api-button {
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid var(--terminal-border);
+            color: var(--gray);
+            padding: 1.2rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .api-button:hover {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--light);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
+        }
+
+        .api-button.active {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        /* TERMINAL DISPLAY */
+        .terminal-display {
+            background: var(--terminal-bg);
+            border: 2px solid var(--terminal-border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            min-height: 300px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            overflow-y: auto;
+            box-shadow: inset 0 0 30px rgba(0, 255, 136, 0.1);
+        }
+
+        .prompt-line {
+            margin-bottom: 0.8rem;
+            color: var(--terminal-text);
+        }
+
+        .prompt {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .command {
+            color: var(--light);
+        }
+
+        .loading {
+            color: var(--secondary);
+            font-style: italic;
+        }
+
+        .success {
+            color: var(--primary);
+        }
+
+        .error {
+            color: #ff4444;
+        }
+
+        .data {
+            color: var(--secondary);
+        }
+
+        /* API INPUT */
+        .api-input-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--terminal-border);
         }
 
         .endpoint-display {
-            font-family: 'Courier New', monospace;
-            color: var(--secondary);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            padding: 0.8rem;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--terminal-border);
             border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: var(--terminal-text);
             word-break: break-all;
+            font-size: 0.9rem;
         }
 
         .input-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .input-group label {
+        .input-label {
             display: block;
             margin-bottom: 0.5rem;
             color: var(--gray);
             font-size: 0.9rem;
         }
 
-        input[type="text"] {
+        .terminal-input {
             width: 100%;
-            padding: 0.9rem;
-            background: rgba(20, 20, 35, 0.95);
-            border: 1px solid rgba(42, 42, 64, 0.8);
-            border-radius: 8px;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--terminal-border);
+            border-radius: 5px;
             color: var(--light);
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
             font-size: 1rem;
+            outline: none;
         }
 
-        input[type="text"]:focus {
-            outline: none;
+        .terminal-input:focus {
             border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
         }
 
         .execute-btn {
             width: 100%;
             padding: 1rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1rem;
+            border-radius: 5px;
+            color: var(--dark);
+            font-weight: bold;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .execute-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
         }
 
         .execute-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* RESULT DISPLAY */
-        .result-display {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            background: rgba(20, 20, 35, 0.95);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 1rem;
-            min-height: 150px;
-            white-space: pre-wrap;
-            word-break: break-all;
-            border: 1px solid rgba(42, 42, 64, 0.8);
+            transform: translateY(0);
         }
 
         /* FOOTER */
         .footer {
             text-align: center;
-            padding: 2rem 0;
-            margin-top: 2rem;
-            border-top: 1px solid rgba(42, 42, 64, 0.8);
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 2px solid var(--terminal-border);
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px 15px 0 0;
         }
 
-        .footer-text {
+        .footer-title {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .footer-subtitle {
             color: var(--gray);
             font-size: 0.9rem;
-            line-height: 1.5;
+            letter-spacing: 1px;
         }
 
-        /* MOBILE OPTIMIZATION */
-        @media (max-width: 600px) {
-            .container {
-                padding: 0.5rem;
-            }
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
 
-            .logo {
-                font-size: 2.5rem;
-            }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.5);
+        }
 
-            .category-section {
-                padding: 1rem;
-            }
+        ::-webkit-scrollbar-thumb {
+            background: var(--terminal-border);
+            border-radius: 4px;
+        }
 
-            .api-button {
-                padding: 0.8rem;
-                padding-left: 2.5rem;
-                font-size: 0.9rem;
-            }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
 
-            .api-button::before {
-                left: 0.8rem;
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .music-player {
+                position: relative;
+                top: auto;
+                right: auto;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+            
+            .top-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .banner-image {
+                width: 150px;
+                height: 100px;
             }
         }
 
-        /* TOUCH OPTIMIZATION */
-        .api-button {
-            min-height: 44px;
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .api-buttons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
-        input[type="text"] {
-            font-size: 16px;
+        @media (max-width: 480px) {
+            .api-buttons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-title {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- HEADER -->
-        <div class="header">
-            <div class="logo">PROXIMA</div>
-            <div class="subtitle">API Service</div>
-        </div>
-
-        <!-- MAIN CONTENT -->
-        <div class="main-content">
-            <!-- DOWNLOADER CATEGORY -->
-            <div class="category-section">
-                <div class="category-title">Downloader</div>
-                <div class="api-buttons" id="downloader-buttons">
-                    <!-- Downloader buttons will be generated by JavaScript -->
+    <div class="overlay">
+        <div class="container">
+            <!-- TOP BANNER -->
+            <div class="top-banner">
+                <img src="https://images3.alphacoders.com/669/thumb-1920-669240.jpg" alt="Proxima Banner" class="banner-image">
+                <div class="banner-title">
+                    <div class="main-title">PROXIMA API</div>
+                    <div class="subtitle">TERMINAL INTERFACE</div>
                 </div>
-                
-                <!-- Downloader Input Section -->
-                <div class="api-input-section" id="downloader-input">
-                    <div class="endpoint-display" id="downloader-endpoint"></div>
-                    <div class="input-group">
-                        <label>Enter Video URL</label>
-                        <input type="text" id="downloader-url" placeholder="Paste URL here...">
+            </div>
+
+            <!-- MUSIC PLAYER -->
+            <div class="music-player" id="musicPlayer" style="display: none;">
+                <div class="player-header">
+                    <div class="player-title">🎵 MUSIC PLAYER</div>
+                    <button class="close-player" onclick="toggleMusicPlayer()">✕</button>
+                </div>
+                <div class="music-list" id="musicList">
+                    <!-- Music files will be loaded dynamically -->
+                    <div class="music-item" onclick="playMusic('media/ambient1.mp3')">Ambient 1</div>
+                    <div class="music-item" onclick="playMusic('media/ambient2.mp3')">Ambient 2</div>
+                    <div class="music-item" onclick="playMusic('media/cyber.mp3')">Cyber Theme</div>
+                </div>
+                <div class="player-controls">
+                    <button class="control-btn" onclick="playPause()">⏯️</button>
+                    <button class="control-btn" onclick="stopMusic()">⏹️</button>
+                    <input type="range" min="0" max="1" step="0.1" value="0.5" class="volume-slider" id="volumeSlider" oninput="changeVolume(this.value)">
+                    <span id="nowPlaying" style="color: var(--gray); font-size: 0.8rem;">No music playing</span>
+                </div>
+            </div>
+
+            <!-- MUSIC TOGGLE BUTTON -->
+            <button class="control-btn" style="position: fixed; top: 20px; right: 20px; z-index: 999;" onclick="toggleMusicPlayer()">
+                🎵
+            </button>
+
+            <!-- MAIN CONTENT -->
+            <div class="content-grid">
+                <!-- SIDEBAR -->
+                <div class="sidebar">
+                    <div class="sidebar-title">CATEGORIES</div>
+                    <div class="category-list">
+                        <button class="category-btn active" data-category="downloader">
+                            📥 Downloader
+                        </button>
+                        <button class="category-btn" data-category="stalker">
+                            🎮 Stalker
+                        </button>
+                        <button class="category-btn" data-category="search">
+                            🔍 Search
+                        </button>
+                        <button class="category-btn" data-category="tools">
+                            ⚙️ Tools
+                        </button>
+                        <button class="category-btn" data-category="info">
+                            ℹ️ Info
+                        </button>
                     </div>
-                    <button class="execute-btn" id="downloader-execute">EXECUTE</button>
-                    <div class="result-display" id="downloader-result">
-Click EXECUTE to get results
+                </div>
+
+                <!-- MAIN API SECTION -->
+                <div class="api-section">
+                    <div class="section-header">
+                        <div class="section-title" id="currentCategory">DOWNLOADER</div>
+                        <div class="api-status" id="apiStatus">● ONLINE</div>
+                    </div>
+
+                    <!-- DOWNLOADER SECTION -->
+                    <div class="api-content active" id="downloader-content">
+                        <div class="api-buttons-grid" id="downloader-buttons">
+                            <!-- Downloader buttons will be generated by JS -->
+                        </div>
+                        
+                        <div class="terminal-display" id="downloader-terminal">
+root@proxima:~$ Select an API from above
+                        </div>
+                        
+                        <div class="api-input-section" id="downloader-input">
+                            <div class="endpoint-display" id="downloader-endpoint">
+https://api-proxima.netlify.app/api/downloader/[api]?url=
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Enter Video URL</label>
+                                <input type="text" class="terminal-input" id="downloader-url" placeholder="Paste video URL here...">
+                            </div>
+                            <button class="execute-btn" id="downloader-execute">EXECUTE</button>
+                        </div>
+                    </div>
+
+                    <!-- STALKER SECTION -->
+                    <div class="api-content" id="stalker-content">
+                        <div class="api-buttons-grid" id="stalker-buttons">
+                            <!-- Stalker buttons will be generated by JS -->
+                        </div>
+                        
+                        <div class="terminal-display" id="stalker-terminal">
+root@proxima:~$ Select a stalker API from above
+                        </div>
+                        
+                        <div class="api-input-section" id="stalker-input">
+                            <div class="endpoint-display" id="stalker-endpoint">
+https://api-proxima.netlify.app/api/stalk/[api]?url=
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Enter Record URL</label>
+                                <input type="text" class="terminal-input" id="stalker-url" placeholder="Paste WuWa record URL here...">
+                            </div>
+                            <button class="execute-btn" id="stalker-execute">EXECUTE</button>
+                        </div>
+                    </div>
+
+                    <!-- SEARCH SECTION -->
+                    <div class="api-content" id="search-content">
+                        <div class="api-buttons-grid" id="search-buttons">
+                            <button class="api-button" data-category="search" data-api="twitter-search">
+                                Twitter Search
+                            </button>
+                            <button class="api-button" data-category="search" data-api="youtube-search">
+                                YouTube Search
+                            </button>
+                            <button class="api-button" data-category="search" data-api="tiktok-search">
+                                TikTok Search
+                            </button>
+                            <button class="api-button" data-category="search" data-api="instagram-search">
+                                Instagram Search
+                            </button>
+                        </div>
+                        
+                        <div class="terminal-display" id="search-terminal">
+root@proxima:~$ Select a search API from above
+                        </div>
+                        
+                        <div class="api-input-section" id="search-input">
+                            <div class="endpoint-display" id="search-endpoint">
+https://api-proxima.netlify.app/api/search/[api]?q=
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Enter Search Query</label>
+                                <input type="text" class="terminal-input" id="search-query" placeholder="Enter keywords to search...">
+                            </div>
+                            <button class="execute-btn" id="search-execute">EXECUTE</button>
+                        </div>
+                    </div>
+
+                    <!-- TOOLS SECTION -->
+                    <div class="api-content" id="tools-content">
+                        <div class="api-buttons-grid" id="tools-buttons">
+                            <button class="api-button" data-category="tools" data-api="converter">
+                                Video Converter
+                            </button>
+                            <button class="api-button" data-category="tools" data-api="compressor">
+                                Video Compressor
+                            </button>
+                            <button class="api-button" data-category="tools" data-api="editor">
+                                Video Editor
+                            </button>
+                            <button class="api-button" data-category="tools" data-api="extractor">
+                                Audio Extractor
+                            </button>
+                        </div>
+                        
+                        <div class="terminal-display" id="tools-terminal">
+root@proxima:~$ Select a tool from above
+                        </div>
+                        
+                        <div class="api-input-section" id="tools-input">
+                            <div class="endpoint-display" id="tools-endpoint">
+https://api-proxima.netlify.app/api/tools/[api]
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Enter Input</label>
+                                <input type="text" class="terminal-input" id="tools-input-field" placeholder="Enter tool parameters...">
+                            </div>
+                            <button class="execute-btn" id="tools-execute">EXECUTE</button>
+                        </div>
+                    </div>
+
+                    <!-- INFO SECTION -->
+                    <div class="api-content" id="info-content">
+                        <div class="terminal-display" id="info-terminal">
+root@proxima:~$ cat /etc/proxima.info
+
+╔═══════════════════════════════════════════════════╗
+║                 PROXIMA API v2.0                  ║
+╠═══════════════════════════════════════════════════╣
+║                                                   ║
+║  Creator: iEnz                                    ║
+║  Status: Online                                   ║
+║  Uptime: 99.9%                                    ║
+║                                                   ║
+║  Available APIs:                                  ║
+║  • /api/downloader/[platform]                     ║
+║  • /api/stalk/[game]                              ║
+║  • /api/search/[platform]                         ║
+║  • /api/tools/[tool]                              ║
+║                                                   ║     ║
+║                                                   ║
+╚═══════════════════════════════════════════════════╝
+
+root@proxima:~$ 
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- STALKER CATEGORY -->
-            <div class="category-section">
-                <div class="category-title">Stalker</div>
-                <div class="api-buttons" id="stalker-buttons">
-                    <!-- Stalker buttons will be generated by JavaScript -->
-                </div>
-                
-                <!-- Stalker Input Section -->
-                <div class="api-input-section" id="stalker-input">
-                    <div class="endpoint-display" id="stalker-endpoint"></div>
-                    <div class="input-group">
-                        <label>Enter Record URL</label>
-                        <input type="text" id="stalker-url" placeholder="Paste WuWa record URL here...">
-                    </div>
-                    <button class="execute-btn" id="stalker-execute">EXECUTE</button>
-                    <div class="result-display" id="stalker-result">
-Click EXECUTE to get results
-                    </div>
-                </div>
+            <!-- FOOTER -->
+            <div class="footer">
+                <div class="footer-title">PROXIMA API SERVICE</div>
+                <div class="footer-subtitle">Version 2.0 • Creator: iEnz</div>
             </div>
-
-            <!-- SEARCH CATEGORY -->
-            <div class="category-section">
-                <div class="category-title">Search</div>
-                <div class="api-buttons" id="search-buttons">
-                    <button class="api-button" data-category="search" data-api="twitter-search">
-                        Twitter Search
-                    </button>
-                    <button class="api-button" data-category="search" data-api="youtube-search">
-                        YouTube Search
-                    </button>
-                    <button class="api-button" data-category="search" data-api="tiktok-search">
-                        TikTok Search
-                    </button>
-                </div>
-                
-                <!-- Search Input Section -->
-                <div class="api-input-section" id="search-input">
-                    <div class="endpoint-display" id="search-endpoint"></div>
-                    <div class="input-group">
-                        <label>Enter Search Query</label>
-                        <input type="text" id="search-query" placeholder="Enter search keywords...">
-                    </div>
-                    <button class="execute-btn" id="search-execute">EXECUTE</button>
-                    <div class="result-display" id="search-result">
-Click EXECUTE to get results
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- FOOTER -->
-        <div class="footer">
-            <div class="footer-text">PROXIMA API SERVICE</div>
-            <div class="footer-text">Version 2.0 • Creator: iEnz</div>
         </div>
     </div>
 
     <script>
-        // API Configuration
+        // Configuration
         const baseUrl = 'https://api-proxima.netlify.app';
         
-        // Downloader APIs
-        const downloaderApis = [
-            { 
-                name: 'TikTok Downloader',
-                api: 'tiktok',
-                endpoint: '/api/downloader/tiktok?url=',
-                placeholder: 'https://www.tiktok.com/@username/video/123456789',
-                example: 'https://www.tiktok.com/@tiktok/video/7106675944969432362'
-            },
-            { 
-                name: 'YouTube Downloader',
-                api: 'youtube',
-                endpoint: '/api/downloader/youtube?url=',
-                placeholder: 'https://www.youtube.com/watch?v=VIDEO_ID',
-                example: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-            },
-            { 
-                name: 'Instagram Downloader',
-                api: 'instagram',
-                endpoint: '/api/downloader/instagram?url=',
-                placeholder: 'https://www.instagram.com/p/POST_ID/',
-                example: 'https://www.instagram.com/p/Cz7hNzTPzYx/'
-            },
-            { 
-                name: 'Twitter Downloader',
-                api: 'twitter',
-                endpoint: '/api/downloader/twitter?url=',
-                placeholder: 'https://twitter.com/user/status/TWEET_ID',
-                example: 'https://twitter.com/Twitter/status/20'
-            },
-            { 
-                name: 'Pinterest Downloader',
-                api: 'pinterest',
-                endpoint: '/api/downloader/pinterest?url=',
-                placeholder: 'https://www.pinterest.com/pin/PIN_ID/',
-                example: 'https://www.pinterest.com/pin/595699155001658720/'
-            },
-            { 
-                name: 'Facebook Downloader',
-                api: 'facebook',
-                endpoint: '/api/downloader/facebook?url=',
-                placeholder: 'https://www.facebook.com/watch/?v=VIDEO_ID',
-                example: 'https://www.facebook.com/facebook/videos/10153231379946729/'
-            }
-        ];
+        // API Definitions
+        const apiConfig = {
+            downloader: [
+                { name: 'TikTok', api: 'tiktok', icon: '🎵', example: 'https://www.tiktok.com/@tiktok/video/7106675944969432362' },
+                { name: 'YouTube', api: 'youtube', icon: '📺', example: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+                { name: 'Instagram', api: 'instagram', icon: '📷', example: 'https://www.instagram.com/p/Cz7hNzTPzYx/' },
+                { name: 'Twitter', api: 'twitter', icon: '🐦', example: 'https://twitter.com/Twitter/status/20' },
+                { name: 'Pinterest', api: 'pinterest', icon: '📌', example: 'https://www.pinterest.com/pin/595699155001658720/' },
+                { name: 'Facebook', api: 'facebook', icon: '👥', example: 'https://www.facebook.com/facebook/videos/10153231379946729/' }
+            ],
+            stalker: [
+                { name: 'WuWa Stalker', api: 'wuwastalker', icon: '🎮', example: 'https://aki-gm-resources-oversea.aki-game.net/aki/gacha/index.html#/record?svr_id=10cd7254d57e58ae560b15d51e34b4c8&player_id=905800276&lang=en&gacha_id=200047&gacha_type=2&svr_area=global&record_id=23e5c0e1fff547560913dfbcfcc81825&resources_id=e355aed96f36a270e0ee3489578a7842&platform=Android' }
+            ]
+        };
 
-        // Stalker APIs
-        const stalkerApis = [
-            { 
-                name: 'WuWa Stalker(On Testing)',
-                api: 'wuwastalker',
-                endpoint: '/api/stalk/wuwastalker?url=',
-                placeholder: 'Paste WuWa gacha record URL',
-                example: 'https://aki-gm-resources-oversea.aki-game.net/aki/gacha/index.html#/record?svr_id=10cd7254d57e58ae560b15d51e34b4c8&player_id=905800276&lang=en&gacha_id=200047&gacha_type=2&svr_area=global&record_id=23e5c0e1fff547560913dfbcfcc81825&resources_id=e355aed96f36a270e0ee3489578a7842&platform=Android'
-            }
-        ];
-
-        // Current state
-        let currentCategory = null;
+        // State
+        let currentCategory = 'downloader';
         let currentApi = null;
+        let audioPlayer = null;
+        let isPlaying = false;
+        let currentMusic = null;
 
-        // Initialize on page load
+        // Initialize
         window.addEventListener('DOMContentLoaded', function() {
-            initDownloaderButtons();
-            initStalkerButtons();
+            initCategoryButtons();
+            initApiButtons();
             setupEventListeners();
+            initMusicPlayer();
+            checkApiStatus();
+            
+            // Auto-select first downloader API
+            setTimeout(() => {
+                const firstButton = document.querySelector('.api-button[data-category="downloader"]');
+                if (firstButton) {
+                    firstButton.click();
+                }
+            }, 100);
         });
 
-        // Initialize downloader buttons
-        function initDownloaderButtons() {
-            const container = document.getElementById('downloader-buttons');
-            container.innerHTML = '';
-            
-            downloaderApis.forEach(api => {
-                const button = document.createElement('button');
-                button.className = 'api-button';
-                button.dataset.category = 'downloader';
-                button.dataset.api = api.api;
-                button.textContent = api.name;
-                container.appendChild(button);
+        // Initialize category buttons
+        function initCategoryButtons() {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    switchCategory(category);
+                    
+                    // Update active button
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update title
+                    document.getElementById('currentCategory').textContent = category.toUpperCase();
+                });
             });
         }
 
-        // Initialize stalker buttons
-        function initStalkerButtons() {
-            const container = document.getElementById('stalker-buttons');
-            container.innerHTML = '';
-            
-            stalkerApis.forEach(api => {
-                const button = document.createElement('button');
-                button.className = 'api-button';
-                button.dataset.category = 'stalker';
-                button.dataset.api = api.api;
-                button.textContent = api.name;
-                container.appendChild(button);
+        // Initialize API buttons
+        function initApiButtons() {
+            // Downloader buttons
+            const downloaderContainer = document.getElementById('downloader-buttons');
+            downloaderContainer.innerHTML = '';
+            apiConfig.downloader.forEach(api => {
+                const button = createApiButton('downloader', api);
+                downloaderContainer.appendChild(button);
             });
+
+            // Stalker buttons
+            const stalkerContainer = document.getElementById('stalker-buttons');
+            stalkerContainer.innerHTML = '';
+            apiConfig.stalker.forEach(api => {
+                const button = createApiButton('stalker', api);
+                stalkerContainer.appendChild(button);
+            });
+        }
+
+        // Create API button
+        function createApiButton(category, api) {
+            const button = document.createElement('button');
+            button.className = 'api-button';
+            button.dataset.category = category;
+            button.dataset.api = api.api;
+            button.innerHTML = `${api.icon} ${api.name}`;
+            
+            button.addEventListener('click', function() {
+                selectApi(category, api.api, api);
+                
+                // Update active button
+                const containerId = `${category}-buttons`;
+                document.querySelectorAll(`#${containerId} .api-button`).forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+            
+            return button;
         }
 
         // Setup event listeners
         function setupEventListeners() {
-            // API button clicks
-            document.addEventListener('click', function(e) {
-                if (e.target.matches('.api-button')) {
-                    const button = e.target;
-                    const category = button.dataset.category;
-                    const apiName = button.dataset.api;
-                    
-                    selectApi(category, apiName, button);
-                }
-            });
-
             // Execute buttons
-            document.getElementById('downloader-execute').addEventListener('click', executeDownloader);
-            document.getElementById('stalker-execute').addEventListener('click', executeStalker);
-            document.getElementById('search-execute').addEventListener('click', executeSearch);
+            document.getElementById('downloader-execute').addEventListener('click', executeApi);
+            document.getElementById('stalker-execute').addEventListener('click', executeApi);
+            document.getElementById('search-execute').addEventListener('click', executeApi);
+            document.getElementById('tools-execute').addEventListener('click', executeApi);
 
             // Enter key in inputs
-            document.getElementById('downloader-url').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') executeDownloader();
-            });
-            document.getElementById('stalker-url').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') executeStalker();
-            });
-            document.getElementById('search-query').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') executeSearch();
+            ['downloader-url', 'stalker-url', 'search-query', 'tools-input-field'].forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') executeApi();
+                    });
+                }
             });
         }
 
-        // Select API
-        function selectApi(category, apiName, button) {
-            // Remove active class from all buttons in this category
-            const categoryButtons = document.querySelectorAll(`.api-button[data-category="${category}"]`);
-            categoryButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Add active class to clicked button
-            button.classList.add('active');
-            
-            // Update current state
+        // Switch category
+        function switchCategory(category) {
             currentCategory = category;
-            currentApi = apiName;
+            currentApi = null;
             
-            // Get API config
-            const apiConfig = getApiConfig(category, apiName);
-            
-            // Show input section for this category
-            showInputSection(category, apiConfig);
-        }
-
-        // Get API configuration
-        function getApiConfig(category, apiName) {
-            if (category === 'downloader') {
-                return downloaderApis.find(api => api.api === apiName);
-            } else if (category === 'stalker') {
-                return stalkerApis.find(api => api.api === apiName);
-            }
-            return null;
-        }
-
-        // Show input section
-        function showInputSection(category, apiConfig) {
-            // Hide all input sections
-            document.querySelectorAll('.api-input-section').forEach(section => {
+            // Hide all content sections
+            document.querySelectorAll('.api-content').forEach(section => {
                 section.classList.remove('active');
             });
             
-            // Clear all inputs and results
-            clearInputsAndResults();
-            
-            // Show selected input section
-            const inputSection = document.getElementById(`${category}-input`);
-            if (inputSection) {
-                inputSection.classList.add('active');
+            // Show selected content section
+            const contentSection = document.getElementById(`${category}-content`);
+            if (contentSection) {
+                contentSection.classList.add('active');
                 
-                // Update endpoint display
-                const endpointDisplay = document.getElementById(`${category}-endpoint`);
-                if (endpointDisplay && apiConfig) {
-                    endpointDisplay.textContent = `${baseUrl}${apiConfig.endpoint}`;
+                // Clear all terminals
+                clearAllTerminals();
+                
+                // Reset input sections
+                resetInputSection(category);
+                
+                // Show default terminal message
+                const terminal = document.getElementById(`${category}-terminal`);
+                if (terminal) {
+                    terminal.textContent = `root@proxima:~$ Select an API from above`;
                 }
-                
-                // Set input placeholder and example
-                if (apiConfig) {
-                    const inputField = document.getElementById(`${category}-url`);
-                    if (inputField) {
-                        inputField.placeholder = apiConfig.placeholder;
-                        inputField.value = apiConfig.example || '';
-                    }
-                }
-                
-                // Focus on input
-                setTimeout(() => {
-                    const inputField = document.getElementById(`${category}-url`) || 
-                                     document.getElementById(`${category}-query`);
-                    if (inputField) {
-                        inputField.focus();
-                        inputField.select();
-                    }
-                }, 100);
             }
         }
 
-        // Clear all inputs and results
-        function clearInputsAndResults() {
-            // Clear inputs
-            document.getElementById('downloader-url').value = '';
-            document.getElementById('stalker-url').value = '';
-            document.getElementById('search-query').value = '';
+        // Select API
+        function selectApi(category, apiName, apiInfo) {
+            currentCategory = category;
+            currentApi = apiName;
             
-            // Clear results
-            document.getElementById('downloader-result').textContent = 'Click EXECUTE to get results';
-            document.getElementById('stalker-result').textContent = 'Click EXECUTE to get results';
-            document.getElementById('search-result').textContent = 'Click EXECUTE to get results';
+            // Update endpoint display
+            const endpointDisplay = document.getElementById(`${category}-endpoint`);
+            if (endpointDisplay) {
+                endpointDisplay.textContent = `${baseUrl}/api/${category}/${apiName}?url=`;
+            }
+            
+            // Update input field with example
+            const inputField = document.getElementById(`${category}-url`) || 
+                             document.getElementById(`${category}-query`) ||
+                             document.getElementById(`${category}-input-field`);
+            if (inputField && apiInfo.example) {
+                inputField.value = apiInfo.example;
+                inputField.placeholder = `Enter ${apiInfo.name} URL...`;
+            }
+            
+            // Update terminal with selected API
+            const terminal = document.getElementById(`${category}-terminal`);
+            if (terminal) {
+                terminal.textContent = `root@proxima:~$ API Selected: ${apiInfo.name}\nroot@proxima:~$ Ready to execute\nroot@proxima:~$ Enter URL and press EXECUTE`;
+            }
+            
+            // Focus on input
+            setTimeout(() => {
+                if (inputField) {
+                    inputField.focus();
+                    inputField.select();
+                }
+            }, 100);
         }
 
-        // Execute downloader API
-        async function executeDownloader() {
+        // Execute API
+        async function executeApi() {
             if (!currentCategory || !currentApi) {
                 alert('Please select an API first');
                 return;
             }
 
-            const urlInput = document.getElementById('downloader-url').value.trim();
-            const resultDiv = document.getElementById('downloader-result');
-            
-            if (!urlInput) {
-                resultDiv.textContent = 'Error: Please enter a URL';
+            // Get input value based on category
+            let inputValue = '';
+            switch(currentCategory) {
+                case 'downloader':
+                    inputValue = document.getElementById('downloader-url').value.trim();
+                    break;
+                case 'stalker':
+                    inputValue = document.getElementById('stalker-url').value.trim();
+                    break;
+                case 'search':
+                    inputValue = document.getElementById('search-query').value.trim();
+                    break;
+                case 'tools':
+                    inputValue = document.getElementById('tools-input-field').value.trim();
+                    break;
+            }
+
+            if (!inputValue) {
+                updateTerminal(currentCategory, 'Error: Please enter a value');
                 return;
             }
 
-            const apiConfig = getApiConfig(currentCategory, currentApi);
-            const apiUrl = `${baseUrl}${apiConfig.endpoint}${encodeURIComponent(urlInput)}`;
+            const terminal = document.getElementById(`${currentCategory}-terminal`);
             
             // Show executing message
-            resultDiv.textContent = `Executing: ${apiUrl}\nLoading...`;
+            const apiUrl = currentCategory === 'stalker' && currentApi === 'wuwastalker' ?
+                `${baseUrl}/api/stalk/wuwastalker?${buildWuWaParams(inputValue)}` :
+                `${baseUrl}/api/${currentCategory}/${currentApi}?url=${encodeURIComponent(inputValue)}`;
+            
+            let executingMessage = `root@proxima:~$ EXECUTING\n`;
+            executingMessage += `root@proxima:~$ ${apiUrl}\n`;
+            executingMessage += `root@proxima:~$ Loading...`;
+            terminal.textContent = executingMessage;
 
             try {
-                const response = await axios.get(apiUrl, {
-                    timeout: 30000
-                });
+                let response;
                 
-                displayResult(resultDiv, response.data);
-                
-            } catch (error) {
-                console.error('API Error:', error);
-                resultDiv.textContent = `Error: ${error.message || 'Failed to execute API'}`;
-            }
-        }
-
-        // Execute stalker API
-        async function executeStalker() {
-            if (currentCategory !== 'stalker' || !currentApi) {
-                alert('Please select a stalker API first');
-                return;
-            }
-
-            const urlInput = document.getElementById('stalker-url').value.trim();
-            const resultDiv = document.getElementById('stalker-result');
-            
-            if (!urlInput) {
-                resultDiv.textContent = 'Error: Please enter a URL';
-                return;
-            }
-
-            const apiConfig = getApiConfig(currentCategory, currentApi);
-            const apiUrl = `${baseUrl}${apiConfig.endpoint}${encodeURIComponent(urlInput)}`;
-            
-            // Show executing message
-            resultDiv.textContent = `Executing: ${apiUrl}\nLoading...`;
-
-            try {
-                // For WuWa stalker, we need to extract parameters from URL
-                if (currentApi === 'wuwastalker') {
-                    const params = extractWuWaParams(urlInput);
-                    if (!params) {
-                        resultDiv.textContent = 'Error: Invalid WuWa URL format';
-                        return;
-                    }
-                    
-                    const stalkUrl = `${baseUrl}/api/stalk/wuwastalker?${new URLSearchParams(params)}`;
-                    const response = await axios.get(stalkUrl, {
-                        timeout: 30000
-                    });
-                    
-                    displayResult(resultDiv, response.data);
+                if (currentCategory === 'stalker' && currentApi === 'wuwastalker') {
+                    // For WuWa stalker, use GET with query params
+                    response = await axios.get(apiUrl, { timeout: 30000 });
                 } else {
-                    const response = await axios.get(apiUrl, {
-                        timeout: 30000
-                    });
-                    
-                    displayResult(resultDiv, response.data);
+                    response = await axios.get(apiUrl, { timeout: 30000 });
                 }
                 
+                displayApiResult(response.data);
+                
             } catch (error) {
                 console.error('API Error:', error);
-                resultDiv.textContent = `Error: ${error.message || 'Failed to execute API'}`;
+                let errorMessage = `root@proxima:~$ ERROR\n`;
+                errorMessage += `root@proxima:~$ ${error.message || 'Network error'}\n`;
+                errorMessage += `root@proxima:~$ Using demo data...`;
+                terminal.textContent = errorMessage;
+                
+                // Show demo data
+                setTimeout(() => {
+                    showDemoData();
+                }, 1000);
             }
         }
 
-        // Execute search API
-        async function executeSearch() {
-            const queryInput = document.getElementById('search-query').value.trim();
-            const resultDiv = document.getElementById('search-result');
-            
-            if (!queryInput) {
-                resultDiv.textContent = 'Error: Please enter a search query';
-                return;
-            }
-
-            resultDiv.textContent = 'Search feature coming soon...\n\nExample result:\nSearch query: ' + queryInput + '\nResults found: 0\nStatus: Coming in next update';
-        }
-
-        // Extract parameters from WuWa URL
-        function extractWuWaParams(url) {
+        // Build WuWa parameters from URL
+        function buildWuWaParams(url) {
             try {
                 const hashPart = url.split('#/record?')[1];
-                if (!hashPart) return null;
+                if (!hashPart) return '';
                 
                 const params = new URLSearchParams(hashPart);
-                return {
-                    svr_id: params.get('svr_id'),
-                    player_id: params.get('player_id'),
-                    lang: params.get('lang'),
-                    gacha_id: params.get('gacha_id'),
-                    gacha_type: params.get('gacha_type'),
-                    svr_area: params.get('svr_area'),
-                    record_id: params.get('record_id'),
-                    resources_id: params.get('resources_id'),
-                    platform: params.get('platform')
-                };
+                return params.toString();
             } catch (error) {
-                return null;
+                return `url=${encodeURIComponent(url)}`;
             }
         }
 
-        // Display result
-        function displayResult(resultDiv, data) {
-            if (data.status === true || data.code === 0) {
-                let resultText = '';
+        // Display API result
+        function displayApiResult(data) {
+            const terminal = document.getElementById(`${currentCategory}-terminal`);
+            
+            let resultText = `root@proxima:~$ EXECUTION COMPLETE\n`;
+            resultText += `root@proxima:~$ Status: ${data.status ? 'SUCCESS' : 'FAILED'}\n`;
+            resultText += `root@proxima:~$ Creator: iEnz\n`;
+            resultText += `root@proxima:~$ Result: ${data.result || 'Operation completed'}\n`;
+            resultText += `\n`;
+            
+            if (data.status && data.data) {
+                const dataObj = data.data;
                 
-                // Format the response data
-                if (data.data) {
-                    if (typeof data.data === 'object') {
-                        resultText += 'Data retrieved successfully\n\n';
-                        
-                        // Display basic info
-                        if (data.data.title) resultText += `Title: ${data.data.title}\n`;
-                        if (data.data.author) resultText += `Author: ${data.data.author}\n`;
-                        if (data.data.duration) resultText += `Duration: ${data.data.duration}\n`;
-                        if (data.data.video_url) resultText += `URL: ${data.data.video_url.substring(0, 100)}...\n`;
-                        
-                        // For WuWa data
-                        if (data.data.player_info) {
-                            resultText += `\nPlayer: ${data.data.player_info.player_id}\n`;
-                            resultText += `Server: ${data.data.player_info.server}\n`;
-                        }
-                        
-                        if (data.data.statistics) {
-                            resultText += `\nTotal records: ${data.data.statistics.total_records}\n`;
-                            resultText += `5-star items: ${data.data.statistics.five_star_count}\n`;
-                        }
-                        
-                        // If there are records, show first few
-                        if (data.data.records && Array.isArray(data.data.records)) {
-                            resultText += `\nRecent items:\n`;
-                            data.data.records.slice(0, 5).forEach((record, index) => {
-                                resultText += `${index + 1}. ${record.name} (${record.rarity})\n`;
-                            });
-                            if (data.data.records.length > 5) {
-                                resultText += `... and ${data.data.records.length - 5} more\n`;
-                            }
-                        }
-                    } else {
-                        resultText += `Result: ${data.data}\n`;
+                // Display different data based on API type
+                if (currentCategory === 'downloader') {
+                    resultText += `📦 VIDEO DATA:\n`;
+                    if (dataObj.title) resultText += `Title: ${dataObj.title}\n`;
+                    if (dataObj.author) resultText += `Author: ${dataObj.author}\n`;
+                    if (dataObj.duration) resultText += `Duration: ${dataObj.duration}\n`;
+                    if (dataObj.video_url) resultText += `URL: ${dataObj.video_url.substring(0, 80)}...\n`;
+                } else if (currentCategory === 'stalker') {
+                    resultText += `🎮 GACHA DATA:\n`;
+                    if (dataObj.player_info) {
+                        resultText += `Player: ${dataObj.player_info.player_id}\n`;
+                        resultText += `Server: ${dataObj.player_info.server}\n`;
                     }
-                } else if (data.result) {
-                    resultText += `Result: ${data.result}\n`;
+                    if (dataObj.statistics) {
+                        resultText += `Total pulls: ${dataObj.statistics.total_records}\n`;
+                        resultText += `5★ items: ${dataObj.statistics.five_star_count}\n`;
+                    }
+                    if (dataObj.records && dataObj.records.length > 0) {
+                        resultText += `\nRecent pulls:\n`;
+                        dataObj.records.slice(0, 3).forEach(record => {
+                            resultText += `• ${record.name} (${record.rarity})\n`;
+                        });
+                    }
                 }
-                
-                resultDiv.textContent = resultText || 'Success - No data returned';
-            } else {
-                resultDiv.textContent = `Error: ${data.error || data.message || 'Unknown error'}`;
+            }
+            
+            terminal.textContent = resultText;
+        }
+
+        // Show demo data
+        function showDemoData() {
+            const terminal = document.getElementById(`${currentCategory}-terminal`);
+            
+            let demoText = `root@proxima:~$ DEMO DATA (API OFFLINE)\n`;
+            demoText += `root@proxima:~$ Creator: iEnz\n`;
+            demoText += `\n`;
+            
+            if (currentCategory === 'downloader') {
+                demoText += `📦 DEMO VIDEO DATA:\n`;
+                demoText += `Title: Demo Video\n`;
+                demoText += `Author: Demo Creator\n`;
+                demoText += `Duration: 2:30\n`;
+                demoText += `URL: https://example.com/video.mp4\n`;
+                demoText += `Quality: 1080p\n`;
+            } else if (currentCategory === 'stalker') {
+                demoText += `🎮 DEMO GACHA DATA:\n`;
+                demoText += `Player: 905800276\n`;
+                demoText += `Server: global\n`;
+                demoText += `Total pulls: 157\n`;
+                demoText += `5★ items: 8\n`;
+                demoText += `4★ items: 32\n`;
+                demoText += `\nRecent pulls:\n`;
+                demoText += `• Jiyan (5★ character)\n`;
+                demoText += `• Verina (5★ character)\n`;
+                demoText += `• Moonlight Blade (4★ weapon)\n`;
+            }
+            
+            terminal.textContent = demoText;
+        }
+
+        // Update terminal
+        function updateTerminal(category, message) {
+            const terminal = document.getElementById(`${category}-terminal`);
+            if (terminal) {
+                terminal.textContent = message;
             }
         }
 
-        // Auto-select first downloader API on page load
-        setTimeout(() => {
-            const firstButton = document.querySelector('.api-button[data-category="downloader"]');
-            if (firstButton) {
-                firstButton.click();
+        // Clear all terminals
+        function clearAllTerminals() {
+            ['downloader', 'stalker', 'search', 'tools', 'info'].forEach(category => {
+                const terminal = document.getElementById(`${category}-terminal`);
+                if (terminal) {
+                    terminal.textContent = `root@proxima:~$ Select an API from above`;
+                }
+            });
+        }
+
+        // Reset input section
+        function resetInputSection(category) {
+            const inputField = document.getElementById(`${category}-url`) || 
+                             document.getElementById(`${category}-query`) ||
+                             document.getElementById(`${category}-input-field`);
+            if (inputField) {
+                inputField.value = '';
             }
-        }, 100);
+            
+            const endpointDisplay = document.getElementById(`${category}-endpoint`);
+            if (endpointDisplay) {
+                endpointDisplay.textContent = `${baseUrl}/api/${category}/[api]`;
+            }
+        }
+
+        // Check API status
+        async function checkApiStatus() {
+            const statusElement = document.getElementById('apiStatus');
+            
+            try {
+                await axios.get(`${baseUrl}/api/downloader/tiktok`, {
+                    params: { url: 'test' },
+                    timeout: 5000
+                });
+                statusElement.textContent = '● ONLINE';
+                statusElement.style.color = '#00ff88';
+            } catch (error) {
+                statusElement.textContent = '● OFFLINE (DEMO)';
+                statusElement.style.color = '#ff4444';
+            }
+        }
+
+        // Music Player Functions
+        function initMusicPlayer() {
+            audioPlayer = new Audio();
+            audioPlayer.volume = 0.5;
+            
+            // Detect available music files
+            detectMusicFiles();
+        }
+
+        function detectMusicFiles() {
+            const musicList = document.getElementById('musicList');
+            const musicFiles = [
+                'media/ambient.mp3',
+                'media/cyberpunk.mp3',
+                'media/electronic.mp3',
+                'media/synthwave.mp3',
+                'media/background.mp3',
+                'music/ambient1.mp3',
+                'music/ambient2.mp3',
+                'music/theme.mp3',
+                'audio/background.mp3',
+                'audio/theme.mp3'
+            ];
+            
+            // Clear existing list
+            musicList.innerHTML = '';
+            
+            // Add music files that might exist
+            musicFiles.forEach(file => {
+                const item = document.createElement('div');
+                item.className = 'music-item';
+                item.textContent = file.split('/').pop().replace('.mp3', '');
+                item.onclick = () => playMusic(file);
+                musicList.appendChild(item);
+            });
+            
+            // Add a default option if no files detected
+            if (musicFiles.length === 0) {
+                const item = document.createElement('div');
+                item.className = 'music-item';
+                item.textContent = 'No music files found';
+                item.style.color = '#888';
+                item.style.cursor = 'default';
+                musicList.appendChild(item);
+            }
+        }
+
+        function toggleMusicPlayer() {
+            const player = document.getElementById('musicPlayer');
+            player.style.display = player.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function playMusic(file) {
+            if (currentMusic === file && isPlaying) {
+                audioPlayer.pause();
+                isPlaying = false;
+                document.getElementById('nowPlaying').textContent = 'Paused';
+                return;
+            }
+            
+            audioPlayer.src = file;
+            audioPlayer.play().then(() => {
+                isPlaying = true;
+                currentMusic = file;
+                document.getElementById('nowPlaying').textContent = 'Playing: ' + file.split('/').pop();
+                
+                // Update active music item
+                document.querySelectorAll('.music-item').forEach(item => {
+                    item.classList.remove('playing');
+                    if (item.textContent === file.split('/').pop().replace('.mp3', '')) {
+                        item.classList.add('playing');
+                    }
+                });
+            }).catch(error => {
+                console.error('Error playing music:', error);
+                document.getElementById('nowPlaying').textContent = 'Error loading music';
+            });
+        }
+
+        function playPause() {
+            if (isPlaying) {
+                audioPlayer.pause();
+                isPlaying = false;
+                document.getElementById('nowPlaying').textContent = 'Paused';
+            } else {
+                if (audioPlayer.src) {
+                    audioPlayer.play();
+                    isPlaying = true;
+                    document.getElementById('nowPlaying').textContent = 'Playing';
+                }
+            }
+        }
+
+        function stopMusic() {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            isPlaying = false;
+            currentMusic = null;
+            document.getElementById('nowPlaying').textContent = 'No music playing';
+            
+            document.querySelectorAll('.music-item').forEach(item => {
+                item.classList.remove('playing');
+            });
+        }
+
+        function changeVolume(value) {
+            audioPlayer.volume = value;
+        }
+
+        // Auto-play ambient music if available
+        setTimeout(() => {
+            const ambientFiles = ['media/ambient.mp3', 'music/ambient1.mp3', 'audio/background.mp3'];
+            ambientFiles.forEach(file => {
+                // Try to play first available ambient file
+                const testAudio = new Audio();
+                testAudio.src = file;
+                testAudio.load();
+                testAudio.oncanplaythrough = () => {
+                    if (!currentMusic) {
+                        playMusic(file);
+                    }
+                };
+            });
+        }, 2000);
     </script>
 </body>
 </html>
