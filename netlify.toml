@@ -31,6 +31,13 @@
   to = "/.netlify/functions/downloader/twitter-downloader"
   status = 200
 
+    [[redirects]]
+  from = "/api/stalk/wuwastalker"
+  to = "/.netlify/functions/stalk/wuwastalker"
+  status = 200
+
+
+  
 
 [[headers]]
   for = "/api/*"
