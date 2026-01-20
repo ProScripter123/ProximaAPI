@@ -1,48 +1,43 @@
 [build]
-  command = "npm run build"
   publish = "."
   functions = "functions"
 
-[build.environment]
-  NODE_VERSION = "18"
-
-# DOWNLOADER REDIRECTS
+# DOWNLOADER API
 [[redirects]]
   from = "/api/downloader/tiktok"
-  to = "/.netlify/functions/downloader/tiktok-downloader"
+  to = "/.netlify/functions/tiktok"
   status = 200
 
 [[redirects]]
   from = "/api/downloader/youtube"
-  to = "/.netlify/functions/downloader/youtube-downloader"
+  to = "/.netlify/functions/youtube"
   status = 200
 
 [[redirects]]
   from = "/api/downloader/instagram"
-  to = "/.netlify/functions/downloader/instagram-downloader"
-  status = 200
-
-[[redirects]]
-  from = "/api/downloader/pinterest"
-  to = "/.netlify/functions/downloader/pinterest-downloader"
+  to = "/.netlify/functions/instagram"
   status = 200
 
 [[redirects]]
   from = "/api/downloader/twitter"
-  to = "/.netlify/functions/downloader/twitter-downloader"
+  to = "/.netlify/functions/twitter"
+  status = 200
+
+[[redirects]]
+  from = "/api/downloader/pinterest"
+  to = "/.netlify/functions/pinterest"
   status = 200
 
 [[redirects]]
   from = "/api/downloader/facebook"
-  to = "/.netlify/functions/downloader/facebook-downloader"
+  to = "/.netlify/functions/facebook"
   status = 200
 
+# STALKER API
 [[redirects]]
-  from = "/api/stalker/wuwastalker"
-  to = "/.netlify/functions/stalk/wuwastalker"
+  from = "/api/stalk/wuwastalker"
+  to = "/.netlify/functions/wuwastalker"
   status = 200
-
-
 
 [[headers]]
   for = "/api/*"
@@ -50,4 +45,3 @@
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type"
-
